@@ -59,7 +59,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;hei
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 8px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;transition:color .15s;position:relative;}
 .ni.active{color:var(--pink);}
 .ni.active::before{content:'';position:absolute;top:0;left:20%;right:20%;height:2px;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:0 0 2px 2px;}
-.ni-icon{font-size:19px;line-height:1;}
+.ni-icon{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1px;line-height:1;margin-bottom:1px;}
 
 /* STATUS BAR */
 .sbar{position:fixed;bottom:calc(56px + var(--safe-b));left:var(--pad);right:var(--pad);background:rgba(15,15,18,.95);border:1px solid var(--border2);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:12px;z-index:90;transition:opacity .3s,transform .3s;backdrop-filter:blur(10px);}
@@ -225,6 +225,26 @@ select.fi{cursor:pointer;}
 .t-r{border-color:rgba(255,61,107,.5);color:var(--red);}
 .t-a{border-color:rgba(255,201,50,.5);color:var(--amber);}
 
+
+/* SETTLEMENT */
+.settle-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;}
+.settle-header{padding:16px var(--pad);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.settle-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;}
+.settle-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.settle-row{display:flex;align-items:center;gap:12px;padding:14px var(--pad);border-bottom:1px solid var(--border);}
+.settle-row:last-child{border-bottom:none;}
+.settle-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0;}
+.settle-info{flex:1;}
+.settle-name{font-size:14px;font-weight:600;}
+.settle-line{font-family:'Space Mono',monospace;font-size:11px;margin-top:3px;}
+.settle-amount{text-align:right;flex-shrink:0;}
+.settle-dollar{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;line-height:1;}
+.settle-action{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.settle-btn{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.settle-btn.paid{border-color:var(--green);color:var(--green);background:var(--green2);}
+.settle-note{padding:14px var(--pad);font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);line-height:1.7;text-align:center;border-top:1px solid var(--border);}
+.pending-note{background:var(--amber2);border:1px solid rgba(255,201,50,.2);border-radius:10px;padding:12px var(--pad);font-family:'Space Mono',monospace;font-size:10px;color:var(--amber);line-height:1.7;margin-bottom:12px;text-align:center;}
+
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -265,6 +285,7 @@ select.fi{cursor:pointer;}
   <div class="page" id="page-stats">
     <div class="ph"><div class="eyebrow">// Results & Rankings</div><div class="ptitle">Dashboard</div></div>
     <div class="sgrid" id="stats-grid"></div>
+    <div id="settlement-section"></div>
     <div class="slabel">// Leaderboard</div>
     <div class="card" id="leaderboard" style="margin-bottom:20px;"></div>
     <div class="slabel">// Bet History</div>
@@ -274,7 +295,7 @@ select.fi{cursor:pointer;}
   <div class="page" id="page-admin">
     <div id="alock-v">
       <div class="alock">
-        <div class="alock-ico">🔐</div>
+        <div class="alock-ico"></div>
         <div class="alock-title">Admin Panel</div>
         <div class="alock-sub">Enter passcode to continue</div>
         <input class="alock-in" type="password" id="apin" placeholder="••••" onkeydown="if(event.key==='Enter')checkPass()">
@@ -296,7 +317,7 @@ select.fi{cursor:pointer;}
       </div>
       <div class="asec">
         <div class="dzone">
-          <div class="dtitle">⚠ Danger Zone</div>
+          <div class="dtitle"> Danger Zone</div>
           <div style="display:flex;flex-direction:column;gap:10px;">
             <button class="btn btn-d btn-full" onclick="resetBets()">Reset All Bets</button>
             <button class="btn btn-d btn-full" onclick="resetAll()">Factory Reset Everything</button>
@@ -309,10 +330,10 @@ select.fi{cursor:pointer;}
 </div>
 
 <nav class="bnav">
-  <button class="ni active" id="nav-market" onclick="go('market')"><span class="ni-icon">📈</span>Market</button>
-  <button class="ni" id="nav-slip" onclick="go('slip')"><span class="ni-icon">🎯</span>Slip</button>
-  <button class="ni" id="nav-stats" onclick="go('stats')"><span class="ni-icon">🏆</span>Stats</button>
-  <button class="ni" id="nav-admin" onclick="go('admin')"><span class="ni-icon">⚙️</span>Admin</button>
+  <button class="ni active" id="nav-market" onclick="go('market')"><span class="ni-icon">MKT</span>Market</button>
+  <button class="ni" id="nav-slip" onclick="go('slip')"><span class="ni-icon">SLIP</span>Slip</button>
+  <button class="ni" id="nav-stats" onclick="go('stats')"><span class="ni-icon">$$$</span>Stats</button>
+  <button class="ni" id="nav-admin" onclick="go('admin')"><span class="ni-icon">️</span>Admin</button>
 </nav>
 
 <div class="sbar hidden" id="sbar">
@@ -328,10 +349,21 @@ select.fi{cursor:pointer;}
   <div class="modal">
     <div class="mhandle"></div>
     <div class="mtitle" id="ev-modal-title">New Event</div>
-    <div class="fg"><label class="fl">Description</label><textarea class="fi" id="ev-desc" rows="3" placeholder="Angelina does the thing…" style="resize:none;"></textarea></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="fi" id="ev-desc" rows="3" placeholder="Angelina finishes the steak challenge?" style="resize:none;"></textarea></div>
+    <div class="fg">
+      <label class="fl">Bet Type</label>
+      <select class="fi" id="ev-type" onchange="toggleEvType()">
+        <option value="yesno">YES / NO</option>
+        <option value="overunder">OVER / UNDER</option>
+      </select>
+    </div>
+    <div id="ou-line-wrap" style="display:none;">
+      <div class="fg"><label class="fl">Line (the number to beat)</label><input class="fi" type="number" id="ev-line" step="0.5" min="0" placeholder="e.g. 3.5 drinks, 10 minutes…"></div>
+      <div class="fg"><label class="fl">Line Label (optional)</label><input class="fi" type="text" id="ev-line-label" placeholder="e.g. drinks, minutes, lbs…"></div>
+    </div>
     <div class="frow">
-      <div class="fg"><label class="fl">YES Odds</label><input class="fi" type="number" id="ev-yes" step="0.1" min="1.01" value="2.0"></div>
-      <div class="fg"><label class="fl">NO Odds</label><input class="fi" type="number" id="ev-no" step="0.1" min="1.01" value="1.7"></div>
+      <div class="fg"><label class="fl" id="yes-lbl">YES Odds</label><input class="fi" type="number" id="ev-yes" step="0.1" min="1.01" value="2.0"></div>
+      <div class="fg"><label class="fl" id="no-lbl">NO Odds</label><input class="fi" type="number" id="ev-no" step="0.1" min="1.01" value="1.7"></div>
     </div>
     <div class="fg"><label class="fl">Status</label>
       <select class="fi" id="ev-status">
@@ -372,8 +404,8 @@ select.fi{cursor:pointer;}
     <div class="mtitle">Resolve Event</div>
     <div style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.5;" id="res-desc"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <button class="btn btn-g" style="padding:18px;font-size:13px;" onclick="resolveEv('yes')">✓ YES Wins</button>
-      <button class="btn btn-d" style="padding:18px;font-size:13px;" onclick="resolveEv('no')">✗ NO Wins</button>
+      <button class="btn btn-g" style="padding:18px;font-size:13px;" onclick="resolveEv('yes')"> YES Wins</button>
+      <button class="btn btn-d" style="padding:18px;font-size:13px;" onclick="resolveEv('no')"> NO Wins</button>
     </div>
     <button class="btn btn-gh" style="width:100%;margin-top:12px;padding:13px;" onclick="closeModal('res-modal')">Cancel</button>
   </div>
@@ -507,7 +539,7 @@ function go(p) {
 function renderMarket() {
   const el=document.getElementById('event-list');
   if (!S.events.length) {
-    el.innerHTML=`<div class="empty"><div class="eico">🎲</div>No events yet.<br>Admin can add some.</div>`;
+    el.innerHTML=`<div class="empty"><div class="eico"></div>No events yet.<br>Admin can add some.</div>`;
     return;
   }
   el.innerHTML=S.events.map(ev=>{
@@ -521,7 +553,7 @@ function renderMarket() {
     if (ev.status==='resolved-no') acc='background:var(--red)';
     let badge='';
     if (ev.status==='open') badge='<span class="badge b-open">Open</span>';
-    else if (ev.status==='live') badge='<span class="badge b-live">⚡ Live</span>';
+    else if (ev.status==='live') badge='<span class="badge b-live"> Live</span>';
     else if (ev.status==='resolved-yes') badge='<span class="badge b-win">YES Won</span>';
     else if (ev.status==='resolved-no') badge='<span class="badge b-loss">NO Won</span>';
     else badge='<span class="badge b-closed">Closed</span>';
@@ -582,7 +614,7 @@ function updateBadge() {
 function renderSlip() {
   const items=document.getElementById('slip-items'), ctrl=document.getElementById('bet-ctrl');
   if (!slip.length) {
-    items.innerHTML=`<div class="empty"><div class="eico">🎯</div>No selections yet.<br>Pick events from the market.</div>`;
+    items.innerHTML=`<div class="empty"><div class="eico"></div>No selections yet.<br>Pick events from the market.</div>`;
     ctrl.innerHTML=''; return;
   }
   items.innerHTML=slip.map((s,i)=>`
@@ -602,12 +634,12 @@ function renderCtrl() {
   let inp='';
   if (betType==='parlay') {
     const m=slip.reduce((a,s)=>a*s.odds,1);
-    inp=`<div class="pinfo">🎲 Parlay · ${slip.length} legs · <strong>${m.toFixed(2)}×</strong> multiplier</div>
-    <div class="ig"><label class="ilbl">Wager</label><div class="irow"><input class="cci" type="number" id="pw" value="100" min="1" step="10" oninput="calcPay()"><span class="csuf">CC</span></div></div>`;
+    inp=`<div class="pinfo"> Parlay · ${slip.length} legs · <strong>${m.toFixed(2)}×</strong> multiplier</div>
+    <div class="ig"><label class="ilbl">Wager</label><div class="irow"><input class="cci" type="number" id="pw" value="100" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div></div>`;
   } else {
     inp=slip.map((s,i)=>`<div class="ig">
       <label class="ilbl">${s.side} — ${s.name.substring(0,30)}${s.name.length>30?'…':''}</label>
-      <div class="irow"><input class="cci" type="number" id="sw${i}" value="100" min="1" step="10" oninput="calcPay()"><span class="csuf">CC</span></div>
+      <div class="irow"><input class="cci" type="number" id="sw${i}" value="100" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div>
     </div>`).join('');
   }
   ctrl.innerHTML=`<div class="bctrl">
@@ -627,13 +659,16 @@ function setType(t){betType=t;renderCtrl();}
 
 function calcPay() {
   const el=document.getElementById('pval'); if (!el) return;
+  let coins=0;
   if (betType==='parlay') {
     const w=parseFloat(document.getElementById('pw')?.value||0),m=slip.reduce((a,s)=>a*s.odds,1);
-    el.textContent=isNaN(w)?'—':Math.round(w*m)+' CC';
+    coins=isNaN(w)?0:Math.round(w*m);
+    el.textContent=isNaN(w)?'—':coins+' coins ($'+coins+')';
   } else {
     let t=0;
     slip.forEach((s,i)=>{const w=parseFloat(document.getElementById('sw'+i)?.value||0);if(!isNaN(w))t+=w*s.odds;});
-    el.textContent=t>0?Math.round(t)+' CC':'—';
+    coins=Math.round(t);
+    el.textContent=t>0?coins+' coins ($'+coins+')':'—';
   }
 }
 
@@ -673,7 +708,7 @@ async function confirmBet() {
     }
   }
   closeModal('bet-modal'); clearSlip(); save();
-  showToast('Bet placed! 🎉','t-g');
+  showToast('Bet placed!','t-g');
   go('stats'); await sync();
 }
 
@@ -683,7 +718,11 @@ async function confirmBet() {
 function openRes(id) {
   const ev=S.events.find(e=>e.id===id); if (!ev) return;
   resEvId=id;
-  document.getElementById('res-desc').textContent=ev.name;
+  const isOU=ev.betType==='overunder';
+  const line=ev.line?(` · Line: ${ev.line}${ev.lineLabel?' '+ev.lineLabel:''}`):'';
+  document.getElementById('res-desc').textContent=ev.name+line;
+  document.getElementById('res-yes-btn').textContent=isOU?'OVER Wins':'YES Wins';
+  document.getElementById('res-no-btn').textContent=isOU?'UNDER Wins':'NO Wins';
   openModal('res-modal');
 }
 
@@ -716,6 +755,76 @@ async function resolveEv(result) {
 // ═══════════════════════════════════
 // STATS
 // ═══════════════════════════════════
+function renderSettlement() {
+  const sec = document.getElementById('settlement-section');
+  const players = {};
+  S.bets.forEach(b => {
+    if (!players[b.bettor]) players[b.bettor] = {name:b.bettor, net:0, pending:false};
+    if (b.status==='win') players[b.bettor].net += b.payout - b.wager;
+    else if (b.status==='loss') players[b.bettor].net -= b.wager;
+    else players[b.bettor].pending = true;
+  });
+  const list = Object.values(players);
+  if (!list.length) { sec.innerHTML=''; return; }
+  const hasPending = list.some(p => p.pending);
+  const collectors = list.filter(p=>p.net>0).sort((a,b)=>b.net-a.net);
+  const payers = list.filter(p=>p.net<0).sort((a,b)=>a.net-b.net);
+  const even = list.filter(p=>p.net===0);
+
+  let rows = '';
+  collectors.forEach((p,i) => {
+    const settled = (S.settled||{})[p.name];
+    rows += `<div class="settle-row">
+      <div class="settle-av" style="background:${CLR[i%CLR.length]}22;color:${CLR[i%CLR.length]}">${p.name[0].toUpperCase()}</div>
+      <div class="settle-info">
+        <div class="settle-name">${p.name}</div>
+        <div class="settle-line" style="color:var(--green)">Collects</div>
+      </div>
+      <div class="settle-amount">
+        <div class="settle-dollar" style="color:var(--green)">+${p.net} coins<br><span style=\"font-size:16px\">= +$${p.net}</span></div>
+        <div class="settle-action" style="color:var(--green)">Gets paid</div>
+      </div>
+    </div>`;
+  });
+  payers.forEach((p,i) => {
+    const settled = (S.settled||{})[p.name];
+    rows += `<div class="settle-row">
+      <div class="settle-av" style="background:${CLR[(i+3)%CLR.length]}22;color:${CLR[(i+3)%CLR.length]}">${p.name[0].toUpperCase()}</div>
+      <div class="settle-info">
+        <div class="settle-name">${p.name}</div>
+        <div class="settle-line" style="color:var(--red)">Owes</div>
+      </div>
+      <div class="settle-amount" style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <div class="settle-dollar" style="color:var(--red)">-${Math.abs(p.net)} coins<br><span style=\"font-size:16px\">= -$${Math.abs(p.net)}</span></div>
+        <button class="settle-btn${settled?' paid':''}" onclick="toggleSettled('${p.name}')">${settled?' Paid':'Mark Paid'}</button>
+      </div>
+    </div>`;
+  });
+  even.forEach(p => {
+    rows += `<div class="settle-row">
+      <div class="settle-av" style="background:var(--bg4);color:var(--muted)">${p.name[0].toUpperCase()}</div>
+      <div class="settle-info"><div class="settle-name">${p.name}</div><div class="settle-line" style="color:var(--muted)">Broke even</div></div>
+      <div class="settle-amount"><div class="settle-dollar" style="color:var(--muted)">$0</div></div>
+    </div>`;
+  });
+
+  sec.innerHTML = `
+    ${hasPending?`<div class="pending-note"> Some bets are still pending — final totals may change once events are resolved.</div>`:''}
+    <div class="settle-card">
+      <div class="settle-header">
+        <div><div class="settle-title"> Cash Settlement</div><div class="settle-sub">1 coin = $1 · Settle up in cash</div></div>
+      </div>
+      ${rows}
+      <div class="settle-note">These numbers are final once all events are resolved.<br>Tap "Mark Paid" to track who's settled up.</div>
+    </div>`;
+}
+
+function toggleSettled(name) {
+  if (!S.settled) S.settled = {};
+  S.settled[name] = !S.settled[name];
+  save(); renderSettlement();
+}
+
 function renderStats() {
   const tot=S.bets.length, wag=S.bets.reduce((a,b)=>a+(b.wager||0),0),
         wins=S.bets.filter(b=>b.status==='win').length, losses=S.bets.filter(b=>b.status==='loss').length;
@@ -724,6 +833,7 @@ function renderStats() {
     <div class="sc a"><div class="slbl">CC Wagered</div><div class="sv a">${wag}</div></div>
     <div class="sc g"><div class="slbl">Wins</div><div class="sv g">${wins}</div></div>
     <div class="sc r"><div class="slbl">Losses</div><div class="sv r">${losses}</div></div>`;
+  renderSettlement();
   const players={};
   S.bets.forEach(b=>{
     if (!players[b.bettor]) players[b.bettor]={name:b.bettor,w:0,l:0,p:0,net:0};
@@ -738,7 +848,7 @@ function renderStats() {
       <div class="lrank ${rk[i]||'rkn'}">${i+1}</div>
       <div class="lav" style="background:${CLR[i%CLR.length]}22;color:${CLR[i%CLR.length]}">${p.name[0].toUpperCase()}</div>
       <div class="lname">${p.name}</div>
-      <div><div class="lnet" style="color:${p.net>=0?'var(--green)':'var(--red)'}">${p.net>=0?'+':''}${p.net} CC</div><div class="ldet">${p.w}W · ${p.l}L · ${p.p} pend</div></div>
+      <div><div class="lnet" style="color:${p.net>=0?'var(--green)':'var(--red)'}">${p.net>=0?'+':''}${p.net} coins</div><div class="ldet">${p.w}W · ${p.l}L · ${p.p} pend</div></div>
     </div>`).join(''):
     `<div class="empty" style="padding:24px;">No bets yet</div>`;
   document.getElementById('bet-history').innerHTML=S.bets.length?
@@ -749,7 +859,7 @@ function renderStats() {
       return `<div class="brow">
         <div><div class="bname">${b.bettor} · <span style="color:${b.status==='win'?'var(--green)':b.status==='loss'?'var(--red)':'var(--amber)'}">${side}</span></div>
         <div class="bmeta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;">${n}</div></div>
-        <div><div class="bamt">${b.wager}/${b.payout} CC</div><div style="margin-top:4px;text-align:right;"><span class="badge ${sc}">${b.status}</span></div></div>
+        <div><div class="bamt">${b.wager}/${b.payout} coins</div><div style="margin-top:4px;text-align:right;"><span class="badge ${sc}">${b.status}</span></div></div>
       </div>`;
     }).join(''):
     `<div class="empty" style="padding:24px;">No bets placed yet</div>`;
@@ -804,7 +914,7 @@ function renderAdmin() {
     [...S.bets].reverse().map(b=>{
       const sc=b.status==='win'?'b-win':b.status==='loss'?'b-loss':b.type==='parlay'?'b-parlay':'b-pend';
       return `<div class="ar">
-        <div class="ari"><div class="arn">${b.bettor} — ${b.type==='parlay'?'Parlay':b.side} — ${b.wager} CC</div>
+        <div class="ari"><div class="arn">${b.bettor} — ${b.type==='parlay'?'Parlay':b.side} — ${b.wager} coins</div>
         <div class="arm" style="white-space:normal;">${b.type==='parlay'?b.legs.map(l=>l.name.substring(0,22)+'…').join(' + '):b.name.substring(0,50)}</div></div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">
           <span class="badge ${sc}">${b.status}</span>
@@ -866,6 +976,10 @@ function openAddEv() {
   document.getElementById('ev-yes').value='2.0';
   document.getElementById('ev-no').value='1.7';
   document.getElementById('ev-status').value='open';
+  document.getElementById('ev-type').value='yesno';
+  document.getElementById('ev-line').value='';
+  document.getElementById('ev-line-label').value='';
+  toggleEvType();
   openModal('ev-modal');
 }
 
@@ -877,6 +991,10 @@ function openEditEv(id) {
   document.getElementById('ev-yes').value=ev.yesOdds;
   document.getElementById('ev-no').value=ev.noOdds;
   document.getElementById('ev-status').value=ev.status;
+  document.getElementById('ev-type').value=ev.betType||'yesno';
+  document.getElementById('ev-line').value=ev.line||'';
+  document.getElementById('ev-line-label').value=ev.lineLabel||'';
+  toggleEvType();
   openModal('ev-modal');
 }
 
@@ -885,15 +1003,19 @@ async function saveEv() {
   const yes=parseFloat(document.getElementById('ev-yes').value);
   const no=parseFloat(document.getElementById('ev-no').value);
   const status=document.getElementById('ev-status').value;
+  const betType=document.getElementById('ev-type').value;
+  const line=parseFloat(document.getElementById('ev-line').value)||null;
+  const lineLabel=document.getElementById('ev-line-label').value.trim()||'';
   if (!name){showToast('Enter a description','t-r');return;}
   if (isNaN(yes)||yes<1.01||isNaN(no)||no<1.01){showToast('Odds must be > 1.01','t-r');return;}
+  if (betType==='overunder'&&!line){showToast('Enter the line number','t-r');return;}
   try {
     if (editEvId) {
       const ev=S.events.find(e=>e.id===editEvId);
-      if (ev){ev.name=name;ev.yesOdds=yes;ev.noOdds=no;ev.status=status;}
+      if (ev){ev.name=name;ev.yesOdds=yes;ev.noOdds=no;ev.status=status;ev.betType=betType;ev.line=line;ev.lineLabel=lineLabel;}
       await dbUpsert('events',ev);
     } else {
-      const ev={id:uid(),name,yesOdds:yes,noOdds:no,status,yesVol:0,noVol:0,created_at:new Date().toISOString()};
+      const ev={id:uid(),name,yesOdds:yes,noOdds:no,status,betType,line,lineLabel,yesVol:0,noVol:0,created_at:new Date().toISOString()};
       S.events.unshift(ev);
       await dbUpsert('events',ev);
     }
@@ -914,6 +1036,14 @@ async function delEv(id) {
 // ═══════════════════════════════════
 // MODALS + TOAST
 // ═══════════════════════════════════
+function toggleEvType() {
+  const t = document.getElementById('ev-type').value;
+  const isOU = t === 'overunder';
+  document.getElementById('ou-line-wrap').style.display = isOU ? 'block' : 'none';
+  document.getElementById('yes-lbl').textContent = isOU ? 'OVER Odds' : 'YES Odds';
+  document.getElementById('no-lbl').textContent = isOU ? 'UNDER Odds' : 'NO Odds';
+}
+
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
