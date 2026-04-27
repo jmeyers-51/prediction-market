@@ -218,7 +218,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
     <div class="header-tagline">What will she do next?</div>
   </div>
   <div class="header-right">
-    <button id="refresh-btn" onclick="manualRefresh()" style="background:transparent;border:1px solid var(--border2);border-radius:8px;padding:8px 10px;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;transition:all 0.2s;" title="Refresh">&#x21BB;</button>
     <button class="slip-fab" onclick="goToSlip()">
       Slip
       <span class="slip-badge" id="slip-badge" style="display:none">0</span>
@@ -502,6 +501,11 @@ const DEFAULTS = {
 };
 
 let S = JSON.parse(localStorage.getItem('ang_state') || 'null') || JSON.parse(JSON.stringify(DEFAULTS));
+// Also pull creds from dedicated key (more reliable on mobile/Safari)
+try {
+  const storedCreds = JSON.parse(localStorage.getItem('ang_creds') || 'null');
+  if (storedCreds && storedCreds.url) { S.sbUrl = storedCreds.url; S.sbKey = storedCreds.key; }
+} catch(e) {}
 let slip = []; // not persisted on purpose — clears on refresh
 let betType = 'single';
 let adminUnlocked = false;
@@ -521,7 +525,8 @@ function checkRoute() {
   const hash = location.hash;
   if (hash === '#admin') {
     showPage('admin', true);
-    // Don't show in bottom nav
+  } else {
+    showPage('market');
   }
 }
 
@@ -949,6 +954,8 @@ async function saveSupabaseConfig() {
   S.sbUrl = document.getElementById('sb-url').value.trim();
   S.sbKey = document.getElementById('sb-key').value.trim();
   save();
+  // Also save to dedicated creds key for mobile reliability
+  try { localStorage.setItem('ang_creds', JSON.stringify({url: S.sbUrl, key: S.sbKey})); } catch(e) {}
   if (S.sbUrl && S.sbKey) {
     showToast('Connecting to Supabase…','t-amber');
     const ok = await SB.init(S.sbUrl, S.sbKey);
@@ -1045,26 +1052,35 @@ window.addEventListener('hashchange', checkRoute);
 
 // ===================== INIT =====================
 async function fetchFromSupabase() {
-  if (!SB.ready()) return;
-  const remoteEvents = await SB.getEvents();
-  if (remoteEvents && remoteEvents.length) { S.events=remoteEvents; save(); renderMarket(); }
-  const remoteBets = await SB.getBets();
-  if (remoteBets && remoteBets.length) { S.bets=remoteBets; save(); }
+  if (!SB.ready()) return false;
+  try {
+    const remoteEvents = await SB.getEvents();
+    if (remoteEvents && remoteEvents.length) { S.events=remoteEvents; save(); renderMarket(); }
+    const remoteBets = await SB.getBets();
+    if (remoteBets && remoteBets.length) { S.bets=remoteBets; save(); }
+    return true;
+  } catch(e) { console.error('fetchFromSupabase error', e); return false; }
 }
 
 async function manualRefresh() {
   const btn = document.getElementById('refresh-btn');
   if (btn) { btn.style.color='var(--green)'; btn.style.transform='rotate(360deg)'; }
-  await fetchFromSupabase();
-  showToast('Refreshed!','t-green');
+  showToast('Refreshing…','t-amber');
+  // Re-init SB if not ready (handles mobile cold start)
+  if (!SB.ready() && S.sbUrl && S.sbKey) {
+    await SB.init(S.sbUrl, S.sbKey);
+  }
+  const ok = await fetchFromSupabase();
+  showToast(ok ? 'Refreshed!' : 'No connection','t-' + (ok?'green':'red'));
   setTimeout(()=>{ if(btn){btn.style.color='var(--muted)';btn.style.transform='';} }, 600);
 }
 
 async function init() {
   checkRoute();
-  if (!location.hash || location.hash !== '#admin') renderMarket();
-  if (S.sbUrl && S.sbKey) {
-    const ok = await SB.init(S.sbUrl, S.sbKey);
+  const url = S.sbUrl;
+  const key = S.sbKey;
+  if (url && key) {
+    const ok = await SB.init(url, key);
     if (ok) {
       await fetchFromSupabase();
       SB.subscribe('events',()=>{ SB.getEvents().then(d=>{if(d){S.events=d;save();renderMarket();}}); });
@@ -1074,8 +1090,7 @@ async function init() {
   }
 }
 
-document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') fetchFromSupabase(); });
-window.addEventListener('focus', fetchFromSupabase);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') manualRefresh(); });
 
 init();
 </script>
