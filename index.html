@@ -218,6 +218,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
     <div class="header-tagline">What will she do next?</div>
   </div>
   <div class="header-right">
+    <button id="refresh-btn" onclick="manualRefresh()" style="background:transparent;border:1px solid var(--border2);border-radius:8px;padding:8px 10px;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;transition:all 0.2s;" title="Refresh">&#x21BB;</button>
     <button class="slip-fab" onclick="goToSlip()">
       Slip
       <span class="slip-badge" id="slip-badge" style="display:none">0</span>
@@ -1051,6 +1052,14 @@ async function fetchFromSupabase() {
   if (remoteBets && remoteBets.length) { S.bets=remoteBets; save(); }
 }
 
+async function manualRefresh() {
+  const btn = document.getElementById('refresh-btn');
+  if (btn) { btn.style.color='var(--green)'; btn.style.transform='rotate(360deg)'; }
+  await fetchFromSupabase();
+  showToast('Refreshed!','t-green');
+  setTimeout(()=>{ if(btn){btn.style.color='var(--muted)';btn.style.transform='';} }, 600);
+}
+
 async function init() {
   checkRoute();
   if (!location.hash || location.hash !== '#admin') renderMarket();
@@ -1058,19 +1067,14 @@ async function init() {
     const ok = await SB.init(S.sbUrl, S.sbKey);
     if (ok) {
       await fetchFromSupabase();
-      // Real-time subscriptions (desktop / good connections)
       SB.subscribe('events',()=>{ SB.getEvents().then(d=>{if(d){S.events=d;save();renderMarket();}}); });
       SB.subscribe('bets',()=>{ SB.getBets().then(d=>{if(d){S.bets=d;save();}}); });
-      // Fallback: poll every 30s for mobile/weak connections
       setInterval(fetchFromSupabase, 30000);
     }
   }
 }
 
-// Refresh when user returns to the tab (critical for mobile)
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') fetchFromSupabase();
-});
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') fetchFromSupabase(); });
 window.addEventListener('focus', fetchFromSupabase);
 
 init();
