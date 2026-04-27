@@ -205,13 +205,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
 </head>
 <body>
 
-<!-- ADMIN BAR (hidden by default) - / 
+<!-- ADMIN BAR (hidden by default) -->
 <div class="admin-bar" id="admin-bar" style="display:none;">
   <span class="admin-bar-text"> Admin Mode</span>
   <button class="admin-bar-exit" onclick="exitAdmin()">Exit</button>
 </div>
 
-<!-- HEADER - / 
+<!-- HEADER -->
 <div class="app-header">
   <div>
     <div class="header-logo">Angelina<span>Watch</span> </div>
@@ -225,10 +225,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
   </div>
 </div>
 
-<!-- BODY - / 
+<!-- BODY -->
 <div class="app-body">
 
-  <!-- MARKET - / 
+  <!-- MARKET -->
   <div class="page active" id="page-market">
     <div class="section-head">
       <div>
@@ -240,7 +240,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
     <div style="height:16px;"></div>
   </div>
 
-  <!-- BET SLIP - / 
+  <!-- BET SLIP -->
   <div class="page" id="page-slip">
     <div class="section-head">
       <div>
@@ -255,7 +255,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
     </div>
   </div>
 
-  <!-- DASHBOARD - / 
+  <!-- DASHBOARD -->
   <div class="page" id="page-dash">
     <div class="section-sub" style="margin-bottom:4px;">// Stats &amp; Results</div>
     <div class="section-title" style="margin-bottom:16px;">Dashboard</div>
@@ -266,7 +266,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
     <div class="card" id="bet-history"></div>
   </div>
 
-  <!-- ADMIN - / 
+  <!-- ADMIN -->
   <div class="page" id="page-admin">
     <div id="admin-locked-view">
       <div class="admin-locked">
@@ -282,7 +282,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
       <div class="section-sub" style="margin-bottom:4px;">// Control Center</div>
       <div class="section-title" style="margin-bottom:16px;">Admin</div>
 
-      <!-- Supabase config - / 
+      <!-- Supabase config -->
       <div class="admin-section">
         <div class="admin-section-title">Supabase Config</div>
         <div class="config-notice">
@@ -300,26 +300,26 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
         <button class="btn btn-green" onclick="saveSupabaseConfig()" style="width:100%;">Save &amp; Connect</button>
       </div>
 
-      <!-- Events management - / 
+      <!-- Events management -->
       <div class="admin-section">
         <div class="admin-section-title">Events</div>
         <div class="card" id="admin-events-list" style="margin-bottom:12px;"></div>
         <button class="btn btn-green" style="width:100%;" onclick="openAddEventModal()">+ Add New Event</button>
       </div>
 
-      <!-- Bets management - / 
+      <!-- Bets management -->
       <div class="admin-section">
         <div class="admin-section-title">All Bets</div>
         <div class="card" id="admin-bets-list"></div>
       </div>
 
-      <!-- Players - / 
+      <!-- Players -->
       <div class="admin-section">
         <div class="admin-section-title">Players</div>
         <div class="card" id="admin-players-list"></div>
       </div>
 
-      <!-- Danger zone - / 
+      <!-- Danger zone -->
       <div class="admin-section">
         <div class="admin-section-title">Danger Zone</div>
         <div class="danger-zone">
@@ -333,9 +333,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
     </div>
   </div>
 
-</div><!-- end app-body - / 
+</div><!-- end app-body -->
 
-<!-- BOTTOM NAV - / 
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <button class="nav-item active" id="nav-market" onclick="showPage('market')">
     Market
@@ -348,8 +348,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
   </button>
 </nav>
 
-<!-- MODALS - / 
-<!-- Add/Edit Event - / 
+<!-- MODALS -->
+<!-- Add/Edit Event -->
 <div class="overlay" id="ev-modal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -383,7 +383,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
   </div>
 </div>
 
-<!-- Bettor Name - / 
+<!-- Bettor Name -->
 <div class="overlay" id="bettor-modal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -401,7 +401,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
   </div>
 </div>
 
-<!-- Resolve Event - / 
+<!-- Resolve Event -->
 <div class="overlay" id="resolve-modal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -520,8 +520,7 @@ function checkRoute() {
   const hash = location.hash;
   if (hash === '#admin') {
     showPage('admin', true);
-  } else {
-    showPage('market');
+    // Don't show in bottom nav
   }
 }
 
