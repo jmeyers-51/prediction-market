@@ -419,72 +419,77 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
 <div class="toast" id="toast"></div>
 
 <script>
-// ===================== SUPABASE LAYER =====================
-// When the user adds their credentials, this layer activates.
-// All reads/writes go through these functions so swapping
-// localStorage < /  Supabase is a single-file change.
+// ===================== SUPABASE LAYER (pure fetch — no CDN) =====================
+const SUPA_URL = 'https://thglheiydudpbacecmhe.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZ2xoZWl5ZHVkcGJhY2VjbWhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMTQ2ODIsImV4cCI6MjA5Mjg5MDY4Mn0.BDCOfI0iZEGh3z21-T8DlmRJ9Rl2dzlnh-lzUVdOwzk';
 
 const SB = {
-  url: null, key: null, client: null,
-  async init(url, key) {
-    this.url = url; this.key = key;
-    // Supabase JS v2 loaded from CDN when credentials present
-    if (!url || !key) return false;
-    try {
-      const mod = await import('https://esm.sh/@supabase/supabase-js@2');
-      this.client = mod.createClient(url, key);
-      // Test connection
-      const {error} = await this.client.from('events').select('id').limit(1);
-      if (error && error.code === '42P01') {
-        // Tables don't exist yet — show setup SQL
-        console.warn('[DegenTrack] Run the setup SQL in your Supabase dashboard. See README.');
-      }
-      return true;
-    } catch(e) { console.error('Supabase init error', e); return false; }
+  _headers() {
+    return {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    };
   },
-  ready() { return !!this.client; },
+  ready() { return true; }, // always ready — no init needed
+  async init() { return true; }, // no-op kept for compat
 
-  // EVENTS
   async getEvents() {
-    if (!this.ready()) return null;
-    const {data,error} = await this.client.from('events').select('*').order('created_at',{ascending:false});
-    return error ? null : data;
+    try {
+      const r = await fetch(SUPA_URL + '/rest/v1/events?select=*&order=created_at.desc', {headers: this._headers()});
+      if (!r.ok) { console.error('getEvents', r.status, await r.text()); return null; }
+      return await r.json();
+    } catch(e) { console.error('getEvents fetch error', e); return null; }
   },
+
   async upsertEvent(ev) {
-    if (!this.ready()) return false;
-    const {error} = await this.client.from('events').upsert(ev);
-    return !error;
+    try {
+      const r = await fetch(SUPA_URL + '/rest/v1/events?on_conflict=id', {
+        method: 'POST',
+        headers: {...this._headers(), 'Prefer': 'resolution=merge-duplicates,return=representation'},
+        body: JSON.stringify(ev)
+      });
+      return r.ok;
+    } catch(e) { console.error('upsertEvent error', e); return false; }
   },
+
   async deleteEvent(id) {
-    if (!this.ready()) return false;
-    const {error} = await this.client.from('events').delete().eq('id', id);
-    return !error;
+    try {
+      const r = await fetch(SUPA_URL + '/rest/v1/events?id=eq.' + id, {
+        method: 'DELETE', headers: this._headers()
+      });
+      return r.ok;
+    } catch(e) { return false; }
   },
 
-  // BETS
   async getBets() {
-    if (!this.ready()) return null;
-    const {data,error} = await this.client.from('bets').select('*').order('created_at',{ascending:false});
-    return error ? null : data;
-  },
-  async insertBet(bet) {
-    if (!this.ready()) return false;
-    const {error} = await this.client.from('bets').insert(bet);
-    return !error;
-  },
-  async updateBet(id, updates) {
-    if (!this.ready()) return false;
-    const {error} = await this.client.from('bets').update(updates).eq('id', id);
-    return !error;
+    try {
+      const r = await fetch(SUPA_URL + '/rest/v1/bets?select=*&order=created_at.desc', {headers: this._headers()});
+      if (!r.ok) { console.error('getBets', r.status); return null; }
+      return await r.json();
+    } catch(e) { console.error('getBets fetch error', e); return null; }
   },
 
-  // REAL-TIME
-  subscribe(table, cb) {
-    if (!this.ready()) return;
-    this.client.channel('public:'+table)
-      .on('postgres_changes',{event:'*',schema:'public',table},cb)
-      .subscribe();
-  }
+  async insertBet(bet) {
+    try {
+      const r = await fetch(SUPA_URL + '/rest/v1/bets', {
+        method: 'POST', headers: this._headers(), body: JSON.stringify(bet)
+      });
+      return r.ok;
+    } catch(e) { return false; }
+  },
+
+  async updateBet(id, updates) {
+    try {
+      const r = await fetch(SUPA_URL + '/rest/v1/bets?id=eq.' + id, {
+        method: 'PATCH', headers: this._headers(), body: JSON.stringify(updates)
+      });
+      return r.ok;
+    } catch(e) { return false; }
+  },
+
+  subscribe() { /* real-time not needed — polling handles sync */ }
 };
 
 // ===================== STATE =====================
@@ -497,8 +502,8 @@ const DEFAULTS = {
   ],
   bets: [],
   bettors: [],
-  sbUrl: 'https://thglheiydudpbacecmhe.supabase.co',
-  sbKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZ2xoZWl5ZHVkcGJhY2VjbWhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMTQ2ODIsImV4cCI6MjA5Mjg5MDY4Mn0.BDCOfI0iZEGh3z21-T8DlmRJ9Rl2dzlnh-lzUVdOwzk',
+  sbUrl: '',
+  sbKey: '',
 };
 
 let S = JSON.parse(localStorage.getItem('ang_state') || 'null') || JSON.parse(JSON.stringify(DEFAULTS));
@@ -518,8 +523,7 @@ function uid() { return 'x'+Math.random().toString(36).slice(2,10)+Date.now().to
 
 // ===================== ROUTING =====================
 function checkRoute() {
-  const hash = location.hash;
-  if (hash === '#admin') { showPage('admin', true); } else { showPage('market'); }
+  if (location.hash === '#admin') { showPage('admin', true); } else { showPage('market'); }
 }
 
 function showPage(p, skipNav) {
@@ -1041,43 +1045,32 @@ function showToast(msg, cls='t-green') {
 window.addEventListener('hashchange', checkRoute);
 
 // ===================== INIT =====================
-// Hardcoded credentials — always available on any device
-const SUPA_URL = 'https://thglheiydudpbacecmhe.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZ2xoZWl5ZHVkcGJhY2VjbWhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMTQ2ODIsImV4cCI6MjA5Mjg5MDY4Mn0.BDCOfI0iZEGh3z21-T8DlmRJ9Rl2dzlnh-lzUVdOwzk';
-
 async function fetchFromSupabase() {
-  if (!SB.ready()) return false;
   try {
     const remoteEvents = await SB.getEvents();
-    if (remoteEvents && remoteEvents.length) { S.events=remoteEvents; save(); renderMarket(); }
+    if (remoteEvents && remoteEvents.length) { S.events = remoteEvents; save(); renderMarket(); }
     const remoteBets = await SB.getBets();
-    if (remoteBets && remoteBets.length) { S.bets=remoteBets; save(); }
+    if (remoteBets && remoteBets.length) { S.bets = remoteBets; save(); }
     return true;
-  } catch(e) { console.error('fetch error', e); return false; }
+  } catch(e) { console.error('fetchFromSupabase', e); return false; }
 }
 
 async function manualRefresh() {
   const btn = document.getElementById('refresh-btn');
-  if (btn) { btn.style.color='var(--green)'; btn.style.transform='rotate(360deg)'; }
-  showToast('Refreshing…','t-amber');
-  if (!SB.ready()) { await SB.init(SUPA_URL, SUPA_KEY); }
+  if (btn) { btn.style.color = 'var(--green)'; btn.style.transform = 'rotate(360deg)'; }
+  showToast('Refreshing…', 't-amber');
   const ok = await fetchFromSupabase();
-  showToast(ok ? 'Refreshed!' : 'No connection — check Supabase','t-'+(ok?'green':'red'));
-  setTimeout(()=>{ if(btn){btn.style.color='var(--muted)';btn.style.transform='none';} }, 700);
+  showToast(ok ? 'Refreshed!' : 'Failed — check connection', 't-' + (ok ? 'green' : 'red'));
+  setTimeout(() => { if (btn) { btn.style.color = 'var(--muted)'; btn.style.transform = 'none'; } }, 700);
 }
 
 async function init() {
   checkRoute();
-  const ok = await SB.init(SUPA_URL, SUPA_KEY);
-  if (ok) {
-    await fetchFromSupabase();
-    SB.subscribe('events',()=>{ SB.getEvents().then(d=>{if(d){S.events=d;save();renderMarket();}}); });
-    SB.subscribe('bets',()=>{ SB.getBets().then(d=>{if(d){S.bets=d;save();}}); });
-    setInterval(fetchFromSupabase, 30000);
-  }
+  await fetchFromSupabase();
+  setInterval(fetchFromSupabase, 20000);
 }
 
-document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') manualRefresh(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') fetchFromSupabase(); });
 
 init();
 </script>
