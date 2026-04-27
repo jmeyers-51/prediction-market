@@ -1043,21 +1043,36 @@ function showToast(msg, cls='t-green') {
 window.addEventListener('hashchange', checkRoute);
 
 // ===================== INIT =====================
+async function fetchFromSupabase() {
+  if (!SB.ready()) return;
+  const remoteEvents = await SB.getEvents();
+  if (remoteEvents && remoteEvents.length) { S.events=remoteEvents; save(); renderMarket(); }
+  const remoteBets = await SB.getBets();
+  if (remoteBets && remoteBets.length) { S.bets=remoteBets; save(); }
+}
+
 async function init() {
   checkRoute();
   if (!location.hash || location.hash !== '#admin') renderMarket();
   if (S.sbUrl && S.sbKey) {
     const ok = await SB.init(S.sbUrl, S.sbKey);
     if (ok) {
-      const remoteEvents = await SB.getEvents();
-      if (remoteEvents && remoteEvents.length) { S.events=remoteEvents; save(); renderMarket(); }
-      const remoteBets = await SB.getBets();
-      if (remoteBets && remoteBets.length) { S.bets=remoteBets; save(); }
+      await fetchFromSupabase();
+      // Real-time subscriptions (desktop / good connections)
       SB.subscribe('events',()=>{ SB.getEvents().then(d=>{if(d){S.events=d;save();renderMarket();}}); });
       SB.subscribe('bets',()=>{ SB.getBets().then(d=>{if(d){S.bets=d;save();}}); });
+      // Fallback: poll every 30s for mobile/weak connections
+      setInterval(fetchFromSupabase, 30000);
     }
   }
 }
+
+// Refresh when user returns to the tab (critical for mobile)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') fetchFromSupabase();
+});
+window.addEventListener('focus', fetchFromSupabase);
+
 init();
 </script>
 </body>
