@@ -218,6 +218,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
     <div class="header-tagline">What will she do next?</div>
   </div>
   <div class="header-right">
+    <button id="refresh-btn" onclick="manualRefresh()" style="background:transparent;border:1px solid var(--border2);border-radius:8px;padding:8px 10px;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;margin-right:6px;transition:color 0.3s,transform 0.3s;">&#x21BB;</button>
     <button class="slip-fab" onclick="goToSlip()">
       Slip
       <span class="slip-badge" id="slip-badge" style="display:none">0</span>
@@ -496,16 +497,11 @@ const DEFAULTS = {
   ],
   bets: [],
   bettors: [],
-  sbUrl: '',
-  sbKey: '',
+  sbUrl: 'https://thglheiydudpbacecmhe.supabase.co',
+  sbKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZ2xoZWl5ZHVkcGJhY2VjbWhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMTQ2ODIsImV4cCI6MjA5Mjg5MDY4Mn0.BDCOfI0iZEGh3z21-T8DlmRJ9Rl2dzlnh-lzUVdOwzk',
 };
 
 let S = JSON.parse(localStorage.getItem('ang_state') || 'null') || JSON.parse(JSON.stringify(DEFAULTS));
-// Also pull creds from dedicated key (more reliable on mobile/Safari)
-try {
-  const storedCreds = JSON.parse(localStorage.getItem('ang_creds') || 'null');
-  if (storedCreds && storedCreds.url) { S.sbUrl = storedCreds.url; S.sbKey = storedCreds.key; }
-} catch(e) {}
 let slip = []; // not persisted on purpose — clears on refresh
 let betType = 'single';
 let adminUnlocked = false;
@@ -523,11 +519,7 @@ function uid() { return 'x'+Math.random().toString(36).slice(2,10)+Date.now().to
 // ===================== ROUTING =====================
 function checkRoute() {
   const hash = location.hash;
-  if (hash === '#admin') {
-    showPage('admin', true);
-  } else {
-    showPage('market');
-  }
+  if (hash === '#admin') { showPage('admin', true); } else { showPage('market'); }
 }
 
 function showPage(p, skipNav) {
@@ -954,8 +946,6 @@ async function saveSupabaseConfig() {
   S.sbUrl = document.getElementById('sb-url').value.trim();
   S.sbKey = document.getElementById('sb-key').value.trim();
   save();
-  // Also save to dedicated creds key for mobile reliability
-  try { localStorage.setItem('ang_creds', JSON.stringify({url: S.sbUrl, key: S.sbKey})); } catch(e) {}
   if (S.sbUrl && S.sbKey) {
     showToast('Connecting to Supabase…','t-amber');
     const ok = await SB.init(S.sbUrl, S.sbKey);
@@ -1051,6 +1041,10 @@ function showToast(msg, cls='t-green') {
 window.addEventListener('hashchange', checkRoute);
 
 // ===================== INIT =====================
+// Hardcoded credentials — always available on any device
+const SUPA_URL = 'https://thglheiydudpbacecmhe.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZ2xoZWl5ZHVkcGJhY2VjbWhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMTQ2ODIsImV4cCI6MjA5Mjg5MDY4Mn0.BDCOfI0iZEGh3z21-T8DlmRJ9Rl2dzlnh-lzUVdOwzk';
+
 async function fetchFromSupabase() {
   if (!SB.ready()) return false;
   try {
@@ -1059,34 +1053,27 @@ async function fetchFromSupabase() {
     const remoteBets = await SB.getBets();
     if (remoteBets && remoteBets.length) { S.bets=remoteBets; save(); }
     return true;
-  } catch(e) { console.error('fetchFromSupabase error', e); return false; }
+  } catch(e) { console.error('fetch error', e); return false; }
 }
 
 async function manualRefresh() {
   const btn = document.getElementById('refresh-btn');
   if (btn) { btn.style.color='var(--green)'; btn.style.transform='rotate(360deg)'; }
   showToast('Refreshing…','t-amber');
-  // Re-init SB if not ready (handles mobile cold start)
-  if (!SB.ready() && S.sbUrl && S.sbKey) {
-    await SB.init(S.sbUrl, S.sbKey);
-  }
+  if (!SB.ready()) { await SB.init(SUPA_URL, SUPA_KEY); }
   const ok = await fetchFromSupabase();
-  showToast(ok ? 'Refreshed!' : 'No connection','t-' + (ok?'green':'red'));
-  setTimeout(()=>{ if(btn){btn.style.color='var(--muted)';btn.style.transform='';} }, 600);
+  showToast(ok ? 'Refreshed!' : 'No connection — check Supabase','t-'+(ok?'green':'red'));
+  setTimeout(()=>{ if(btn){btn.style.color='var(--muted)';btn.style.transform='none';} }, 700);
 }
 
 async function init() {
   checkRoute();
-  const url = S.sbUrl;
-  const key = S.sbKey;
-  if (url && key) {
-    const ok = await SB.init(url, key);
-    if (ok) {
-      await fetchFromSupabase();
-      SB.subscribe('events',()=>{ SB.getEvents().then(d=>{if(d){S.events=d;save();renderMarket();}}); });
-      SB.subscribe('bets',()=>{ SB.getBets().then(d=>{if(d){S.bets=d;save();}}); });
-      setInterval(fetchFromSupabase, 30000);
-    }
+  const ok = await SB.init(SUPA_URL, SUPA_KEY);
+  if (ok) {
+    await fetchFromSupabase();
+    SB.subscribe('events',()=>{ SB.getEvents().then(d=>{if(d){S.events=d;save();renderMarket();}}); });
+    SB.subscribe('bets',()=>{ SB.getBets().then(d=>{if(d){S.bets=d;save();}}); });
+    setInterval(fetchFromSupabase, 30000);
   }
 }
 
