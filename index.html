@@ -245,6 +245,29 @@ select.fi{cursor:pointer;}
 .settle-note{padding:14px var(--pad);font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);line-height:1.7;text-align:center;border-top:1px solid var(--border);}
 .pending-note{background:var(--amber2);border:1px solid rgba(255,201,50,.2);border-radius:10px;padding:12px var(--pad);font-family:'Space Mono',monospace;font-size:10px;color:var(--amber);line-height:1.7;margin-bottom:12px;text-align:center;}
 
+
+/* ADMIN GUIDE */
+.guide-toggle{width:100%;padding:14px var(--pad);background:transparent;border:1px solid var(--border2);border-radius:var(--r);color:var(--text2);font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;transition:all .2s;}
+.guide-toggle:active{background:var(--bg4);}
+.guide-toggle-arrow{transition:transform .25s;}
+.guide-toggle-arrow.open{transform:rotate(180deg);}
+.guide-body{display:none;margin-bottom:24px;}
+.guide-body.open{display:block;animation:fu .2s ease-out;}
+.gs{margin-bottom:20px;}
+.gs-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:var(--pink);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.gs-block{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px var(--pad);margin-bottom:8px;}
+.gs-head{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
+.gs-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.gs-text strong{color:var(--text);font-weight:600;}
+.gs-formula{font-family:'Space Mono',monospace;font-size:12px;background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:12px 14px;margin-top:8px;color:var(--green);line-height:1.8;}
+.gs-example{font-family:'Space Mono',monospace;font-size:11px;background:var(--bg4);border-left:3px solid var(--purple);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:8px;color:var(--text2);line-height:1.8;}
+.gs-warn{background:rgba(255,201,50,.07);border:1px solid rgba(255,201,50,.2);border-radius:8px;padding:12px 14px;margin-top:8px;font-family:'Space Mono',monospace;font-size:10px;color:var(--amber);line-height:1.7;letter-spacing:.3px;}
+.gs-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid;margin-right:6px;margin-bottom:4px;}
+.gs-tag.g{background:var(--green2);color:var(--green);border-color:rgba(0,232,122,.3);}
+.gs-tag.r{background:var(--red2);color:var(--red);border-color:rgba(255,61,107,.3);}
+.gs-tag.a{background:var(--amber2);color:var(--amber);border-color:rgba(255,201,50,.3);}
+.gs-tag.p{background:var(--purple2);color:var(--purple);border-color:rgba(176,108,255,.3);}
+
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -303,6 +326,180 @@ select.fi{cursor:pointer;}
       </div>
     </div>
     <div id="aunlock-v" style="display:none;">
+      <!-- GUIDE TOGGLE -->
+      <button class="guide-toggle" onclick="toggleGuide()">
+        Admin Guide &amp; Instructions
+        <span class="guide-toggle-arrow" id="guide-arrow">&#9660;</span>
+      </button>
+      <div class="guide-body" id="guide-body">
+
+        <!-- SECTION: Overview -->
+        <div class="gs">
+          <div class="gs-title">How This App Works</div>
+          <div class="gs-block">
+            <div class="gs-head">The Concept</div>
+            <div class="gs-text">AngelinaWatch is a prediction market for your friend group. You create events — things Angelina might or might not do — and players bet coins on the outcome. <strong>1 coin = $1.</strong> At the end, winners collect from losers in cash using the Settlement screen on the Stats tab.</div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Roles</div>
+            <div class="gs-text">
+              <strong>You (Admin)</strong> — create events, set odds, mark events live, resolve outcomes, manage bets.<br><br>
+              <strong>Players</strong> — open the same link on their phone, pick YES/NO or OVER/UNDER, enter a wager, and place their bet. No account needed — they just type their name.
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION: Events -->
+        <div class="gs">
+          <div class="gs-title">Creating & Managing Events</div>
+          <div class="gs-block">
+            <div class="gs-head">Bet Types</div>
+            <div class="gs-text">
+              <span class="gs-tag g">YES / NO</span> Player bets whether something will happen or not.<br>
+              <span class="gs-tag p">OVER / UNDER</span> Player bets whether a number will be higher or lower than a line you set. You also set a label (e.g. "3.5 drinks" or "10 minutes").
+            </div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Event Status</div>
+            <div class="gs-text">
+              <span class="gs-tag g">Open</span> Bets are being accepted.<br>
+              <span class="gs-tag r">Live</span> The event is happening right now — still accepts bets, pulses red so everyone knows.<br>
+              <span class="gs-tag a">Closed</span> No more bets — event hasn't been resolved yet.<br>
+              <span class="gs-tag g">Resolved</span> Outcome has been set — bets are marked win or loss automatically.
+            </div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Setting Odds</div>
+            <div class="gs-text">Odds represent the multiplier a player gets if they win. Higher odds = bigger payout = less likely outcome in your judgment.</div>
+            <div class="gs-formula">
+              YES odds: 2.00 means a $10 bet returns $20 (profit of $10)<br>
+              NO odds: 1.50 means a $10 bet returns $15 (profit of $5)
+            </div>
+            <div class="gs-warn">Odds must be greater than 1.01. An odds of 1.00 would mean no profit at all. Typical values: 1.5 to 5.0 depending on how likely you think the outcome is.</div>
+          </div>
+        </div>
+
+        <!-- SECTION: How Users Bet -->
+        <div class="gs">
+          <div class="gs-title">How Players Place Bets</div>
+          <div class="gs-block">
+            <div class="gs-head">Step-by-step for players</div>
+            <div class="gs-text">
+              1. Open the link on their phone.<br>
+              2. On the <strong>Market</strong> tab, tap YES or NO (or OVER/UNDER) on any event — this adds it to their slip.<br>
+              3. Tap <strong>Slip</strong> to review selections.<br>
+              4. Choose <strong>Singles</strong> (each event bet separately) or <strong>Parlay</strong> (all legs combined into one bigger bet).<br>
+              5. Enter a wager amount in coins — each coin = $1.<br>
+              6. Tap <strong>Place Bet</strong>, enter their name, confirm.<br>
+              7. Done — their bet is saved and visible on the Stats tab.
+            </div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Singles vs Parlay</div>
+            <div class="gs-text">
+              <strong>Singles</strong> — each event is a separate bet with its own wager. If one loses, the others are unaffected.<br><br>
+              <strong>Parlay</strong> — all selected events are tied into one bet. The multipliers stack (multiply together). Higher potential payout but all legs must win or the whole bet is lost.
+            </div>
+            <div class="gs-example">
+              Parlay example:<br>
+              Event A: YES at 2.00x<br>
+              Event B: OVER at 1.80x<br>
+              Combined multiplier: 2.00 x 1.80 = 3.60x<br>
+              Wager: 50 coins — Payout if both win: 180 coins ($180)
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION: Calculations -->
+        <div class="gs">
+          <div class="gs-title">Bet Calculations</div>
+          <div class="gs-block">
+            <div class="gs-head">Single Bet Payout</div>
+            <div class="gs-formula">
+              Payout = Wager x Odds<br>
+              Profit = Payout - Wager<br><br>
+              Example: 100 coins x 2.50 odds = 250 coins payout<br>
+              Profit = 250 - 100 = 150 coins ($150)
+            </div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Parlay Payout</div>
+            <div class="gs-formula">
+              Combined Multiplier = Odds1 x Odds2 x Odds3...<br>
+              Payout = Wager x Combined Multiplier<br><br>
+              Example: 2.00 x 1.70 x 3.00 = 10.20x combined<br>
+              50 coins x 10.20 = 510 coins payout ($510)
+            </div>
+            <div class="gs-warn">All legs of a parlay must win. One loss = entire parlay is lost, regardless of the other outcomes.</div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Net Position (Leaderboard)</div>
+            <div class="gs-formula">
+              Net = Sum of all (Payout - Wager) for wins<br>
+                  - Sum of all Wagers for losses<br><br>
+              Positive net = player is up money<br>
+              Negative net = player owes money
+            </div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Probability Bar on Each Event</div>
+            <div class="gs-text">The colored bar on each event shows where the actual money has gone, not the implied probability from odds. It is calculated from total coins wagered on YES vs NO.</div>
+            <div class="gs-formula">
+              YES% = YES volume / (YES volume + NO volume) x 100<br><br>
+              Example: 300 coins on YES, 100 coins on NO<br>
+              YES% = 300 / 400 = 75%
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION: Resolving -->
+        <div class="gs">
+          <div class="gs-title">Resolving Events</div>
+          <div class="gs-block">
+            <div class="gs-head">How to Resolve</div>
+            <div class="gs-text">
+              From the Market tab (while admin mode is on), tap <strong>Resolve</strong> on any open or live event. Pick the winning outcome. All pending bets on that event are automatically marked win or loss.<br><br>
+              For parlays, the system checks if all legs are resolved. If all legs won, the parlay is marked win. If any leg lost, it is marked loss.
+            </div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Manual Bet Override</div>
+            <div class="gs-text">In the <strong>All Bets</strong> section below, you can manually mark any pending bet as a win or loss. Use this if you need to override the automatic resolution for any reason.</div>
+          </div>
+        </div>
+
+        <!-- SECTION: Settlement -->
+        <div class="gs">
+          <div class="gs-title">Cash Settlement</div>
+          <div class="gs-block">
+            <div class="gs-head">How to Settle Up</div>
+            <div class="gs-text">
+              Go to the <strong>Stats</strong> tab. The Cash Settlement section at the top shows exactly who owes money and who collects, in dollars (1 coin = $1).<br><br>
+              Players with a positive net collect from the group. Players with a negative net owe the group. Use the <strong>Mark Paid</strong> button to track who has settled up in cash.
+            </div>
+            <div class="gs-warn">If any events are still pending, the settlement totals will show a warning. Resolve all events first for final numbers.</div>
+          </div>
+        </div>
+
+        <!-- SECTION: Admin Tools -->
+        <div class="gs">
+          <div class="gs-title">Admin Tools</div>
+          <div class="gs-block">
+            <div class="gs-head">Reset All Bets</div>
+            <div class="gs-text">Deletes all bets from the database and resets coin volumes on all events to zero. Events are kept. Use this to start a fresh round without losing your event list.</div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Factory Reset</div>
+            <div class="gs-text">Deletes everything — all events, all bets, all players. The app returns to a blank slate. This cannot be undone.</div>
+          </div>
+          <div class="gs-block">
+            <div class="gs-head">Passcode</div>
+            <div class="gs-text">The default passcode is <strong>admin</strong>. To change it, edit the line <code style="font-family:'Space Mono',monospace;font-size:11px;background:var(--bg4);padding:2px 6px;border-radius:4px;">const PASS = 'admin'</code> in the HTML file and re-upload to GitHub.</div>
+          </div>
+        </div>
+
+      </div><!-- end guide-body -->
+
       <div class="asec">
         <div class="asec-title">Events <button class="btn btn-g btn-sm" onclick="openAddEv()">+ Add</button></div>
         <div class="card" id="admin-evs"></div>
@@ -1036,6 +1233,13 @@ async function delEv(id) {
 // ═══════════════════════════════════
 // MODALS + TOAST
 // ═══════════════════════════════════
+function toggleGuide() {
+  const body = document.getElementById('guide-body');
+  const arrow = document.getElementById('guide-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
 function toggleEvType() {
   const t = document.getElementById('ev-type').value;
   const isOU = t === 'overunder';
