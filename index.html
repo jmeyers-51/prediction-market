@@ -520,7 +520,8 @@ function checkRoute() {
   const hash = location.hash;
   if (hash === '#admin') {
     showPage('admin', true);
-    // Don't show in bottom nav
+  } else {
+    showPage('market');
   }
 }
 
