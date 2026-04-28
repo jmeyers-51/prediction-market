@@ -336,6 +336,91 @@ select.fi{cursor:pointer;}
 .imb-txt.danger{color:var(--red);}
 .imb-txt.ok{color:var(--dim);}
 
+
+/* ═══ FUN ANIMATIONS ═══ */
+
+/* Animated top bar on cards */
+.ca{height:3px;width:100%;position:relative;overflow:hidden;}
+.ca.anim-open{background:linear-gradient(90deg,var(--green),var(--blue),var(--purple),var(--green));background-size:300% 100%;animation:flow 3s linear infinite;}
+.ca.anim-live{background:linear-gradient(90deg,var(--red),var(--amber),var(--red));background-size:200% 100%;animation:flow 1s linear infinite;}
+.ca.anim-closed{background:var(--border2);}
+.ca.anim-win{background:linear-gradient(90deg,var(--green),#00ffa0,var(--green));background-size:200% 100%;animation:flow 2s linear infinite;}
+.ca.anim-loss{background:var(--red);}
+@keyframes flow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+
+/* Card entrance */
+.card{animation:cardIn .3s cubic-bezier(.4,0,.2,1) both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Staggered card entrance */
+.card:nth-child(1){animation-delay:.04s}
+.card:nth-child(2){animation-delay:.08s}
+.card:nth-child(3){animation-delay:.12s}
+.card:nth-child(4){animation-delay:.16s}
+.card:nth-child(5){animation-delay:.20s}
+.card:nth-child(6){animation-delay:.24s}
+
+/* Odds button tap ripple */
+.obtn{position:relative;overflow:hidden;}
+.obtn::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;border-radius:inherit;transform:scale(0);transition:transform .3s,opacity .3s;}
+.obtn:active::after{transform:scale(2);opacity:.12;transition:none;}
+
+/* Slip count badge bounce */
+.slip-ct.bump{animation:bump .35s cubic-bezier(.4,0,.2,1);}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.5)}70%{transform:scale(.9)}100%{transform:scale(1)}}
+
+/* Place bet button shimmer */
+.pbtn{background:linear-gradient(90deg,var(--green) 0%,#00ffa0 50%,var(--green) 100%);background-size:200% 100%;animation:shimmer 2.5s linear infinite;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.pbtn:disabled{animation:none;background:var(--bg4);}
+
+/* Live badge pulse glow */
+.b-live{box-shadow:0 0 8px rgba(255,61,107,.5);animation:liveglow 1.2s ease-in-out infinite;}
+@keyframes liveglow{0%,100%{box-shadow:0 0 4px rgba(255,61,107,.3)}50%{box-shadow:0 0 14px rgba(255,61,107,.7)}}
+
+/* Payout value count-up feel */
+.pval{transition:color .2s;}
+
+/* Win badge sparkle */
+.b-win{animation:winshine 2s ease-in-out infinite;}
+@keyframes winshine{0%,100%{box-shadow:0 0 0 rgba(0,232,122,0)}50%{box-shadow:0 0 10px rgba(0,232,122,.4)}}
+
+/* Leaderboard rank #1 glow */
+.rk1{text-shadow:0 0 12px rgba(255,201,50,.6);animation:goldglow 2s ease-in-out infinite;}
+@keyframes goldglow{0%,100%{text-shadow:0 0 8px rgba(255,201,50,.4)}50%{text-shadow:0 0 20px rgba(255,201,50,.9)}}
+
+/* Stat card shimmer on load */
+.sc::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent);animation:scanline 3s ease-in-out infinite;}
+@keyframes scanline{0%{left:-60%}100%{left:160%}}
+
+/* Refresh button spin */
+#refresh-btn{transition:color .2s,border-color .2s;}
+
+/* Toast slide in */
+.toast{transition:all .3s cubic-bezier(.34,1.56,.64,1);}
+.toast.show{transform:translateX(-50%) translateY(0) scale(1);}
+
+/* Modal slide up with spring */
+.modal{animation:springUp .3s cubic-bezier(.34,1.4,.64,1);}
+@keyframes springUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* Admin bar pulse */
+.ab-dot{animation:pd 1s infinite;}
+
+/* Prob bar fill animation on render */
+.pfill{animation:barGrow .7s cubic-bezier(.4,0,.2,1) both;}
+@keyframes barGrow{from{width:0!important}to{}}
+
+/* Settlement amount count feel */
+.settle-dollar{animation:fadeInUp .4s ease-out both;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+
+/* FUN FACT TICKER */
+.funfact{position:fixed;bottom:calc(62px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(10px);background:rgba(15,15,18,.96);border:1px solid var(--border3);border-radius:20px;padding:10px 18px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text2);z-index:95;opacity:0;transition:opacity .4s ease,transform .4s cubic-bezier(.34,1.4,.64,1);pointer-events:none;white-space:nowrap;max-width:calc(100vw - 36px);overflow:hidden;text-overflow:ellipsis;letter-spacing:.3px;line-height:1.5;text-align:center;backdrop-filter:blur(10px);}
+.funfact.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.funfact-label{font-family:'Space Mono',monospace;font-size:8px;color:var(--pink);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:3px;}
+
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -691,6 +776,7 @@ select.fi{cursor:pointer;}
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="funfact" id="funfact"><span class="funfact-label">Fun Fact</span><span id="funfact-text"></span></div>
 
 <!-- MODAL: Event -->
 <div class="overlay" id="ev-modal">
@@ -951,10 +1037,11 @@ function renderMarket() {
     const yp=tot>0?Math.round((ev.yesVol/tot)*100):50;
     const inSlip=slip.find(s=>s.eventId===ev.id);
     const isOpen=ev.status==='open'||ev.status==='live';
-    let acc='background:linear-gradient(90deg,var(--green),var(--blue))';
-    if (ev.status==='live') acc='background:var(--red)';
-    if (ev.status==='resolved-yes') acc='background:var(--green)';
-    if (ev.status==='resolved-no') acc='background:var(--red)';
+    let accClass='anim-open';
+    if (ev.status==='live') accClass='anim-live';
+    else if (ev.status==='resolved-yes') accClass='anim-win';
+    else if (ev.status==='resolved-no') accClass='anim-loss';
+    else if (ev.status==='closed') accClass='anim-closed';
     const isOU=ev.betType==='overunder';
     let badge='', badgeHint='';
     if (ev.status==='open') { badge='<span class="badge b-open">Open</span>'; badgeHint='Accepting bets now'; }
@@ -967,8 +1054,8 @@ function renderMarket() {
       ${isOpen?`<button class="btn btn-sm" style="border-color:var(--amber);color:var(--amber)" onclick="openRes('${ev.id}')">Resolve</button>`:''}
       <button class="btn btn-sm btn-d" onclick="delEv('${ev.id}')">Del</button>
     </div>`:'';
-    return `<div class="card">
-      <div class="ca" style="${acc}"></div>
+    return `<div class="card" style="animation-delay:${S.events.indexOf(ev)*0.06}s">
+      <div class="ca ${accClass}"></div>
       <div class="ei">
         <div class="badges">${badge}</div>
         <div class="hint">${badgeHint}</div>
@@ -1013,6 +1100,11 @@ function updateBadge() {
   const el=document.getElementById('sct');
   el.textContent=slip.length;
   el.style.display=slip.length?'flex':'none';
+  if (slip.length) {
+    el.classList.remove('bump');
+    void el.offsetWidth; // force reflow
+    el.classList.add('bump');
+  }
 }
 
 // ═══════════════════════════════════
@@ -1592,6 +1684,64 @@ function showToast(msg,cls='t-g'){
   t.textContent=msg; t.className=`toast ${cls} show`;
   clearTimeout(t._t); t._t=setTimeout(()=>{t.className='toast';},2600);
 }
+
+// ═══════════════════════════════════
+// FUN FACTS TICKER
+// ═══════════════════════════════════
+const FACTS = [
+  "Angelina has never paid full price for a drink. Not once. Not even water.",
+  "Angelina once convinced a bouncer she was on the list. There was no list.",
+  "Angelina's Clarkson GPA is inversely correlated with how fun the previous weekend was.",
+  "Angelina has started 14 diets. All 14 ended at Taco Bell.",
+  "Angelina once argued with a Clarkson professor for 20 minutes and was technically correct.",
+  "Angelina's villain arc began the day dining hall stopped serving mozzarella sticks.",
+  "Angelina has never met a stranger. Only future best friends and future enemies.",
+  "Angelina once did not sleep for 38 hours. She looked fine. Nobody knows how.",
+  "Scientists estimate Angelina has consumed her body weight in Potsdam bar drinks since enrollment.",
+  "Angelina has sent at least one text she deeply regrets from every zip code in St. Lawrence County.",
+  "Angelina's risk assessment algorithm is broken. Engineers are working on it.",
+  "Angelina once started a fight, ended it, and made a friend. Same interaction. 4 minutes.",
+  "Angelina has a 100% rate of ordering food she then claims she doesn't want.",
+  "There are 3 Clarkson professors who remember Angelina specifically. Two smiled. One did not.",
+  "Angelina once rallied a group of 6 strangers to do karaoke. She did not know them before that song.",
+  "Angelina's decision making after midnight operates on a completely separate legal framework.",
+  "Angelina has strong opinions about every topic including several she just learned about.",
+  "No bouncer in Potsdam has successfully said no to Angelina more than twice.",
+  "Angelina once called someone out in public and was so right about it that everyone clapped.",
+  "Clarkson University does not officially track Angelina's activities. Unofficially, they do."
+];
+
+let factIdx = Math.floor(Math.random() * FACTS.length);
+let factTimer = null;
+
+function showFact() {
+  const el = document.getElementById('funfact');
+  const txt = document.getElementById('funfact-text');
+  factIdx = (factIdx + 1) % FACTS.length;
+  txt.textContent = FACTS[factIdx];
+  el.classList.add('show');
+  clearTimeout(factTimer);
+  // Show for 2.5–3.5s then hide
+  const dur = 2500 + Math.random() * 1000;
+  factTimer = setTimeout(() => {
+    el.classList.remove('show');
+  }, dur);
+}
+
+// Show a fact every 18-28 seconds, but not immediately
+function scheduleFact() {
+  const delay = 18000 + Math.random() * 10000;
+  setTimeout(() => {
+    showFact();
+    scheduleFact();
+  }, delay);
+}
+
+// First one after 8 seconds so it doesn't interfere with load
+setTimeout(() => {
+  showFact();
+  scheduleFact();
+}, 8000);
 
 // ═══════════════════════════════════
 // BOOT
