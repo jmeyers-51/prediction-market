@@ -294,6 +294,36 @@ select.fi{cursor:pointer;}
 .htp-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;}
 .htp-footer{padding:12px var(--pad);background:var(--bg3);border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);text-align:center;line-height:1.7;}
 
+
+/* ODDS CALCULATOR */
+.calc-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:20px;}
+.calc-header{padding:14px var(--pad);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.calc-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;color:var(--text);}
+.calc-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:2px;}
+.calc-body{padding:var(--pad);}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.calc-field{display:flex;flex-direction:column;gap:6px;}
+.calc-lbl{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+.calc-in{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:11px 14px;border-radius:9px;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;text-align:center;}
+.calc-in:focus{border-color:var(--pink);}
+.calc-result{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px var(--pad);margin-bottom:12px;}
+.calc-result-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);}
+.calc-result-row:last-child{border-bottom:none;}
+.calc-result-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.calc-result-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;}
+.calc-meter{height:6px;background:var(--bg5);border-radius:3px;overflow:hidden;margin:10px 0 4px;}
+.calc-meter-fill{height:100%;border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1);}
+.calc-meter-labels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);}
+.calc-verdict{padding:10px 14px;border-radius:8px;font-family:'Space Mono',monospace;font-size:10px;line-height:1.6;letter-spacing:.3px;margin-top:10px;}
+.calc-verdict.good{background:var(--green2);border:1px solid rgba(0,232,122,.2);color:var(--green);}
+.calc-verdict.warn{background:var(--amber2);border:1px solid rgba(255,201,50,.2);color:var(--amber);}
+.calc-verdict.bad{background:var(--red2);border:1px solid rgba(255,61,107,.2);color:var(--red);}
+.calc-apply-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.prob-slider-wrap{margin-bottom:14px;}
+.prob-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
+.prob-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
+.prob-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
+
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -387,6 +417,55 @@ select.fi{cursor:pointer;}
     </div>
     <div id="aunlock-v" style="display:none;">
       <!-- GUIDE TOGGLE -->
+      <!-- ODDS CALCULATOR -->
+      <div class="calc-card">
+        <div class="calc-header">
+          <div>
+            <div class="calc-title">Odds Calculator</div>
+            <div class="calc-sub">Set probability · get suggested odds</div>
+          </div>
+        </div>
+        <div class="calc-body">
+          <div class="prob-slider-wrap">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span class="calc-lbl">How likely is YES / OVER?</span>
+              <span style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--text);" id="calc-prob-display">50%</span>
+            </div>
+            <input class="prob-slider" type="range" id="calc-prob" min="5" max="95" value="50" step="5" oninput="calcOdds()">
+            <div class="calc-meter-labels"><span>Unlikely</span><span>Even</span><span>Likely</span></div>
+          </div>
+          <div class="calc-row">
+            <div class="calc-field">
+              <div class="calc-lbl">House Edge %</div>
+              <input class="calc-in" type="number" id="calc-vig" value="10" min="0" max="30" step="1" oninput="calcOdds()">
+            </div>
+            <div class="calc-field">
+              <div class="calc-lbl">Round to</div>
+              <select class="calc-in" id="calc-round" onchange="calcOdds()" style="font-size:12px;">
+                <option value="0.05">0.05</option>
+                <option value="0.1" selected>0.1</option>
+                <option value="0.25">0.25</option>
+              </select>
+            </div>
+          </div>
+          <div class="calc-result" id="calc-result">
+            <div class="calc-result-row"><span class="calc-result-lbl">YES / OVER Odds</span><span class="calc-result-val" id="cr-yes" style="color:var(--green);">—</span></div>
+            <div class="calc-result-row"><span class="calc-result-lbl">NO / UNDER Odds</span><span class="calc-result-val" id="cr-no" style="color:var(--red);">—</span></div>
+            <div class="calc-result-row"><span class="calc-result-lbl">Implied YES prob</span><span class="calc-result-val" id="cr-yp" style="color:var(--muted);">—</span></div>
+            <div class="calc-result-row"><span class="calc-result-lbl">Implied NO prob</span><span class="calc-result-val" id="cr-np" style="color:var(--muted);">—</span></div>
+            <div style="margin-top:10px;">
+              <div class="calc-meter"><div class="calc-meter-fill" id="cr-bar" style="background:linear-gradient(90deg,var(--green),var(--blue));width:50%;"></div></div>
+              <div class="calc-meter-labels"><span id="cr-bar-yes">YES 50%</span><span id="cr-bar-no">NO 50%</span></div>
+            </div>
+          </div>
+          <div class="calc-verdict good" id="calc-verdict">Set a probability above to get suggested odds.</div>
+          <div class="calc-apply-row">
+            <button class="btn btn-g" onclick="applyCalcOdds()">Copy to New Event</button>
+            <button class="btn btn-gh" onclick="calcOdds()">Recalculate</button>
+          </div>
+        </div>
+      </div>
+
       <button class="guide-toggle" onclick="toggleGuide()">
         Admin Guide &amp; Instructions
         <span class="guide-toggle-arrow" id="guide-arrow">&#9660;</span>
@@ -834,11 +913,12 @@ function renderMarket() {
     if (ev.status==='live') acc='background:var(--red)';
     if (ev.status==='resolved-yes') acc='background:var(--green)';
     if (ev.status==='resolved-no') acc='background:var(--red)';
+    const isOU=ev.betType==='overunder';
     let badge='', badgeHint='';
     if (ev.status==='open') { badge='<span class="badge b-open">Open</span>'; badgeHint='Accepting bets now'; }
     else if (ev.status==='live') { badge='<span class="badge b-live">Live</span>'; badgeHint='Happening right now &mdash; still accepting bets'; }
-    else if (ev.status==='resolved-yes') { badge='<span class="badge b-win">YES Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
-    else if (ev.status==='resolved-no') { badge='<span class="badge b-loss">NO Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
+    else if (ev.status==='resolved-yes') { badge='<span class="badge b-win">'+(isOU?'OVER':'YES')+' Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
+    else if (ev.status==='resolved-no') { badge='<span class="badge b-loss">'+(isOU?'UNDER':'NO')+' Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
     else { badge='<span class="badge b-closed">Closed</span>'; badgeHint='No more bets &mdash; waiting on result'; }
     const abtns=adminOn?`<div style="display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn btn-sm btn-gh" onclick="openEditEv('${ev.id}')">Edit</button>
@@ -857,10 +937,10 @@ function renderMarket() {
         </div>
         <div class="ogrid">
           <button class="obtn yes${inSlip&&inSlip.side==='YES'?' sel':''}" onclick="toggleSlip('${ev.id}','YES')" ${!isOpen?'disabled':''}>
-            <span class="ol">YES</span>${(ev.yesOdds||2).toFixed(2)}×
+            <span class="ol">${ev.betType==='overunder'?'OVER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'YES'}</span>${(ev.yesOdds||2).toFixed(2)}×
           </button>
           <button class="obtn no${inSlip&&inSlip.side==='NO'?' sel':''}" onclick="toggleSlip('${ev.id}','NO')" ${!isOpen?'disabled':''}>
-            <span class="ol">NO</span>${(ev.noOdds||1.7).toFixed(2)}×
+            <span class="ol">${ev.betType==='overunder'?'UNDER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'NO'}</span>${(ev.noOdds||1.7).toFixed(2)}×
           </button>
         </div>
       </div>
@@ -904,7 +984,7 @@ function renderSlip() {
   items.innerHTML=slip.map((s,i)=>`
     <div class="si">
       <div class="ss ${s.side.toLowerCase()}">${s.side}</div>
-      <div class="sinfo"><div class="sname">${s.name}</div><div class="sodds">${s.odds.toFixed(2)}× odds</div></div>
+      <div class="sinfo"><div class="sname">${s.name}</div><div class="sodds">${s.side} at ${s.odds.toFixed(2)}×</div></div>
       <button class="rmbtn" onclick="rmSlip(${i})">×</button>
     </div>`).join('');
   renderCtrl();
@@ -1212,6 +1292,7 @@ function renderAdminView() {
     document.getElementById('alock-v').style.display='none';
     document.getElementById('aunlock-v').style.display='block';
     renderAdmin();
+    setTimeout(calcOdds, 50);
   }
 }
 
@@ -1375,6 +1456,73 @@ async function delEv(id) {
 function toggleHtp() {
   const b=document.getElementById('htp-body'), a=document.getElementById('htp-arrow');
   b.classList.toggle('open'); a.classList.toggle('open');
+}
+
+function calcOdds() {
+  const prob = parseInt(document.getElementById('calc-prob').value) / 100;
+  const vig = (parseInt(document.getElementById('calc-vig').value) || 10) / 100;
+  const roundTo = parseFloat(document.getElementById('calc-round').value);
+
+  document.getElementById('calc-prob-display').textContent = Math.round(prob * 100) + '%';
+
+  // Fair odds from probability
+  const fairYes = 1 / prob;
+  const fairNo = 1 / (1 - prob);
+
+  // Apply vig (reduce each by vig factor)
+  const vigFactor = 1 - vig * 0.5;
+  const rawYes = fairYes * vigFactor;
+  const rawNo = fairNo * vigFactor;
+
+  // Round to nearest step
+  const snap = (v) => Math.max(1.05, Math.round(v / roundTo) * roundTo);
+  const yesOdds = snap(rawYes);
+  const noOdds = snap(rawNo);
+
+  // Implied probs from final odds
+  const impYes = (1 / yesOdds * 100).toFixed(1);
+  const impNo = (1 / noOdds * 100).toFixed(1);
+  const overround = ((1/yesOdds + 1/noOdds - 1) * 100).toFixed(1);
+  const yesBarPct = Math.round(prob * 100);
+
+  document.getElementById('cr-yes').textContent = yesOdds.toFixed(2) + 'x';
+  document.getElementById('cr-no').textContent = noOdds.toFixed(2) + 'x';
+  document.getElementById('cr-yp').textContent = impYes + '%';
+  document.getElementById('cr-np').textContent = impNo + '%';
+  document.getElementById('cr-bar').style.width = yesBarPct + '%';
+  document.getElementById('cr-bar-yes').textContent = 'YES ' + yesBarPct + '%';
+  document.getElementById('cr-bar-no').textContent = 'NO ' + (100 - yesBarPct) + '%';
+
+  // Verdict
+  const vEl = document.getElementById('calc-verdict');
+  const vigPct = parseFloat(overround);
+  let verdict, cls;
+  if (vigPct < 3) {
+    verdict = 'Very low house edge (' + overround + '%). Fair for players but you absorb all risk of imbalanced action.';
+    cls = 'warn';
+  } else if (vigPct <= 15) {
+    verdict = 'Good balance. House edge ' + overround + '%. YES ' + yesOdds.toFixed(2) + 'x · NO ' + noOdds.toFixed(2) + 'x is fair for a friend group.';
+    cls = 'good';
+  } else {
+    verdict = 'High house edge (' + overround + '%). Odds heavily favor the house — players get lower payouts than the true probability suggests.';
+    cls = 'bad';
+  }
+  vEl.textContent = verdict;
+  vEl.className = 'calc-verdict ' + cls;
+
+  // Store for apply
+  window._calcYes = yesOdds;
+  window._calcNo = noOdds;
+}
+
+function applyCalcOdds() {
+  if (!window._calcYes) { calcOdds(); }
+  openAddEv();
+  setTimeout(() => {
+    document.getElementById('ev-yes').value = (window._calcYes||2).toFixed(2);
+    document.getElementById('ev-no').value = (window._calcNo||1.7).toFixed(2);
+  }, 100);
+  showToast('Odds applied to new event form', 't-g');
 }
 
 function toggleGuide() {
