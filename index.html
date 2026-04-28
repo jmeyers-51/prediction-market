@@ -717,6 +717,30 @@ const CLR = ['#ff5fa0','#00e87a','#3d9eff','#ffc932','#b06cff','#ff3d6b','#00d4f
 function save() { try{localStorage.setItem('aw2',JSON.stringify(S))}catch(e){} }
 function uid() { return 'x'+Math.random().toString(36).slice(2,10)+Date.now().toString(36); }
 
+function fmtTime(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  const now = new Date();
+  const diff = Math.floor((now - d) / 1000);
+  const days = Math.floor(diff / 86400);
+  const date = d.toLocaleDateString([], {month:'short', day:'numeric'});
+  const time = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  if (days === 0) return 'Today ' + time;
+  if (days === 1) return 'Yesterday ' + time;
+  return date + ' · ' + time;
+}
+
+function fmtTimeShort(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  const now = new Date();
+  const diff = Math.floor((now - d) / 1000);
+  if (diff < 60) return diff + 's ago';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return d.toLocaleDateString([], {month:'short', day:'numeric'});
+}
+
 // ═══════════════════════════════════
 // STATUS BAR
 // ═══════════════════════════════════
@@ -1100,10 +1124,11 @@ function renderStats() {
   renderSettlement();
   const players={};
   S.bets.forEach(b=>{
-    if (!players[b.bettor]) players[b.bettor]={name:b.bettor,w:0,l:0,p:0,net:0};
+    if (!players[b.bettor]) players[b.bettor]={name:b.bettor,w:0,l:0,p:0,net:0,lastBet:null};
     if (b.status==='win'){players[b.bettor].w++;players[b.bettor].net+=b.payout-b.wager;}
     else if (b.status==='loss'){players[b.bettor].l++;players[b.bettor].net-=b.wager;}
     else players[b.bettor].p++;
+    if (!players[b.bettor].lastBet||b.created_at>players[b.bettor].lastBet) players[b.bettor].lastBet=b.created_at;
   });
   const sorted=Object.values(players).sort((a,b)=>b.net-a.net);
   const rk=['rk1','rk2','rk3'];
@@ -1111,8 +1136,15 @@ function renderStats() {
     sorted.map((p,i)=>`<div class="lr">
       <div class="lrank ${rk[i]||'rkn'}">${i+1}</div>
       <div class="lav" style="background:${CLR[i%CLR.length]}22;color:${CLR[i%CLR.length]}">${p.name[0].toUpperCase()}</div>
-      <div class="lname">${p.name}</div>
-      <div><div class="lnet" style="color:${p.net>=0?'var(--green)':'var(--red)'}">${p.net>=0?'+':''}${p.net} coins</div><div class="ldet">${p.w}W · ${p.l}L · ${p.p} pend</div></div>
+      <div style="flex:1;min-width:0;">
+        <div class="lname">${p.name}</div>
+        <div class="ldet" style="margin-top:2px;">Last bet: ${fmtTimeShort(p.lastBet)}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="lnet" style="color:${p.net>=0?'var(--green)':'var(--red)'}">${p.net>=0?'+':''}${p.net} coins</div>
+        <div class="ldet">${p.w}W · ${p.l}L · ${p.p} pend</div>
+        ${adminOn?`<button class="btn btn-sm btn-d" style="margin-top:6px;" onclick="statDelPlayer('${p.name}')">Remove</button>`:''}
+      </div>
     </div>`).join(''):
     `<div class="empty" style="padding:24px;">No bets yet</div>`;
   document.getElementById('bet-history').innerHTML=S.bets.length?
@@ -1120,13 +1152,53 @@ function renderStats() {
       const n=b.type==='parlay'?`Parlay (${b.legs.length} legs)`:b.name;
       const side=b.type==='parlay'?b.legs.map(l=>l.side[0]).join('+'):b.side;
       const sc=b.status==='win'?'b-win':b.status==='loss'?'b-loss':b.type==='parlay'?'b-parlay':'b-pend';
+      const adminBetCtrl=adminOn?`<div style="display:flex;gap:4px;margin-top:6px;justify-content:flex-end;">
+        ${b.status==='pending'?`<button class="btn btn-sm btn-g" onclick="statSetBet('${b.id}','win')">Win</button><button class="btn btn-sm btn-d" onclick="statSetBet('${b.id}','loss')">Loss</button>`:''}
+        <button class="btn btn-sm btn-gh" onclick="statDelBet('${b.id}')">Del</button>
+      </div>`:'';
       return `<div class="brow">
-        <div><div class="bname">${b.bettor} · <span style="color:${b.status==='win'?'var(--green)':b.status==='loss'?'var(--red)':'var(--amber)'}">${side}</span></div>
-        <div class="bmeta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;">${n}</div></div>
-        <div><div class="bamt">${b.wager}/${b.payout} coins</div><div style="margin-top:4px;text-align:right;"><span class="badge ${sc}">${b.status}</span></div></div>
+        <div>
+          <div class="bname">${b.bettor} · <span style="color:${b.status==='win'?'var(--green)':b.status==='loss'?'var(--red)':'var(--amber)'}">${side}</span></div>
+          <div class="bmeta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${n}</div>
+          <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);margin-top:3px;">${fmtTime(b.created_at)}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="bamt">${b.wager}/${b.payout} coins</div>
+          <div style="margin-top:4px;"><span class="badge ${sc}">${b.status}</span></div>
+          ${adminBetCtrl}
+        </div>
       </div>`;
     }).join(''):
     `<div class="empty" style="padding:24px;">No bets placed yet</div>`;
+}
+
+// ═══════════════════════════════════
+// STATS PAGE ADMIN ACTIONS
+// ═══════════════════════════════════
+async function statSetBet(id, status) {
+  const b=S.bets.find(x=>x.id===id); if (!b) return;
+  b.status=status;
+  try{await dbPatch('bets','id=eq.'+id,{status});}catch(e){console.error(e);}
+  save(); renderStats();
+  showToast('Bet marked '+status,'t-g');
+}
+
+async function statDelBet(id) {
+  if (!confirm('Delete this bet?')) return;
+  S.bets=S.bets.filter(b=>b.id!==id);
+  try{await dbDel('bets','id=eq.'+id);}catch(e){console.error(e);}
+  save(); renderStats();
+  showToast('Bet deleted','t-a');
+}
+
+function statDelPlayer(name) {
+  if (!confirm('Remove '+name+' and all their bets?')) return;
+  const ids=S.bets.filter(b=>b.bettor===name).map(b=>b.id);
+  S.bets=S.bets.filter(b=>b.bettor!==name);
+  S.bettors=S.bettors.filter(b=>b!==name);
+  ids.forEach(id=>dbDel('bets','id=eq.'+id).catch(e=>console.error(e)));
+  save(); renderStats();
+  showToast(name+' removed','t-a');
 }
 
 // ═══════════════════════════════════
@@ -1179,7 +1251,7 @@ function renderAdmin() {
       const sc=b.status==='win'?'b-win':b.status==='loss'?'b-loss':b.type==='parlay'?'b-parlay':'b-pend';
       return `<div class="ar">
         <div class="ari"><div class="arn">${b.bettor} — ${b.type==='parlay'?'Parlay':b.side} — ${b.wager} coins</div>
-        <div class="arm" style="white-space:normal;">${b.type==='parlay'?b.legs.map(l=>l.name.substring(0,22)+'…').join(' + '):b.name.substring(0,50)}</div></div>
+        <div class="arm" style="white-space:normal;">${b.type==='parlay'?b.legs.map(l=>l.name.substring(0,22)+'…').join(' + '):b.name.substring(0,50)}</div><div class="arm" style="color:var(--dim);margin-top:2px;">${fmtTime(b.created_at)}</div></div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">
           <span class="badge ${sc}">${b.status}</span>
           ${b.status==='pending'?`<div style="display:flex;gap:4px;">
