@@ -324,6 +324,18 @@ select.fi{cursor:pointer;}
 .prob-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
 .prob-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
 
+
+/* IMBALANCE INDICATOR */
+.imb-bar{padding:8px var(--pad);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.imb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.imb-dot.warn{background:var(--amber);}
+.imb-dot.danger{background:var(--red);animation:pd 1.2s infinite;}
+.imb-dot.ok{background:var(--green);}
+.imb-txt{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.5px;line-height:1.5;flex:1;}
+.imb-txt.warn{color:var(--amber);}
+.imb-txt.danger{color:var(--red);}
+.imb-txt.ok{color:var(--dim);}
+
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -896,6 +908,36 @@ function go(p) {
 }
 
 // ═══════════════════════════════════
+// IMBALANCE INDICATOR
+// ═══════════════════════════════════
+function imbalanceBar(ev) {
+  const yes = ev.yesVol || 0;
+  const no = ev.noVol || 0;
+  const tot = yes + no;
+  if (tot < 10) return '';
+  const isOU = ev.betType === 'overunder';
+  const yesPct = Math.round((yes / tot) * 100);
+  const noPct = 100 - yesPct;
+  const dominant = yesPct >= noPct ? yesPct : noPct;
+  const dominantSide = yesPct >= noPct ? (isOU ? 'OVER' : 'YES') : (isOU ? 'UNDER' : 'NO');
+  const weakSide = yesPct >= noPct ? (isOU ? 'UNDER' : 'NO') : (isOU ? 'OVER' : 'YES');
+  const weakOdds = yesPct >= noPct ? ev.noOdds : ev.yesOdds;
+
+  let cls, msg;
+  if (dominant >= 80) {
+    cls = 'danger';
+    msg = dominantSide + ' has ' + dominant + '% of the money. ' + weakSide + ' is very under-bet — consider raising ' + dominantSide + ' odds to attract more action on ' + weakSide + '.';
+  } else if (dominant >= 65) {
+    cls = 'warn';
+    msg = dominantSide + ' has ' + dominant + '% of the money. Slight imbalance — watch this one. ' + weakSide + ' at ' + weakOdds.toFixed(2) + 'x may be attracting low interest.';
+  } else {
+    cls = 'ok';
+    msg = 'Action is balanced (' + yesPct + '/' + noPct + '). Odds are working well.';
+  }
+  return '<div class="imb-bar"><div class="imb-dot ' + cls + '"></div><div class="imb-txt ' + cls + '">' + msg + '</div></div>';
+}
+
+// ═══════════════════════════════════
 // MARKET
 // ═══════════════════════════════════
 function renderMarket() {
@@ -945,9 +987,10 @@ function renderMarket() {
         </div>
       </div>
       <div class="efoot">
-        <span class="vol-lbl">Pool: ${tot} CC · ${S.bets.filter(b=>b.eventId===ev.id||(b.legs&&b.legs.some(l=>l.eventId===ev.id))).length} bets</span>
+        <span class="vol-lbl">Pool: ${tot} coins · ${S.bets.filter(b=>b.eventId===ev.id||(b.legs&&b.legs.some(l=>l.eventId===ev.id))).length} bets</span><span class="vol-lbl" style="margin-left:auto;">${fmtTimeShort(ev.created_at)}</span>
         ${abtns}
       </div>
+      ${adminOn && tot >= 10 ? imbalanceBar(ev) : ''}
     </div>`;
   }).join('');
 }
