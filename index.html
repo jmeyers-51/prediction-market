@@ -268,6 +268,32 @@ select.fi{cursor:pointer;}
 .gs-tag.a{background:var(--amber2);color:var(--amber);border-color:rgba(255,201,50,.3);}
 .gs-tag.p{background:var(--purple2);color:var(--purple);border-color:rgba(176,108,255,.3);}
 
+
+/* USER HINTS & GUIDE */
+.hint{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.5px;line-height:1.6;margin-top:6px;}
+.hint.center{text-align:center;}
+.hint b{color:var(--muted);}
+.hint-badge{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.5px;margin-top:2px;display:block;}
+.status-hint{padding:8px var(--pad);background:var(--bg3);border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.5px;line-height:1.6;}
+
+/* HOW TO PLAY card */
+.htp-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.htp-toggle{width:100%;padding:13px var(--pad);background:transparent;border:none;color:var(--text2);font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background .15s;}
+.htp-toggle:active{background:var(--bg4);}
+.htp-toggle-label{display:flex;align-items:center;gap:10px;}
+.htp-dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));}
+.htp-arrow{font-size:10px;transition:transform .25s;color:var(--muted);}
+.htp-arrow.open{transform:rotate(180deg);}
+.htp-body{display:none;border-top:1px solid var(--border);padding:0;}
+.htp-body.open{display:block;animation:fu .2s ease-out;}
+.htp-step{display:flex;gap:14px;padding:13px var(--pad);border-bottom:1px solid var(--border);}
+.htp-step:last-child{border-bottom:none;}
+.htp-num{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.htp-text{flex:1;}
+.htp-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.htp-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;}
+.htp-footer{padding:12px var(--pad);background:var(--bg3);border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);text-align:center;line-height:1.7;}
+
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -297,6 +323,38 @@ select.fi{cursor:pointer;}
 
   <div class="page" id="page-market">
     <div class="ph"><div class="eyebrow">// Prediction Market</div><div class="ptitle">Events</div></div>
+    <div class="htp-card">
+      <button class="htp-toggle" onclick="toggleHtp()">
+        <div class="htp-toggle-label"><div class="htp-dot"></div>How to Play</div>
+        <span class="htp-arrow" id="htp-arrow">&#9660;</span>
+      </button>
+      <div class="htp-body" id="htp-body">
+        <div class="htp-step">
+          <div class="htp-num">1</div>
+          <div class="htp-text"><div class="htp-title">Pick an event</div><div class="htp-sub">Tap YES or NO — or OVER/UNDER on number bets — to add it to your slip. You can pick multiple events.</div></div>
+        </div>
+        <div class="htp-step">
+          <div class="htp-num">2</div>
+          <div class="htp-text"><div class="htp-title">Review your slip</div><div class="htp-sub">Tap SLIP at the top right. Choose Singles (each bet is separate) or Parlay (combine all into one big bet). Enter how many coins you want to wager — 1 coin = $1.</div></div>
+        </div>
+        <div class="htp-step">
+          <div class="htp-num">3</div>
+          <div class="htp-text"><div class="htp-title">Place your bet</div><div class="htp-sub">Tap Place Bet, enter your name, and confirm. Your bet is locked — it cannot be changed after this point.</div></div>
+        </div>
+        <div class="htp-step">
+          <div class="htp-num">4</div>
+          <div class="htp-text"><div class="htp-title">Wait for results</div><div class="htp-sub">The admin resolves each event after it happens. Your bets are automatically marked win or loss. Check the Stats tab for your standing.</div></div>
+        </div>
+        <div class="htp-step">
+          <div class="htp-num">5</div>
+          <div class="htp-text"><div class="htp-title">Settle up in cash</div><div class="htp-sub">The Stats tab shows exactly who owes what in dollars. Winners collect from losers at the end of the night.</div></div>
+        </div>
+        <div class="htp-footer">
+          Odds show your multiplier if you win. A 2.00x bet on 50 coins pays out 100 coins ($100).<br>
+          Parlay: all picks must win or the whole bet is lost — but the payout is much bigger.
+        </div>
+      </div>
+    </div>
     <div id="event-list"></div>
   </div>
 
@@ -309,9 +367,11 @@ select.fi{cursor:pointer;}
     <div class="ph"><div class="eyebrow">// Results & Rankings</div><div class="ptitle">Dashboard</div></div>
     <div class="sgrid" id="stats-grid"></div>
     <div id="settlement-section"></div>
+    <div class="hint" style="margin:-4px 0 12px;text-align:center;">Net = total winnings minus total losses across all your bets.</div>
     <div class="slabel">// Leaderboard</div>
     <div class="card" id="leaderboard" style="margin-bottom:20px;"></div>
     <div class="slabel">// Bet History</div>
+    <div class="hint" style="margin:-4px 0 10px;">All bets placed. Wager / payout shown as coins ($). Pending = waiting on event resolution.</div>
     <div class="card" id="bet-history"></div>
   </div>
 
@@ -583,6 +643,7 @@ select.fi{cursor:pointer;}
     <div class="mtitle">Who's Betting?</div>
     <div class="fg">
       <label class="fl">Pick or type your name</label>
+      <div class="hint" style="margin-bottom:10px;">Your name links all your bets together on the leaderboard. Use the same name every time.</div>
       <div class="chips" id="bchips"></div>
       <div class="ordiv">— or enter a new name —</div>
       <input class="fi" type="text" id="bettor-in" placeholder="Your name…">
@@ -599,7 +660,8 @@ select.fi{cursor:pointer;}
   <div class="modal">
     <div class="mhandle"></div>
     <div class="mtitle">Resolve Event</div>
-    <div style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.5;" id="res-desc"></div>
+    <div style="font-size:14px;color:var(--text2);margin-bottom:12px;line-height:1.5;" id="res-desc"></div>
+    <div class="hint" style="margin-bottom:20px;">Pick the winning outcome. All pending bets on this event will automatically be marked win or loss. This cannot be undone.</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <button class="btn btn-g" style="padding:18px;font-size:13px;" onclick="resolveEv('yes')"> YES Wins</button>
       <button class="btn btn-d" style="padding:18px;font-size:13px;" onclick="resolveEv('no')"> NO Wins</button>
@@ -748,12 +810,12 @@ function renderMarket() {
     if (ev.status==='live') acc='background:var(--red)';
     if (ev.status==='resolved-yes') acc='background:var(--green)';
     if (ev.status==='resolved-no') acc='background:var(--red)';
-    let badge='';
-    if (ev.status==='open') badge='<span class="badge b-open">Open</span>';
-    else if (ev.status==='live') badge='<span class="badge b-live"> Live</span>';
-    else if (ev.status==='resolved-yes') badge='<span class="badge b-win">YES Won</span>';
-    else if (ev.status==='resolved-no') badge='<span class="badge b-loss">NO Won</span>';
-    else badge='<span class="badge b-closed">Closed</span>';
+    let badge='', badgeHint='';
+    if (ev.status==='open') { badge='<span class="badge b-open">Open</span>'; badgeHint='Accepting bets now'; }
+    else if (ev.status==='live') { badge='<span class="badge b-live">Live</span>'; badgeHint='Happening right now &mdash; still accepting bets'; }
+    else if (ev.status==='resolved-yes') { badge='<span class="badge b-win">YES Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
+    else if (ev.status==='resolved-no') { badge='<span class="badge b-loss">NO Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
+    else { badge='<span class="badge b-closed">Closed</span>'; badgeHint='No more bets &mdash; waiting on result'; }
     const abtns=adminOn?`<div style="display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn btn-sm btn-gh" onclick="openEditEv('${ev.id}')">Edit</button>
       ${isOpen?`<button class="btn btn-sm" style="border-color:var(--amber);color:var(--amber)" onclick="openRes('${ev.id}')">Resolve</button>`:''}
@@ -763,6 +825,7 @@ function renderMarket() {
       <div class="ca" style="${acc}"></div>
       <div class="ei">
         <div class="badges">${badge}</div>
+        <div class="hint">${badgeHint}</div>
         <div class="ename">${ev.name}</div>
         <div class="pbar-w">
           <div class="ptrack"><div class="pfill" style="width:${yp}%"></div></div>
@@ -831,7 +894,7 @@ function renderCtrl() {
   let inp='';
   if (betType==='parlay') {
     const m=slip.reduce((a,s)=>a*s.odds,1);
-    inp=`<div class="pinfo"> Parlay · ${slip.length} legs · <strong>${m.toFixed(2)}×</strong> multiplier</div>
+    inp=`<div class="pinfo">Parlay · ${slip.length} legs · <strong>${m.toFixed(2)}×</strong> combined multiplier<br><span style="font-size:10px;opacity:.7;">All ${slip.length} legs must win. One loss = entire bet lost.</span></div>
     <div class="ig"><label class="ilbl">Wager</label><div class="irow"><input class="cci" type="number" id="pw" value="100" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div></div>`;
   } else {
     inp=slip.map((s,i)=>`<div class="ig">
@@ -844,9 +907,13 @@ function renderCtrl() {
       <button class="tbtn${betType==='single'?' active':''}" onclick="setType('single')">Singles</button>
       <button class="tbtn${betType==='parlay'?' active':''}" onclick="setType('parlay')">Parlay</button>
     </div>
+    <div class="hint" style="margin-bottom:14px;">${betType==='single'?'<b>Singles:</b> each event is a separate bet &mdash; one loss does not affect the others.':'<b>Parlay:</b> all picks are combined into one bet. Every leg must win or the entire bet is lost &mdash; but the payout is much larger.'}</div>
     ${inp}
+    <div class="hint" style="margin-bottom:4px;">Enter your wager in coins. <b>1 coin = $1.</b> You settle in cash at the end.</div>
     <div class="prow"><span class="plbl">Est. Payout</span><span class="pval" id="pval">—</span></div>
+    <div class="hint center" style="margin-bottom:12px;">This is what you collect if you win &mdash; in coins and dollars.</div>
     <button class="pbtn" onclick="openBetModal()">Place Bet →</button>
+    <div class="hint center" style="margin-top:8px;">This locks your bet. It cannot be changed after you confirm.</div>
     <button class="btn btn-gh" style="width:100%;margin-top:10px;" onclick="clearSlip()">Clear Slip</button>
   </div>`;
   calcPay();
@@ -1012,7 +1079,7 @@ function renderSettlement() {
         <div><div class="settle-title"> Cash Settlement</div><div class="settle-sub">1 coin = $1 · Settle up in cash</div></div>
       </div>
       ${rows}
-      <div class="settle-note">These numbers are final once all events are resolved.<br>Tap "Mark Paid" to track who's settled up.</div>
+      <div class="settle-note">1 coin = $1. These totals are final once all events are resolved.<br>Tap Mark Paid to track who has settled up in cash.<br>Winners collect from losers &mdash; the net always balances to zero.</div>
     </div>`;
 }
 
@@ -1233,6 +1300,11 @@ async function delEv(id) {
 // ═══════════════════════════════════
 // MODALS + TOAST
 // ═══════════════════════════════════
+function toggleHtp() {
+  const b=document.getElementById('htp-body'), a=document.getElementById('htp-arrow');
+  b.classList.toggle('open'); a.classList.toggle('open');
+}
+
 function toggleGuide() {
   const body = document.getElementById('guide-body');
   const arrow = document.getElementById('guide-arrow');
