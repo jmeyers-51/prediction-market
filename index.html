@@ -1135,11 +1135,11 @@ function renderCtrl() {
   if (betType==='parlay') {
     const m=slip.reduce((a,s)=>a*s.odds,1);
     inp=`<div class="pinfo">Parlay · ${slip.length} legs · <strong>${m.toFixed(2)}×</strong> combined multiplier<br><span style="font-size:10px;opacity:.7;">All ${slip.length} legs must win. One loss = entire bet lost.</span></div>
-    <div class="ig"><label class="ilbl">Wager</label><div class="irow"><input class="cci" type="number" id="pw" value="100" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div></div>`;
+    <div class="ig"><label class="ilbl">Wager</label><div class="irow"><input class="cci" type="number" id="pw" value="10" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div></div>`;
   } else {
     inp=slip.map((s,i)=>`<div class="ig">
       <label class="ilbl">${s.side} — ${s.name.substring(0,30)}${s.name.length>30?'…':''}</label>
-      <div class="irow"><input class="cci" type="number" id="sw${i}" value="100" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div>
+      <div class="irow"><input class="cci" type="number" id="sw${i}" value="10" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div>
     </div>`).join('');
   }
   ctrl.innerHTML=`<div class="bctrl">
@@ -1709,7 +1709,17 @@ const FACTS = [
   "Angelina has strong opinions about every topic including several she just learned about.",
   "No bouncer in Potsdam has successfully said no to Angelina more than twice.",
   "Angelina once called someone out in public and was so right about it that everyone clapped.",
-  "Clarkson University does not officially track Angelina's activities. Unofficially, they do."
+  "Clarkson University does not officially track Angelina's activities. Unofficially, they do.",
+  "Angelina has never walked home at a reasonable hour. This is documented.",
+  "Angelina once used Clarkson's engineering resources to settle a personal argument. She won.",
+  "Angelina's natural habitat is any place that serves food after midnight.",
+  "Angelina has a gift for arriving exactly when things get interesting and leaving exactly when they don't.",
+  "Potsdam meteorologists have noted unusual weather patterns that correlate with Angelina's nights out.",
+  "Angelina once made three separate friend groups hang out together. It worked. Nobody knows how.",
+  "Angelina has talked her way out of or into exactly the situations you would expect.",
+  "Angelina's phone battery is always at 4%. She is never unreachable.",
+  "There is a Clarkson dining hall worker who saves Angelina's favorite item. They have never discussed this.",
+  "Angelina once ordered the most expensive thing on the menu by accident and did not flinch."
 ];
 
 let factIdx = Math.floor(Math.random() * FACTS.length);
@@ -1731,18 +1741,18 @@ function showFact() {
 
 // Show a fact every 18-28 seconds, but not immediately
 function scheduleFact() {
-  const delay = 18000 + Math.random() * 10000;
+  const delay = 8000 + Math.random() * 6000;
   setTimeout(() => {
     showFact();
     scheduleFact();
   }, delay);
 }
 
-// First one after 8 seconds so it doesn't interfere with load
+// First one after 5 seconds
 setTimeout(() => {
   showFact();
   scheduleFact();
-}, 8000);
+}, 5000);
 
 // ═══════════════════════════════════
 // BOOT
