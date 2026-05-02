@@ -100,14 +100,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;hei
 .pfill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1);}
 .plabels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);}
 .ogrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.obtn{padding:12px 7px;border-radius:9px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-align:center;transition:all .18s;background:transparent;line-height:1;}
-.obtn:active{transform:scale(.96);}
-.obtn .ol{font-size:8px;opacity:.75;font-weight:400;display:block;margin-bottom:4px;letter-spacing:1px;color:var(--text2);}
+.obtn{border-radius:9px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;text-align:center;transition:all .22s cubic-bezier(.4,0,.2,1);background:transparent;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.obtn:active{transform:scale(.95);}
+.obtn .ol{font-size:8px;font-weight:400;display:block;margin-bottom:3px;letter-spacing:1px;opacity:.8;}
+.obtn .odds-val{font-size:13px;font-weight:700;display:block;}
 .obtn.yes{border-color:rgba(0,232,122,.3);color:var(--green);}
-.obtn.yes:hover,.obtn.yes.sel{background:var(--green2);border-color:rgba(0,232,122,.55);}
+.obtn.yes:hover,.obtn.yes.sel{border-color:rgba(0,232,122,.6);}
 .obtn.no{border-color:rgba(255,61,107,.3);color:var(--red);}
-.obtn.no:hover,.obtn.no.sel{background:var(--red2);border-color:rgba(255,61,107,.55);}
-.obtn:disabled{opacity:.25;cursor:not-allowed;transform:none;}
+.obtn.no:hover,.obtn.no.sel{border-color:rgba(255,61,107,.6);}
+.obtn:disabled{opacity:.22;cursor:not-allowed;transform:none;}
 .efoot{border-top:1px solid var(--border);padding:8px var(--pad);display:flex;justify-content:space-between;align-items:center;background:var(--bg3);gap:8px;flex-wrap:wrap;}
 .vol-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);}
 
@@ -953,6 +954,54 @@ function imbalanceBar(ev) {
 }
 
 // ═══════════════════════════════════
+// ODDS BUTTON DYNAMIC STYLING
+// Odds 1.01–1.5  → tight/favorite  → compact, muted green/red, small font
+// Odds 1.5–2.5   → standard        → normal size, standard green/red
+// Odds 2.5–4.0   → value           → taller, brighter, larger font
+// Odds 4.0+      → long shot       → biggest, vivid, glowing
+// ═══════════════════════════════════
+function oddsButtonStyle(odds, side) {
+  const isYes = side === 'yes';
+
+  // Padding: grows with odds
+  const pad = odds < 1.5  ? '9px 7px'
+            : odds < 2.5  ? '13px 7px'
+            : odds < 4.0  ? '17px 7px'
+            :                '22px 7px';
+
+  // Font size: grows with odds
+  const fs  = odds < 1.5  ? '11px'
+            : odds < 2.5  ? '13px'
+            : odds < 4.0  ? '16px'
+            :                '20px';
+
+  // Color intensity: interpolate from muted to vivid
+  // YES side: dark-green → bright green → neon green
+  // NO  side: dark-red   → bright red   → hot pink
+  let color, borderColor, bgColor, glowColor;
+  if (isYes) {
+    if (odds < 1.5)      { color='#4db87a'; borderColor='rgba(77,184,122,.3)';  bgColor='rgba(77,184,122,.06)';  glowColor='rgba(0,232,122,0)'; }
+    else if (odds < 2.5) { color='#00e87a'; borderColor='rgba(0,232,122,.35)';  bgColor='rgba(0,232,122,.09)';   glowColor='rgba(0,232,122,.08)'; }
+    else if (odds < 4.0) { color='#00ff88'; borderColor='rgba(0,255,136,.5)';   bgColor='rgba(0,255,136,.12)';   glowColor='rgba(0,255,136,.18)'; }
+    else                 { color='#00ffaa'; borderColor='rgba(0,255,170,.65)';   bgColor='rgba(0,255,170,.16)';   glowColor='rgba(0,255,170,.3)'; }
+  } else {
+    if (odds < 1.5)      { color='#c05070'; borderColor='rgba(192,80,112,.3)';  bgColor='rgba(192,80,112,.06)';  glowColor='rgba(255,61,107,0)'; }
+    else if (odds < 2.5) { color='#ff3d6b'; borderColor='rgba(255,61,107,.35)'; bgColor='rgba(255,61,107,.09)';  glowColor='rgba(255,61,107,.08)'; }
+    else if (odds < 4.0) { color='#ff2255'; borderColor='rgba(255,34,85,.5)';   bgColor='rgba(255,34,85,.12)';   glowColor='rgba(255,34,85,.18)'; }
+    else                 { color='#ff5fa0'; borderColor='rgba(255,95,160,.65)';  bgColor='rgba(255,95,160,.16)';  glowColor='rgba(255,95,160,.3)'; }
+  }
+
+  const glow = odds >= 4.0 ? `box-shadow:0 0 14px ${glowColor};` : odds >= 2.5 ? `box-shadow:0 0 6px ${glowColor};` : '';
+
+  return {
+    btn:   `padding:${pad};color:${color};border-color:${borderColor};background:${bgColor};${glow}`,
+    sel:   `border-color:${color};filter:brightness(1.15);`,
+    val:   `font-size:${fs};`,
+    label: `color:${color};opacity:.7;`,
+  };
+}
+
+// ═══════════════════════════════════
 // MARKET
 // ═══════════════════════════════════
 function renderMarket() {
@@ -981,9 +1030,17 @@ function renderMarket() {
     const abtns=(adminOn||superAdminOn)?`<div style="display:flex;gap:5px;flex-wrap:wrap;">
       <button class="btn btn-sm btn-gh" onclick="openEditEv('${ev.id}')">Edit</button>
       ${isOpen?`<button class="btn btn-sm" style="border-color:var(--amber);color:var(--amber)" onclick="openRes('${ev.id}')">Resolve</button>`:''}
-      <button class="btn btn-sm btn-d" onclick="delEv('${ev.id}')">Del</button>
+      <button class="btn btn-sm" style="border-color:var(--border2);color:var(--muted);" onclick="delEv('${ev.id}')">Clear</button>
     </div>`:'';
     const betCt=S.bets.filter(b=>b.eventId===ev.id||(b.legs&&b.legs.some(l=>l.eventId===ev.id))).length;
+
+    // Dynamic odds button styling
+    const yesOdds = ev.yesOdds||2, noOdds = ev.noOdds||1.7;
+    const yesStyle = oddsButtonStyle(yesOdds, 'yes');
+    const noStyle  = oddsButtonStyle(noOdds,  'no');
+    const yesSel = inSlip&&inSlip.side==='YES';
+    const noSel  = inSlip&&inSlip.side==='NO';
+
     return `<div class="card" style="animation-delay:${idx*0.05}s">
       <div class="ca ${accClass}"></div>
       <div class="ei">
@@ -994,11 +1051,15 @@ function renderMarket() {
           <div class="plabels"><span>${yp}% ${isOU?'OVER':'YES'}</span><span>${100-yp}% ${isOU?'UNDER':'NO'}</span></div>
         </div>
         <div class="ogrid">
-          <button class="obtn yes${inSlip&&inSlip.side==='YES'?' sel':''}" onclick="toggleSlip('${ev.id}','YES')" ${!isOpen?'disabled':''}>
-            <span class="ol">${isOU?'OVER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'YES'}</span>${(ev.yesOdds||2).toFixed(2)}×
+          <button class="obtn yes${yesSel?' sel':''}" onclick="toggleSlip('${ev.id}','YES')" ${!isOpen?'disabled':''}
+            style="${yesStyle.btn}${yesSel?' '+yesStyle.sel:''}">
+            <span class="ol" style="${yesStyle.label}">${isOU?'OVER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'YES'}</span>
+            <span class="odds-val" style="${yesStyle.val}">${yesOdds.toFixed(2)}×</span>
           </button>
-          <button class="obtn no${inSlip&&inSlip.side==='NO'?' sel':''}" onclick="toggleSlip('${ev.id}','NO')" ${!isOpen?'disabled':''}>
-            <span class="ol">${isOU?'UNDER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'NO'}</span>${(ev.noOdds||1.7).toFixed(2)}×
+          <button class="obtn no${noSel?' sel':''}" onclick="toggleSlip('${ev.id}','NO')" ${!isOpen?'disabled':''}
+            style="${noStyle.btn}${noSel?' '+noStyle.sel:''}">
+            <span class="ol" style="${noStyle.label}">${isOU?'UNDER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'NO'}</span>
+            <span class="odds-val" style="${noStyle.val}">${noOdds.toFixed(2)}×</span>
           </button>
         </div>
       </div>
