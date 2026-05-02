@@ -103,11 +103,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;hei
 .obtn{padding:14px 8px;border-radius:9px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;text-align:center;transition:all .25s cubic-bezier(.4,0,.2,1);line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .obtn:active{transform:scale(.95);}
 /* bright persistent colors, no dimming */
-.obtn.yes{border-color:rgba(0,232,122,.4);color:var(--green);}
-.obtn.yes:hover{border-color:rgba(0,232,122,.7);}
+.obtn.yes{border-color:rgba(0,232,122,.65);color:var(--green);}
+.obtn.yes:hover{border-color:rgba(0,232,122,.9);}
 .obtn.yes.sel{border-color:var(--green);box-shadow:0 0 0 1px var(--green);}
-.obtn.no{border-color:rgba(255,61,107,.4);color:var(--red);}
-.obtn.no:hover{border-color:rgba(255,61,107,.7);}
+.obtn.no{border-color:rgba(255,61,107,.65);color:var(--red);}
+.obtn.no:hover{border-color:rgba(255,61,107,.9);}
 .obtn.no.sel{border-color:var(--red);box-shadow:0 0 0 1px var(--red);}
 .obtn:disabled{opacity:.22;cursor:not-allowed;transform:none;}
 /* the sliding fill layer — set via inline background-position */
@@ -991,11 +991,11 @@ function makeBtnHtml(evId, side, odds, label, isOpen, isSelected) {
   const isYes = side === 'YES';
   // fill color: semi-transparent green or red
   const fillColor = isYes
-    ? 'rgba(0,232,122,0.13)'
-    : 'rgba(255,61,107,0.13)';
+    ? 'rgba(0,232,122,0.28)'
+    : 'rgba(255,61,107,0.28)';
   const fillColorSel = isYes
-    ? 'rgba(0,232,122,0.22)'
-    : 'rgba(255,61,107,0.22)';
+    ? 'rgba(0,232,122,0.45)'
+    : 'rgba(255,61,107,0.45)';
   const fc = isSelected ? fillColorSel : fillColor;
 
   // background: solid fill on left up to fillPct%, transparent rest
@@ -1888,6 +1888,7 @@ function renderAdmin() {
       </div>
       <div class="aacts">
         <button class="btn btn-sm btn-gh" onclick="openEditEv('${ev.id}')">Edit</button>
+        <button class="btn btn-sm" style="border-color:rgba(61,158,255,.45);color:var(--blue);" onclick="dupeEv('${ev.id}')">Dupe</button>
         ${superAdminOn?`<button class="btn btn-sm btn-p" onclick="openFullEditEv('${ev.id}')">Full</button>`:''}
         <button class="btn btn-sm btn-d" onclick="delEv('${ev.id}')">Del</button>
       </div>
@@ -1911,7 +1912,6 @@ function renderAdmin() {
         </div>`:''}
         ${superAdminOn?`<div style="display:flex;gap:4px;">
           <button class="btn btn-sm btn-p" onclick="openEditBet('${b.id}')">Edit</button>
-          <button class="btn btn-sm" style="border-color:rgba(0,232,122,.35);color:var(--green);" onclick="openDupeBet('${b.id}')">Dupe</button>
         </div>`:''}
       </div>
     </div>`;
@@ -1967,6 +1967,28 @@ async function resetAll() {
   try{await dbDel('bets','');await dbDel('events','');}catch(e){console.error(e);}
   S={events:[],bets:[],bettors:[]}; save(); renderAdmin(); renderMarket();
   showToast('Factory reset done','t-r');
+}
+
+// ═══════════════════════════════════
+// DUPLICATE EVENT
+// ═══════════════════════════════════
+async function dupeEv(id) {
+  const ev = S.events.find(e=>e.id===id); if (!ev) return;
+  const newEv = {
+    ...ev,
+    id: uid(),
+    name: ev.name + ' (copy)',
+    status: 'open',
+    yesVol: 0,
+    noVol: 0,
+    created_at: new Date().toISOString(),
+  };
+  S.events.push(newEv);
+  try { await dbInsert('events', newEv); } catch(e) { console.error(e); showToast('Save failed','t-r'); return; }
+  save(); renderAdmin(); renderMarket();
+  showToast('Event duplicated — edit the copy!','t-g');
+  // Open edit modal on the new event so they can tweak it right away
+  setTimeout(()=>openEditEv(newEv.id), 200);
 }
 
 // ═══════════════════════════════════
