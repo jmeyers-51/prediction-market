@@ -100,15 +100,20 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;hei
 .pfill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1);}
 .plabels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);}
 .ogrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.obtn{border-radius:9px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;text-align:center;transition:all .22s cubic-bezier(.4,0,.2,1);background:transparent;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.obtn{padding:14px 8px;border-radius:9px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;text-align:center;transition:all .25s cubic-bezier(.4,0,.2,1);line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .obtn:active{transform:scale(.95);}
-.obtn .ol{font-size:8px;font-weight:400;display:block;margin-bottom:3px;letter-spacing:1px;opacity:.8;}
-.obtn .odds-val{font-size:13px;font-weight:700;display:block;}
-.obtn.yes{border-color:rgba(0,232,122,.3);color:var(--green);}
-.obtn.yes:hover,.obtn.yes.sel{border-color:rgba(0,232,122,.6);}
-.obtn.no{border-color:rgba(255,61,107,.3);color:var(--red);}
-.obtn.no:hover,.obtn.no.sel{border-color:rgba(255,61,107,.6);}
+/* bright persistent colors, no dimming */
+.obtn.yes{border-color:rgba(0,232,122,.4);color:var(--green);}
+.obtn.yes:hover{border-color:rgba(0,232,122,.7);}
+.obtn.yes.sel{border-color:var(--green);box-shadow:0 0 0 1px var(--green);}
+.obtn.no{border-color:rgba(255,61,107,.4);color:var(--red);}
+.obtn.no:hover{border-color:rgba(255,61,107,.7);}
+.obtn.no.sel{border-color:var(--red);box-shadow:0 0 0 1px var(--red);}
 .obtn:disabled{opacity:.22;cursor:not-allowed;transform:none;}
+/* the sliding fill layer — set via inline background-position */
+.obtn-fill{position:absolute;inset:0;pointer-events:none;border-radius:8px;transition:opacity .25s;}
+.obtn .ol{font-size:8px;font-weight:400;display:block;margin-bottom:3px;letter-spacing:1px;opacity:.75;position:relative;z-index:1;}
+.obtn .odds-val{font-size:14px;font-weight:700;display:block;position:relative;z-index:1;letter-spacing:.5px;}
 .efoot{border-top:1px solid var(--border);padding:8px var(--pad);display:flex;justify-content:space-between;align-items:center;background:var(--bg3);gap:8px;flex-wrap:wrap;}
 .vol-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);}
 
@@ -647,6 +652,20 @@ select.fi{cursor:pointer;}
   </div>
 </div>
 
+<!-- MODAL: Duplicate Bet -->
+<div class="overlay" id="dupe-bet-modal">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <div class="mtitle">Duplicate Bet</div>
+    <div class="hint" style="margin-bottom:16px;">Cloning an existing bet. Tweak the name, wager, or status then save — creates a brand new record.</div>
+    <div id="dupe-bet-form"></div>
+    <div class="mactions">
+      <button class="btn btn-gh" onclick="closeModal('dupe-bet-modal')">Cancel</button>
+      <button class="btn btn-pri" onclick="saveDupeBet()">Create Copy</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: Super Admin Edit Event -->
 <div class="overlay" id="edit-ev-full-modal">
   <div class="modal">
@@ -954,51 +973,41 @@ function imbalanceBar(ev) {
 }
 
 // ═══════════════════════════════════
-// ODDS BUTTON DYNAMIC STYLING
-// Odds 1.01–1.5  → tight/favorite  → compact, muted green/red, small font
-// Odds 1.5–2.5   → standard        → normal size, standard green/red
-// Odds 2.5–4.0   → value           → taller, brighter, larger font
-// Odds 4.0+      → long shot       → biggest, vivid, glowing
+// ODDS BUTTON — FILL SHIFT
+// Convert odds to implied probability, use that to slide the
+// background fill left (favorite, small fill) or right (longshot, large fill)
+// YES button: green fill slides from left
+// NO  button: red fill slides from left
+// Both always bright — only the fill width changes
 // ═══════════════════════════════════
-function oddsButtonStyle(odds, side) {
-  const isYes = side === 'yes';
+function oddsToFillPct(odds) {
+  // implied prob = 1/odds, clamped 10–90% so there's always some visible fill
+  const prob = 1 / Math.max(odds, 1.01);
+  return Math.round(Math.min(90, Math.max(10, prob * 100)));
+}
 
-  // Padding: grows with odds
-  const pad = odds < 1.5  ? '9px 7px'
-            : odds < 2.5  ? '13px 7px'
-            : odds < 4.0  ? '17px 7px'
-            :                '22px 7px';
+function makeBtnHtml(evId, side, odds, label, isOpen, isSelected) {
+  const fillPct = oddsToFillPct(odds);
+  const isYes = side === 'YES';
+  // fill color: semi-transparent green or red
+  const fillColor = isYes
+    ? 'rgba(0,232,122,0.13)'
+    : 'rgba(255,61,107,0.13)';
+  const fillColorSel = isYes
+    ? 'rgba(0,232,122,0.22)'
+    : 'rgba(255,61,107,0.22)';
+  const fc = isSelected ? fillColorSel : fillColor;
 
-  // Font size: grows with odds
-  const fs  = odds < 1.5  ? '11px'
-            : odds < 2.5  ? '13px'
-            : odds < 4.0  ? '16px'
-            :                '20px';
+  // background: solid fill on left up to fillPct%, transparent rest
+  const bg = `linear-gradient(90deg, ${fc} ${fillPct}%, transparent ${fillPct}%)`;
 
-  // Color intensity: interpolate from muted to vivid
-  // YES side: dark-green → bright green → neon green
-  // NO  side: dark-red   → bright red   → hot pink
-  let color, borderColor, bgColor, glowColor;
-  if (isYes) {
-    if (odds < 1.5)      { color='#4db87a'; borderColor='rgba(77,184,122,.3)';  bgColor='rgba(77,184,122,.06)';  glowColor='rgba(0,232,122,0)'; }
-    else if (odds < 2.5) { color='#00e87a'; borderColor='rgba(0,232,122,.35)';  bgColor='rgba(0,232,122,.09)';   glowColor='rgba(0,232,122,.08)'; }
-    else if (odds < 4.0) { color='#00ff88'; borderColor='rgba(0,255,136,.5)';   bgColor='rgba(0,255,136,.12)';   glowColor='rgba(0,255,136,.18)'; }
-    else                 { color='#00ffaa'; borderColor='rgba(0,255,170,.65)';   bgColor='rgba(0,255,170,.16)';   glowColor='rgba(0,255,170,.3)'; }
-  } else {
-    if (odds < 1.5)      { color='#c05070'; borderColor='rgba(192,80,112,.3)';  bgColor='rgba(192,80,112,.06)';  glowColor='rgba(255,61,107,0)'; }
-    else if (odds < 2.5) { color='#ff3d6b'; borderColor='rgba(255,61,107,.35)'; bgColor='rgba(255,61,107,.09)';  glowColor='rgba(255,61,107,.08)'; }
-    else if (odds < 4.0) { color='#ff2255'; borderColor='rgba(255,34,85,.5)';   bgColor='rgba(255,34,85,.12)';   glowColor='rgba(255,34,85,.18)'; }
-    else                 { color='#ff5fa0'; borderColor='rgba(255,95,160,.65)';  bgColor='rgba(255,95,160,.16)';  glowColor='rgba(255,95,160,.3)'; }
-  }
-
-  const glow = odds >= 4.0 ? `box-shadow:0 0 14px ${glowColor};` : odds >= 2.5 ? `box-shadow:0 0 6px ${glowColor};` : '';
-
-  return {
-    btn:   `padding:${pad};color:${color};border-color:${borderColor};background:${bgColor};${glow}`,
-    sel:   `border-color:${color};filter:brightness(1.15);`,
-    val:   `font-size:${fs};`,
-    label: `color:${color};opacity:.7;`,
-  };
+  return `<button class="obtn ${isYes?'yes':'no'}${isSelected?' sel':''}"
+    onclick="toggleSlip('${evId}','${side}')"
+    ${!isOpen?'disabled':''}
+    style="background:${bg};">
+    <span class="ol">${label}</span>
+    <span class="odds-val">${odds.toFixed(2)}×</span>
+  </button>`;
 }
 
 // ═══════════════════════════════════
@@ -1033,13 +1042,11 @@ function renderMarket() {
       <button class="btn btn-sm" style="border-color:var(--border2);color:var(--muted);" onclick="delEv('${ev.id}')">Clear</button>
     </div>`:'';
     const betCt=S.bets.filter(b=>b.eventId===ev.id||(b.legs&&b.legs.some(l=>l.eventId===ev.id))).length;
-
-    // Dynamic odds button styling
     const yesOdds = ev.yesOdds||2, noOdds = ev.noOdds||1.7;
-    const yesStyle = oddsButtonStyle(yesOdds, 'yes');
-    const noStyle  = oddsButtonStyle(noOdds,  'no');
-    const yesSel = inSlip&&inSlip.side==='YES';
-    const noSel  = inSlip&&inSlip.side==='NO';
+    const yesSel = !!(inSlip&&inSlip.side==='YES');
+    const noSel  = !!(inSlip&&inSlip.side==='NO');
+    const yesLabel = isOU ? 'OVER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:'') : 'YES';
+    const noLabel  = isOU ? 'UNDER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:'') : 'NO';
 
     return `<div class="card" style="animation-delay:${idx*0.05}s">
       <div class="ca ${accClass}"></div>
@@ -1051,16 +1058,8 @@ function renderMarket() {
           <div class="plabels"><span>${yp}% ${isOU?'OVER':'YES'}</span><span>${100-yp}% ${isOU?'UNDER':'NO'}</span></div>
         </div>
         <div class="ogrid">
-          <button class="obtn yes${yesSel?' sel':''}" onclick="toggleSlip('${ev.id}','YES')" ${!isOpen?'disabled':''}
-            style="${yesStyle.btn}${yesSel?' '+yesStyle.sel:''}">
-            <span class="ol" style="${yesStyle.label}">${isOU?'OVER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'YES'}</span>
-            <span class="odds-val" style="${yesStyle.val}">${yesOdds.toFixed(2)}×</span>
-          </button>
-          <button class="obtn no${noSel?' sel':''}" onclick="toggleSlip('${ev.id}','NO')" ${!isOpen?'disabled':''}
-            style="${noStyle.btn}${noSel?' '+noStyle.sel:''}">
-            <span class="ol" style="${noStyle.label}">${isOU?'UNDER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'NO'}</span>
-            <span class="odds-val" style="${noStyle.val}">${noOdds.toFixed(2)}×</span>
-          </button>
+          ${makeBtnHtml(ev.id,'YES',yesOdds,yesLabel,isOpen,yesSel)}
+          ${makeBtnHtml(ev.id,'NO', noOdds, noLabel, isOpen,noSel)}
         </div>
       </div>
       <div class="efoot">
@@ -1568,6 +1567,87 @@ async function superDeleteBet(id) {
 }
 
 // ═══════════════════════════════════
+// SUPER ADMIN — DUPLICATE BET
+// ═══════════════════════════════════
+function openDupeBet(id) {
+  const b = S.bets.find(x=>x.id===id); if (!b) return;
+
+  // Build a player name dropdown from existing bettors
+  const bettorOpts = S.bettors.map(n=>`<option value="${n}"${n===b.bettor?' selected':''}>${n}</option>`).join('');
+
+  // For parlays, show the legs so they know what they're copying
+  const legsNote = b.type==='parlay'
+    ? `<div class="hint" style="margin-bottom:12px;"><b>Legs:</b> ${b.legs.map(l=>l.side+' — '+l.name.substring(0,30)).join(' · ')}</div>`
+    : '';
+
+  document.getElementById('dupe-bet-form').innerHTML=`
+    ${legsNote}
+    <div class="fg">
+      <label class="fl">Bettor Name</label>
+      <select class="fi" id="db-bettor">
+        ${bettorOpts}
+      </select>
+      <div class="ordiv" style="margin:8px 0;">— or type a new name —</div>
+      <input class="fi" type="text" id="db-bettor-custom" placeholder="New name (overrides dropdown if filled)…">
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Wager (coins)</label><input class="fi" type="number" id="db-wager" value="${b.wager}" min="1"></div>
+      <div class="fg"><label class="fl">Payout (coins)</label><input class="fi" type="number" id="db-payout" value="${b.payout}" min="1"></div>
+    </div>
+    ${b.type==='single'?`<div class="fg"><label class="fl">Side</label>
+      <select class="fi" id="db-side">
+        <option value="YES"${b.side==='YES'?' selected':''}>YES / OVER</option>
+        <option value="NO"${b.side==='NO'?' selected':''}>NO / UNDER</option>
+      </select>
+    </div>`:''}
+    <div class="fg"><label class="fl">Status</label>
+      <select class="fi" id="db-status">
+        <option value="pending" selected>Pending</option>
+        <option value="win">Win</option>
+        <option value="loss">Loss</option>
+      </select>
+    </div>
+    <div class="hint" style="margin-top:4px;">Creates a brand new bet record. Original is untouched.</div>`;
+
+  // store source id so saveDupeBet can clone from it
+  window._dupeSrcId = id;
+  openModal('dupe-bet-modal');
+}
+
+async function saveDupeBet() {
+  const src = S.bets.find(x=>x.id===window._dupeSrcId); if (!src) return;
+
+  const customName = document.getElementById('db-bettor-custom').value.trim();
+  const bettor = customName || document.getElementById('db-bettor').value;
+  if (!bettor) { showToast('Enter a name','t-r'); return; }
+
+  const wager  = parseFloat(document.getElementById('db-wager').value)||src.wager;
+  const payout = parseFloat(document.getElementById('db-payout').value)||src.payout;
+  const status = document.getElementById('db-status').value;
+  const side   = src.type==='single' ? document.getElementById('db-side').value : src.side;
+
+  // Add bettor to known list if new
+  if (!S.bettors.includes(bettor)) S.bettors.push(bettor);
+
+  const newBet = {
+    ...src,                          // copy all fields (legs, eventId, name, odds, type…)
+    id: uid(),                       // fresh id
+    bettor,
+    wager,
+    payout,
+    status,
+    side,
+    created_at: new Date().toISOString(),
+  };
+
+  S.bets.push(newBet);
+  try { await dbInsert('bets', newBet); } catch(e) { console.error(e); showToast('Save failed','t-r'); return; }
+
+  closeModal('dupe-bet-modal'); save(); renderStats(); renderAdmin();
+  showToast('Bet duplicated for '+bettor,'t-g');
+}
+
+// ═══════════════════════════════════
 // SUPER ADMIN — FULL EDIT EVENT
 // ═══════════════════════════════════
 function openFullEditEv(id) {
@@ -1829,7 +1909,10 @@ function renderAdmin() {
           <button class="btn btn-sm btn-g" onclick="setBetStat('${b.id}','win')">Win</button>
           <button class="btn btn-sm btn-d" onclick="setBetStat('${b.id}','loss')">Loss</button>
         </div>`:''}
-        ${superAdminOn?`<button class="btn btn-sm btn-p" onclick="openEditBet('${b.id}')">Edit</button>`:''}
+        ${superAdminOn?`<div style="display:flex;gap:4px;">
+          <button class="btn btn-sm btn-p" onclick="openEditBet('${b.id}')">Edit</button>
+          <button class="btn btn-sm" style="border-color:rgba(0,232,122,.35);color:var(--green);" onclick="openDupeBet('${b.id}')">Dupe</button>
+        </div>`:''}
       </div>
     </div>`;
   }).join('');
