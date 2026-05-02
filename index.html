@@ -7,422 +7,428 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#080809; --bg2:#0f0f12; --bg3:#161619; --bg4:#1e1e24; --bg5:#26262f;
-  --border:#1f1f28; --border2:#2e2e3a; --border3:#3a3a4a;
-  --text:#f0f0f8; --text2:#a0a0c0; --muted:#606080; --dim:#303045;
-  --green:#00e87a; --green2:rgba(0,232,122,0.12);
-  --red:#ff3d6b; --red2:rgba(255,61,107,0.12);
-  --amber:#ffc932; --amber2:rgba(255,201,50,0.12);
-  --blue:#3d9eff; --blue2:rgba(61,158,255,0.1);
-  --purple:#b06cff; --purple2:rgba(176,108,255,0.1);
-  --pink:#ff5fa0; --pink2:rgba(255,95,160,0.1);
-  --r:14px; --rsm:8px;
+  --bg:#07070a; --bg2:#0d0d11; --bg3:#131318; --bg4:#1a1a20; --bg5:#22222a;
+  --border:#18181f; --border2:#252530; --border3:#32323f;
+  --text:#f2f2ff; --text2:#d0d0e8; --muted:#9898b8; --dim:#5a5a7a;
+  --green:#00e87a; --green2:rgba(0,232,122,0.1);
+  --red:#ff3d6b; --red2:rgba(255,61,107,0.1);
+  --amber:#ffc932; --amber2:rgba(255,201,50,0.1);
+  --blue:#3d9eff; --blue2:rgba(61,158,255,0.09);
+  --purple:#b06cff; --purple2:rgba(176,108,255,0.09);
+  --pink:#ff5fa0; --pink2:rgba(255,95,160,0.09);
+  --r:12px; --rsm:7px;
   --safe-b:env(safe-area-inset-bottom,0px);
   --safe-t:env(safe-area-inset-top,0px);
-  --pad:18px;
+  --pad:16px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{height:100%;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;height:100%;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased;}
 
 /* HEADER */
-.hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px var(--pad);padding-top:calc(14px + var(--safe-t));display:flex;align-items:center;gap:12px;flex-shrink:0;z-index:50;}
+.hdr{background:rgba(13,13,17,.97);border-bottom:1px solid var(--border);padding:11px var(--pad);padding-top:calc(11px + var(--safe-t));display:flex;align-items:center;gap:10px;flex-shrink:0;z-index:50;backdrop-filter:blur(12px);}
 .logo-w{flex:1;}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2.5px;line-height:1;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.logo span{opacity:.55;}
-.tagline{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
-.hdr-r{display:flex;align-items:center;gap:8px;}
-.icon-btn{width:38px;height:38px;border-radius:var(--rsm);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:all .2s;flex-shrink:0;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2.5px;line-height:1;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.tagline{font-family:'Space Mono',monospace;font-size:7.5px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;}
+.hdr-r{display:flex;align-items:center;gap:6px;}
+.icon-btn{width:34px;height:34px;border-radius:var(--rsm);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s;flex-shrink:0;}
 .icon-btn:active{transform:scale(.93);background:var(--bg4);}
 .icon-btn.spin{animation:spin .5s ease-out;color:var(--green);border-color:var(--green);}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.slip-btn{background:var(--green);color:#000;border:none;border-radius:var(--rsm);padding:0 16px;height:38px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;position:relative;transition:opacity .15s;flex-shrink:0;}
+.slip-btn{background:var(--green);color:#000;border:none;border-radius:var(--rsm);padding:0 14px;height:34px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:7px;position:relative;transition:opacity .15s;flex-shrink:0;}
 .slip-btn:active{opacity:.85;}
-.slip-ct{background:var(--red);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;position:absolute;top:-7px;right:-7px;}
+.slip-ct{background:var(--red);color:#fff;width:16px;height:16px;border-radius:50%;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;position:absolute;top:-6px;right:-6px;}
 
 /* ADMIN BAR */
-.admin-bar{background:linear-gradient(90deg,#3d0015,#1a0030);border-bottom:1px solid var(--red);padding:9px var(--pad);display:none;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
+.admin-bar{background:linear-gradient(90deg,rgba(61,0,21,.95),rgba(26,0,48,.95));border-bottom:1px solid var(--red);padding:7px var(--pad);display:none;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
 .admin-bar.on{display:flex;}
-.admin-bar-lbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--red);letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
-.ab-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pd 1.5s infinite;}
+.admin-bar.super.on{background:linear-gradient(90deg,rgba(21,0,61,.95),rgba(80,0,80,.95));border-bottom-color:var(--purple);}
+.admin-bar-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--red);letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.admin-bar.super .admin-bar-lbl{color:var(--purple);}
+.ab-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pd 1.5s infinite;}
+.admin-bar.super .ab-dot{background:var(--purple);}
 @keyframes pd{0%,100%{opacity:1}50%{opacity:.25}}
-.ab-exit{font-family:'Space Mono',monospace;font-size:10px;background:rgba(255,61,107,.15);border:1px solid rgba(255,61,107,.4);color:var(--red);padding:5px 14px;border-radius:6px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.ab-exit{font-family:'Space Mono',monospace;font-size:9px;background:rgba(255,61,107,.12);border:1px solid rgba(255,61,107,.35);color:var(--red);padding:4px 12px;border-radius:5px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.admin-bar.super .ab-exit{background:rgba(176,108,255,.12);border-color:rgba(176,108,255,.35);color:var(--purple);}
 
 /* BODY */
 .app-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
-.page{display:none;padding:var(--pad);padding-bottom:calc(100px + var(--safe-b));}
-.page.active{display:block;animation:fu .25s ease-out;}
-@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.page{display:none;padding:var(--pad);padding-bottom:calc(88px + var(--safe-b));}
+.page.active{display:block;animation:fu .2s ease-out;}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
 /* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;padding-bottom:var(--safe-b);z-index:100;}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 8px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;transition:color .15s;position:relative;}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(13,13,17,.97);border-top:1px solid var(--border);display:flex;padding-bottom:var(--safe-b);z-index:100;backdrop-filter:blur(12px);}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 7px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.5px;text-transform:uppercase;transition:color .15s;position:relative;}
 .ni.active{color:var(--pink);}
-.ni.active::before{content:'';position:absolute;top:0;left:20%;right:20%;height:2px;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:0 0 2px 2px;}
-.ni-icon{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1px;line-height:1;margin-bottom:1px;}
+.ni.active::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1.5px;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:0 0 2px 2px;}
+.ni-icon{font-family:'Space Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:1px;line-height:1;margin-bottom:1px;}
 
 /* STATUS BAR */
-.sbar{position:fixed;bottom:calc(56px + var(--safe-b));left:var(--pad);right:var(--pad);background:rgba(15,15,18,.95);border:1px solid var(--border2);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:12px;z-index:90;transition:opacity .3s,transform .3s;backdrop-filter:blur(10px);}
+.sbar{position:fixed;bottom:calc(52px + var(--safe-b));left:var(--pad);right:var(--pad);background:rgba(13,13,17,.96);border:1px solid var(--border2);border-radius:9px;padding:7px 12px;display:flex;align-items:center;gap:10px;z-index:90;transition:opacity .3s,transform .3s;backdrop-filter:blur(10px);}
 .sbar.hidden{opacity:0;pointer-events:none;transform:translateY(6px);}
-.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:background .3s;}
+.sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:background .3s;}
 .sdot.on{background:var(--green);box-shadow:0 0 6px var(--green);animation:pd 2s infinite;}
 .sdot.off{background:var(--red);}
 .sdot.sync{background:var(--amber);animation:pd .8s infinite;}
-.stxt{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;flex:1;}
-.stime{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);}
+.stxt{font-family:'Space Mono',monospace;font-size:8.5px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;flex:1;}
+.stime{font-family:'Space Mono',monospace;font-size:8.5px;color:var(--dim);}
 
 /* PAGE HEADERS */
-.ph{margin-bottom:20px;}
-.eyebrow{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
-.ptitle{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;line-height:1;}
+.ph{margin-bottom:16px;}
+.eyebrow{font-family:'Space Mono',monospace;font-size:8.5px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.ptitle{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;line-height:1;}
 
 /* CARDS */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;}
-.ca{height:3px;width:100%;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px;}
+.ca{height:2px;width:100%;}
 
 /* EVENT CARD */
-.ei{padding:16px var(--pad);}
-.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center;}
-.badge{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:5px;border:1px solid;}
-.b-open{background:var(--green2);color:var(--green);border-color:rgba(0,232,122,.3);}
-.b-live{background:var(--red2);color:var(--red);border-color:rgba(255,61,107,.4);animation:pd 1.5s infinite;}
+.ei{padding:13px var(--pad);}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;align-items:center;}
+.badge{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:4px;border:1px solid;}
+.b-open{background:var(--green2);color:var(--green);border-color:rgba(0,232,122,.25);}
+.b-live{background:var(--red2);color:var(--red);border-color:rgba(255,61,107,.35);animation:pd 1.5s infinite;}
 .b-closed{background:transparent;color:var(--muted);border-color:var(--border2);}
-.b-win{background:var(--green2);color:var(--green);border-color:rgba(0,232,122,.3);}
-.b-loss{background:var(--red2);color:var(--red);border-color:rgba(255,61,107,.3);}
-.b-pend{background:var(--amber2);color:var(--amber);border-color:rgba(255,201,50,.3);}
-.b-parlay{background:var(--purple2);color:var(--purple);border-color:rgba(176,108,255,.4);}
-.ename{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:14px;}
-.pbar-w{margin-bottom:14px;}
-.ptrack{height:4px;background:var(--bg5);border-radius:2px;overflow:hidden;margin-bottom:6px;}
+.b-win{background:var(--green2);color:var(--green);border-color:rgba(0,232,122,.25);animation:winshine 2s ease-in-out infinite;}
+.b-loss{background:var(--red2);color:var(--red);border-color:rgba(255,61,107,.25);}
+.b-pend{background:var(--amber2);color:var(--amber);border-color:rgba(255,201,50,.25);}
+.b-parlay{background:var(--purple2);color:var(--purple);border-color:rgba(176,108,255,.3);}
+.ename{font-size:14px;font-weight:600;line-height:1.35;margin-bottom:11px;color:var(--text);}
+.pbar-w{margin-bottom:11px;}
+.ptrack{height:3px;background:var(--bg5);border-radius:2px;overflow:hidden;margin-bottom:5px;}
 .pfill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1);}
-.plabels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);}
-.ogrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.obtn{padding:14px 8px;border-radius:10px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-align:center;transition:all .18s;background:transparent;line-height:1;}
+.plabels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);}
+.ogrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.obtn{padding:12px 7px;border-radius:9px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-align:center;transition:all .18s;background:transparent;line-height:1;}
 .obtn:active{transform:scale(.96);}
-.obtn .ol{font-size:9px;opacity:.65;font-weight:400;display:block;margin-bottom:5px;letter-spacing:1px;}
-.obtn.yes{border-color:rgba(0,232,122,.35);color:var(--green);}
-.obtn.yes:hover,.obtn.yes.sel{background:var(--green2);border-color:rgba(0,232,122,.6);}
-.obtn.no{border-color:rgba(255,61,107,.35);color:var(--red);}
-.obtn.no:hover,.obtn.no.sel{background:var(--red2);border-color:rgba(255,61,107,.6);}
-.obtn:disabled{opacity:.3;cursor:not-allowed;transform:none;}
-.efoot{border-top:1px solid var(--border);padding:10px var(--pad);display:flex;justify-content:space-between;align-items:center;background:var(--bg3);gap:8px;flex-wrap:wrap;}
-.vol-lbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);}
+.obtn .ol{font-size:8px;opacity:.75;font-weight:400;display:block;margin-bottom:4px;letter-spacing:1px;color:var(--text2);}
+.obtn.yes{border-color:rgba(0,232,122,.3);color:var(--green);}
+.obtn.yes:hover,.obtn.yes.sel{background:var(--green2);border-color:rgba(0,232,122,.55);}
+.obtn.no{border-color:rgba(255,61,107,.3);color:var(--red);}
+.obtn.no:hover,.obtn.no.sel{background:var(--red2);border-color:rgba(255,61,107,.55);}
+.obtn:disabled{opacity:.25;cursor:not-allowed;transform:none;}
+.efoot{border-top:1px solid var(--border);padding:8px var(--pad);display:flex;justify-content:space-between;align-items:center;background:var(--bg3);gap:8px;flex-wrap:wrap;}
+.vol-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);}
+
+/* HINT TEXT — bright white now */
+.hint{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);letter-spacing:.3px;line-height:1.6;margin-top:4px;}
+.hint.center{text-align:center;}
+.hint b{color:var(--text);font-weight:600;}
+.hint-badge{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);letter-spacing:.3px;margin-top:2px;display:block;}
+.status-hint{padding:7px var(--pad);background:var(--bg3);border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:8.5px;color:var(--text2);letter-spacing:.3px;line-height:1.6;}
 
 /* EMPTY STATE */
-.empty{text-align:center;padding:56px 24px;color:var(--dim);font-family:'Space Mono',monospace;font-size:11px;line-height:2;}
-.eico{font-size:38px;margin-bottom:12px;opacity:.35;}
+.empty{text-align:center;padding:44px 24px;color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;line-height:2;}
+.eico{font-size:34px;margin-bottom:10px;opacity:.4;}
 
 /* SLIP */
-.si{display:flex;align-items:center;gap:12px;padding:14px var(--pad);border-bottom:1px solid var(--border);}
-.ss{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0;}
-.ss.yes{background:var(--green2);color:var(--green);border:1px solid rgba(0,232,122,.25);}
-.ss.no{background:var(--red2);color:var(--red);border:1px solid rgba(255,61,107,.25);}
+.si{display:flex;align-items:center;gap:10px;padding:12px var(--pad);border-bottom:1px solid var(--border);}
+.ss{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;flex-shrink:0;}
+.ss.yes{background:var(--green2);color:var(--green);border:1px solid rgba(0,232,122,.2);}
+.ss.no{background:var(--red2);color:var(--red);border:1px solid rgba(255,61,107,.2);}
 .sinfo{flex:1;min-width:0;}
-.sname{font-size:13px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.sodds{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
-.rmbtn{background:transparent;border:none;color:var(--dim);cursor:pointer;font-size:22px;line-height:1;padding:4px;transition:color .15s;}
+.sname{font-size:13px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.sodds{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;}
+.rmbtn{background:transparent;border:none;color:var(--dim);cursor:pointer;font-size:20px;line-height:1;padding:4px;transition:color .15s;}
 .rmbtn:active{color:var(--red);}
 .bctrl{padding:var(--pad);}
-.ttoggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:20px;}
-.tbtn{padding:11px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all .15s;}
+.ttoggle{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:16px;}
+.tbtn{padding:10px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all .15s;}
 .tbtn.active{border-color:var(--purple);color:var(--purple);background:var(--purple2);}
-.ig{margin-bottom:14px;}
-.ilbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:7px;}
-.irow{display:flex;align-items:center;gap:10px;}
-.cci{flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:10px;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;}
+.ig{margin-bottom:12px;}
+.ilbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;}
+.irow{display:flex;align-items:center;gap:9px;}
+.cci{flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:11px 13px;border-radius:9px;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;}
 .cci:focus{border-color:var(--green);}
-.csuf{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;}
-.pinfo{background:var(--purple2);border:1px solid rgba(176,108,255,.25);border-radius:10px;padding:14px;margin-bottom:16px;font-family:'Space Mono',monospace;font-size:12px;color:var(--purple);text-align:center;line-height:1.7;}
-.prow{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--border);margin-top:4px;}
-.plbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-.pval{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--green);letter-spacing:1px;}
-.pbtn{width:100%;padding:16px;background:var(--green);color:#000;border:none;border-radius:12px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;cursor:pointer;margin-top:14px;transition:opacity .15s,transform .15s;}
+.csuf{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;}
+.pinfo{background:var(--purple2);border:1px solid rgba(176,108,255,.2);border-radius:9px;padding:12px;margin-bottom:14px;font-family:'Space Mono',monospace;font-size:11px;color:var(--purple);text-align:center;line-height:1.7;}
+.prow{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--border);margin-top:4px;}
+.plbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;}
+.pval{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--green);letter-spacing:1px;transition:color .2s;}
+.pbtn{width:100%;padding:15px;background:var(--green);color:#000;border:none;border-radius:11px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;cursor:pointer;margin-top:12px;transition:opacity .15s,transform .15s;}
 .pbtn:active{opacity:.85;transform:scale(.99);}
 .pbtn:disabled{opacity:.3;cursor:not-allowed;transform:none;}
 
 /* STATS */
-.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
-.sc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;position:relative;overflow:hidden;}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
+.sc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;position:relative;overflow:hidden;}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
 .sc.g::before{background:var(--green)}.sc.r::before{background:var(--red)}.sc.a::before{background:var(--amber)}.sc.b::before{background:var(--blue)}.sc.p::before{background:var(--purple)}
-.slbl{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;}
-.sv{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;line-height:1;}
+.slbl{font-family:'Space Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:6px;}
+.sv{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;line-height:1;}
 .sv.g{color:var(--green)}.sv.r{color:var(--red)}.sv.a{color:var(--amber)}.sv.b{color:var(--blue)}.sv.p{color:var(--purple)}
-.slabel{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
-.lr{display:flex;align-items:center;gap:12px;padding:12px var(--pad);border-bottom:1px solid var(--border);}
+.slabel{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.lr{display:flex;align-items:center;gap:10px;padding:11px var(--pad);border-bottom:1px solid var(--border);}
 .lr:last-child{border-bottom:none;}
-.lrank{font-family:'Bebas Neue',sans-serif;font-size:26px;width:30px;text-align:center;flex-shrink:0;}
-.rk1{color:var(--amber)}.rk2{color:#888}.rk3{color:#a06030}.rkn{color:var(--dim)}
-.lav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
-.lname{flex:1;font-size:14px;font-weight:600;}
-.lnet{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;}
-.ldet{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-top:2px;}
-.brow{padding:12px var(--pad);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;}
+.lrank{font-family:'Bebas Neue',sans-serif;font-size:24px;width:28px;text-align:center;flex-shrink:0;}
+.rk1{color:var(--amber)}.rk2{color:#999}.rk3{color:#a07040}.rkn{color:var(--dim)}
+.lav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;}
+.lname{flex:1;font-size:13px;font-weight:600;color:var(--text);}
+.lnet{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;}
+.ldet{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);text-align:right;margin-top:1px;}
+.brow{padding:11px var(--pad);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;}
 .brow:last-child{border-bottom:none;}
-.bname{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.bmeta{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
-.bamt{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--green);text-align:right;}
+.bname{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.bmeta{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);margin-top:2px;}
+.bamt{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--green);text-align:right;}
 
 /* ADMIN */
-.alock{text-align:center;padding:60px 24px;}
-.alock-ico{font-size:52px;margin-bottom:20px;}
-.alock-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;margin-bottom:8px;}
-.alock-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:28px;letter-spacing:1px;}
-.alock-in{width:100%;max-width:260px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:14px;border-radius:12px;font-family:'Space Mono',monospace;font-size:20px;font-weight:700;letter-spacing:6px;text-align:center;outline:none;display:block;margin:0 auto 14px;transition:border-color .15s;-webkit-appearance:none;}
+.alock{text-align:center;padding:52px 24px;}
+.alock-ico{font-size:48px;margin-bottom:18px;}
+.alock-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;margin-bottom:6px;}
+.alock-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);margin-bottom:24px;letter-spacing:1px;}
+.alock-in{width:100%;max-width:240px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:13px;border-radius:11px;font-family:'Space Mono',monospace;font-size:18px;font-weight:700;letter-spacing:6px;text-align:center;outline:none;display:block;margin:0 auto 12px;transition:border-color .15s;-webkit-appearance:none;}
 .alock-in:focus{border-color:var(--pink);}
-.alock-btn{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border:none;border-radius:12px;padding:14px 40px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:opacity .15s;}
+.alock-btn{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border:none;border-radius:11px;padding:13px 36px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:opacity .15s;}
 .alock-btn:active{opacity:.85;}
-.asec{margin-bottom:28px;}
-.asec-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1.5px;color:var(--text2);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.ar{display:flex;align-items:flex-start;gap:10px;padding:12px var(--pad);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.alock-divider{color:var(--dim);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;margin:14px 0;}
+.alock-super-btn{background:linear-gradient(135deg,var(--purple),#5500ff);color:#fff;border:none;border-radius:11px;padding:10px 28px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:opacity .15s;display:block;margin:0 auto;}
+.alock-super-btn:active{opacity:.85;}
+.asec{margin-bottom:22px;}
+.asec-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;color:var(--text2);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.ar{display:flex;align-items:flex-start;gap:9px;padding:11px var(--pad);border-bottom:1px solid var(--border);flex-wrap:wrap;}
 .ar:last-child{border-bottom:none;}
 .ari{flex:1;min-width:0;}
-.arn{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.arm{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
-.aacts{display:flex;gap:6px;flex-shrink:0;}
-.dzone{background:rgba(255,61,107,.04);border:1px solid rgba(255,61,107,.18);border-radius:var(--r);padding:18px;}
-.dtitle{font-family:'Space Mono',monospace;font-size:10px;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.arn{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.arm{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);margin-top:2px;}
+.aacts{display:flex;gap:5px;flex-shrink:0;}
+.dzone{background:rgba(255,61,107,.04);border:1px solid rgba(255,61,107,.15);border-radius:var(--r);padding:16px;}
+.dtitle{font-family:'Space Mono',monospace;font-size:9px;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+
+/* SUPER ADMIN SECTIONS */
+.super-section{border:1px solid rgba(176,108,255,.25);border-radius:var(--r);background:rgba(176,108,255,.04);padding:16px;margin-bottom:16px;}
+.super-title{font-family:'Space Mono',monospace;font-size:9px;color:var(--purple);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.super-title::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--purple);display:inline-block;}
+.edit-bet-row{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
+.edit-bet-row input,.edit-bet-row select{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:6px 10px;border-radius:6px;font-family:'Space Mono',monospace;font-size:11px;outline:none;flex:1;min-width:80px;transition:border-color .15s;}
+.edit-bet-row input:focus,.edit-bet-row select:focus{border-color:var(--purple);}
 
 /* BUTTONS */
-.btn{font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:9px 18px;border-radius:var(--rsm);border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:8px 16px;border-radius:var(--rsm);border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
 .btn:active{transform:scale(.96);}
-.btn-sm{padding:6px 12px;font-size:10px;}
+.btn-sm{padding:5px 10px;font-size:9px;}
 .btn-pri{background:var(--green);border-color:var(--green);color:#000;font-weight:700;}
 .btn-pri:active{opacity:.85;}
-.btn-g{border-color:rgba(0,232,122,.5);color:var(--green);}
+.btn-g{border-color:rgba(0,232,122,.45);color:var(--green);}
 .btn-g:active{background:var(--green2);}
-.btn-d{border-color:rgba(255,61,107,.5);color:var(--red);}
+.btn-d{border-color:rgba(255,61,107,.45);color:var(--red);}
 .btn-d:active{background:var(--red2);}
 .btn-gh{border-color:var(--border);color:var(--muted);}
-.btn-full{width:100%;padding:14px;font-size:12px;}
+.btn-p{border-color:rgba(176,108,255,.45);color:var(--purple);}
+.btn-p:active{background:var(--purple2);}
+.btn-full{width:100%;padding:13px;font-size:11px;}
 
 /* FORMS */
-.fg{margin-bottom:16px;}
-.fl{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);display:block;margin-bottom:8px;}
-.fi{width:100%;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:13px 14px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color .15s;-webkit-appearance:none;}
+.fg{margin-bottom:14px;}
+.fl{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);display:block;margin-bottom:7px;}
+.fi{width:100%;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:12px 13px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .15s;-webkit-appearance:none;}
 .fi:focus{border-color:var(--pink);}
 select.fi{cursor:pointer;}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
 /* MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;align-items:flex-end;justify-content:center;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:flex-end;justify-content:center;}
 .overlay.open{display:flex;}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-top:1px solid var(--border3);border-radius:22px 22px 0 0;width:100%;max-width:600px;padding:24px var(--pad);padding-bottom:calc(24px + var(--safe-b));max-height:92vh;overflow-y:auto;animation:su .25s cubic-bezier(.4,0,.2,1);}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-top:1px solid var(--border3);border-radius:20px 20px 0 0;width:100%;max-width:600px;padding:22px var(--pad);padding-bottom:calc(22px + var(--safe-b));max-height:92vh;overflow-y:auto;animation:su .25s cubic-bezier(.4,0,.2,1);}
 @keyframes su{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mhandle{width:44px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 22px;}
-.mtitle{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;margin-bottom:22px;}
-.mactions{display:flex;gap:10px;margin-top:22px;}
-.mactions .btn{flex:1;padding:14px;font-size:12px;}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
-.chip{font-family:'Space Mono',monospace;font-size:11px;padding:8px 16px;border-radius:24px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
+.mhandle{width:40px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 20px;}
+.mtitle{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;margin-bottom:20px;color:var(--text);}
+.mactions{display:flex;gap:9px;margin-top:20px;}
+.mactions .btn{flex:1;padding:13px;font-size:11px;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+.chip{font-family:'Space Mono',monospace;font-size:10px;padding:7px 14px;border-radius:22px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
 .chip.sel{border-color:var(--green);color:var(--green);background:var(--green2);}
-.ordiv{text-align:center;color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;margin:12px 0;letter-spacing:1px;}
+.ordiv{text-align:center;color:var(--dim);font-family:'Space Mono',monospace;font-size:9px;margin:10px 0;letter-spacing:1px;}
 
 /* TOAST */
-.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--bg3);border:1px solid var(--border2);border-radius:24px;padding:11px 22px;font-family:'Space Mono',monospace;font-size:12px;z-index:500;opacity:0;transition:all .25s cubic-bezier(.4,0,.2,1);pointer-events:none;white-space:nowrap;letter-spacing:.5px;}
+.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--bg3);border:1px solid var(--border2);border-radius:22px;padding:9px 20px;font-family:'Space Mono',monospace;font-size:11px;z-index:500;opacity:0;transition:all .25s cubic-bezier(.4,0,.2,1);pointer-events:none;white-space:nowrap;letter-spacing:.5px;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.t-g{border-color:rgba(0,232,122,.5);color:var(--green);}
-.t-r{border-color:rgba(255,61,107,.5);color:var(--red);}
-.t-a{border-color:rgba(255,201,50,.5);color:var(--amber);}
-
+.t-g{border-color:rgba(0,232,122,.45);color:var(--green);}
+.t-r{border-color:rgba(255,61,107,.45);color:var(--red);}
+.t-a{border-color:rgba(255,201,50,.45);color:var(--amber);}
 
 /* SETTLEMENT */
-.settle-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;}
-.settle-header{padding:16px var(--pad);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.settle-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;}
-.settle-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
-.settle-row{display:flex;align-items:center;gap:12px;padding:14px var(--pad);border-bottom:1px solid var(--border);}
+.settle-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px;}
+.settle-header{padding:13px var(--pad);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.settle-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:var(--text);}
+.settle-sub{font-family:'Space Mono',monospace;font-size:8px;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.settle-row{display:flex;align-items:center;gap:10px;padding:12px var(--pad);border-bottom:1px solid var(--border);}
 .settle-row:last-child{border-bottom:none;}
-.settle-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0;}
+.settle-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
 .settle-info{flex:1;}
-.settle-name{font-size:14px;font-weight:600;}
-.settle-line{font-family:'Space Mono',monospace;font-size:11px;margin-top:3px;}
+.settle-name{font-size:13px;font-weight:600;color:var(--text);}
+.settle-line{font-family:'Space Mono',monospace;font-size:10px;margin-top:2px;}
 .settle-amount{text-align:right;flex-shrink:0;}
-.settle-dollar{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;line-height:1;}
-.settle-action{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
-.settle-btn{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.settle-dollar{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;line-height:1;}
+.settle-action{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.settle-btn{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
 .settle-btn.paid{border-color:var(--green);color:var(--green);background:var(--green2);}
-.settle-note{padding:14px var(--pad);font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);line-height:1.7;text-align:center;border-top:1px solid var(--border);}
-.pending-note{background:var(--amber2);border:1px solid rgba(255,201,50,.2);border-radius:10px;padding:12px var(--pad);font-family:'Space Mono',monospace;font-size:10px;color:var(--amber);line-height:1.7;margin-bottom:12px;text-align:center;}
-
+.settle-note{padding:12px var(--pad);font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);line-height:1.7;text-align:center;border-top:1px solid var(--border);}
+.pending-note{background:var(--amber2);border:1px solid rgba(255,201,50,.18);border-radius:9px;padding:10px var(--pad);font-family:'Space Mono',monospace;font-size:9px;color:var(--amber);line-height:1.7;margin-bottom:10px;text-align:center;}
 
 /* ADMIN GUIDE */
-.guide-toggle{width:100%;padding:14px var(--pad);background:transparent;border:1px solid var(--border2);border-radius:var(--r);color:var(--text2);font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;transition:all .2s;}
+.guide-toggle{width:100%;padding:12px var(--pad);background:transparent;border:1px solid var(--border2);border-radius:var(--r);color:var(--text2);font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;transition:all .2s;}
 .guide-toggle:active{background:var(--bg4);}
 .guide-toggle-arrow{transition:transform .25s;}
 .guide-toggle-arrow.open{transform:rotate(180deg);}
-.guide-body{display:none;margin-bottom:24px;}
+.guide-body{display:none;margin-bottom:20px;}
 .guide-body.open{display:block;animation:fu .2s ease-out;}
-.gs{margin-bottom:20px;}
-.gs-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:var(--pink);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-.gs-block{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px var(--pad);margin-bottom:8px;}
-.gs-head{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
-.gs-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.gs{margin-bottom:16px;}
+.gs-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1.5px;color:var(--pink);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.gs-block{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:12px var(--pad);margin-bottom:7px;}
+.gs-head{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:5px;}
+.gs-text{font-size:12px;color:var(--text2);line-height:1.7;}
 .gs-text strong{color:var(--text);font-weight:600;}
-.gs-formula{font-family:'Space Mono',monospace;font-size:12px;background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:12px 14px;margin-top:8px;color:var(--green);line-height:1.8;}
-.gs-example{font-family:'Space Mono',monospace;font-size:11px;background:var(--bg4);border-left:3px solid var(--purple);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:8px;color:var(--text2);line-height:1.8;}
-.gs-warn{background:rgba(255,201,50,.07);border:1px solid rgba(255,201,50,.2);border-radius:8px;padding:12px 14px;margin-top:8px;font-family:'Space Mono',monospace;font-size:10px;color:var(--amber);line-height:1.7;letter-spacing:.3px;}
-.gs-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid;margin-right:6px;margin-bottom:4px;}
-.gs-tag.g{background:var(--green2);color:var(--green);border-color:rgba(0,232,122,.3);}
-.gs-tag.r{background:var(--red2);color:var(--red);border-color:rgba(255,61,107,.3);}
-.gs-tag.a{background:var(--amber2);color:var(--amber);border-color:rgba(255,201,50,.3);}
-.gs-tag.p{background:var(--purple2);color:var(--purple);border-color:rgba(176,108,255,.3);}
+.gs-formula{font-family:'Space Mono',monospace;font-size:11px;background:var(--bg4);border:1px solid var(--border2);border-radius:7px;padding:10px 13px;margin-top:7px;color:var(--green);line-height:1.8;}
+.gs-example{font-family:'Space Mono',monospace;font-size:10px;background:var(--bg4);border-left:3px solid var(--purple);border-radius:0 7px 7px 0;padding:9px 13px;margin-top:7px;color:var(--text2);line-height:1.8;}
+.gs-warn{background:rgba(255,201,50,.06);border:1px solid rgba(255,201,50,.18);border-radius:7px;padding:10px 13px;margin-top:7px;font-family:'Space Mono',monospace;font-size:9px;color:var(--amber);line-height:1.7;letter-spacing:.3px;}
+.gs-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:4px;border:1px solid;margin-right:5px;margin-bottom:3px;}
+.gs-tag.g{background:var(--green2);color:var(--green);border-color:rgba(0,232,122,.25);}
+.gs-tag.r{background:var(--red2);color:var(--red);border-color:rgba(255,61,107,.25);}
+.gs-tag.a{background:var(--amber2);color:var(--amber);border-color:rgba(255,201,50,.25);}
+.gs-tag.p{background:var(--purple2);color:var(--purple);border-color:rgba(176,108,255,.25);}
 
-
-/* USER HINTS & GUIDE */
-.hint{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.5px;line-height:1.6;margin-top:6px;}
-.hint.center{text-align:center;}
-.hint b{color:var(--muted);}
-.hint-badge{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.5px;margin-top:2px;display:block;}
-.status-hint{padding:8px var(--pad);background:var(--bg3);border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.5px;line-height:1.6;}
-
-/* HOW TO PLAY card */
-.htp-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
-.htp-toggle{width:100%;padding:13px var(--pad);background:transparent;border:none;color:var(--text2);font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background .15s;}
+/* HOW TO PLAY */
+.htp-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:14px;}
+.htp-toggle{width:100%;padding:11px var(--pad);background:transparent;border:none;color:var(--text2);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background .15s;}
 .htp-toggle:active{background:var(--bg4);}
-.htp-toggle-label{display:flex;align-items:center;gap:10px;}
-.htp-dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));}
-.htp-arrow{font-size:10px;transition:transform .25s;color:var(--muted);}
+.htp-toggle-label{display:flex;align-items:center;gap:9px;}
+.htp-dot{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));}
+.htp-arrow{font-size:9px;transition:transform .25s;color:var(--muted);}
 .htp-arrow.open{transform:rotate(180deg);}
 .htp-body{display:none;border-top:1px solid var(--border);padding:0;}
 .htp-body.open{display:block;animation:fu .2s ease-out;}
-.htp-step{display:flex;gap:14px;padding:13px var(--pad);border-bottom:1px solid var(--border);}
+.htp-step{display:flex;gap:12px;padding:11px var(--pad);border-bottom:1px solid var(--border);}
 .htp-step:last-child{border-bottom:none;}
-.htp-num{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.htp-num{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-family:'Bebas Neue',sans-serif;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .htp-text{flex:1;}
-.htp-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
-.htp-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;}
-.htp-footer{padding:12px var(--pad);background:var(--bg3);border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);text-align:center;line-height:1.7;}
-
+.htp-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.htp-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);line-height:1.6;}
+.htp-footer{padding:10px var(--pad);background:var(--bg3);border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:8.5px;color:var(--text2);text-align:center;line-height:1.7;}
 
 /* ODDS CALCULATOR */
-.calc-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:20px;}
-.calc-header{padding:14px var(--pad);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.calc-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;color:var(--text);}
-.calc-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:2px;}
+.calc-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.calc-header{padding:12px var(--pad);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.calc-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:var(--text);}
+.calc-sub{font-family:'Space Mono',monospace;font-size:8px;color:var(--text2);letter-spacing:1px;margin-top:2px;}
 .calc-body{padding:var(--pad);}
-.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.calc-field{display:flex;flex-direction:column;gap:6px;}
-.calc-lbl{font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
-.calc-in{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:11px 14px;border-radius:9px;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;text-align:center;}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+.calc-field{display:flex;flex-direction:column;gap:5px;}
+.calc-lbl{font-family:'Space Mono',monospace;font-size:8.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);}
+.calc-in{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:10px 13px;border-radius:8px;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;text-align:center;}
 .calc-in:focus{border-color:var(--pink);}
-.calc-result{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px var(--pad);margin-bottom:12px;}
-.calc-result-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);}
+.calc-result{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:12px var(--pad);margin-bottom:10px;}
+.calc-result-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);}
 .calc-result-row:last-child{border-bottom:none;}
-.calc-result-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-.calc-result-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;}
-.calc-meter{height:6px;background:var(--bg5);border-radius:3px;overflow:hidden;margin:10px 0 4px;}
+.calc-result-lbl{font-family:'Space Mono',monospace;font-size:8.5px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;}
+.calc-result-val{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;}
+.calc-meter{height:5px;background:var(--bg5);border-radius:3px;overflow:hidden;margin:9px 0 3px;}
 .calc-meter-fill{height:100%;border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1);}
-.calc-meter-labels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);}
-.calc-verdict{padding:10px 14px;border-radius:8px;font-family:'Space Mono',monospace;font-size:10px;line-height:1.6;letter-spacing:.3px;margin-top:10px;}
-.calc-verdict.good{background:var(--green2);border:1px solid rgba(0,232,122,.2);color:var(--green);}
-.calc-verdict.warn{background:var(--amber2);border:1px solid rgba(255,201,50,.2);color:var(--amber);}
-.calc-verdict.bad{background:var(--red2);border:1px solid rgba(255,61,107,.2);color:var(--red);}
-.calc-apply-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
-.prob-slider-wrap{margin-bottom:14px;}
-.prob-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
-.prob-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
-.prob-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
-
+.calc-meter-labels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:8.5px;color:var(--text2);}
+.calc-verdict{padding:9px 13px;border-radius:7px;font-family:'Space Mono',monospace;font-size:9px;line-height:1.6;letter-spacing:.3px;margin-top:9px;}
+.calc-verdict.good{background:var(--green2);border:1px solid rgba(0,232,122,.18);color:var(--green);}
+.calc-verdict.warn{background:var(--amber2);border:1px solid rgba(255,201,50,.18);color:var(--amber);}
+.calc-verdict.bad{background:var(--red2);border:1px solid rgba(255,61,107,.18);color:var(--red);}
+.calc-apply-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px;}
+.prob-slider-wrap{margin-bottom:12px;}
+.prob-slider{width:100%;-webkit-appearance:none;appearance:none;height:3px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
+.prob-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
+.prob-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));cursor:pointer;border:2px solid var(--bg2);}
 
 /* IMBALANCE INDICATOR */
-.imb-bar{padding:8px var(--pad);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;}
-.imb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.imb-bar{padding:7px var(--pad);border-top:1px solid var(--border);display:flex;align-items:center;gap:7px;}
+.imb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .imb-dot.warn{background:var(--amber);}
 .imb-dot.danger{background:var(--red);animation:pd 1.2s infinite;}
 .imb-dot.ok{background:var(--green);}
-.imb-txt{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.5px;line-height:1.5;flex:1;}
+.imb-txt{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.3px;line-height:1.5;flex:1;}
 .imb-txt.warn{color:var(--amber);}
 .imb-txt.danger{color:var(--red);}
-.imb-txt.ok{color:var(--dim);}
+.imb-txt.ok{color:var(--text2);}
 
-
-/* ═══ FUN ANIMATIONS ═══ */
-
-/* Animated top bar on cards */
-.ca{height:3px;width:100%;position:relative;overflow:hidden;}
+/* ANIMATED BAR ACCENTS */
+.ca{height:2px;width:100%;position:relative;overflow:hidden;}
 .ca.anim-open{background:linear-gradient(90deg,var(--green),var(--blue),var(--purple),var(--green));background-size:300% 100%;animation:flow 3s linear infinite;}
 .ca.anim-live{background:linear-gradient(90deg,var(--red),var(--amber),var(--red));background-size:200% 100%;animation:flow 1s linear infinite;}
 .ca.anim-closed{background:var(--border2);}
-.ca.anim-win{background:linear-gradient(90deg,var(--green),#00ffa0,var(--green));background-size:200% 100%;animation:flow 2s linear infinite;}
+.ca.anim-win{background:linear-gradient(90deg,var(--green),var(--green));box-shadow:0 0 8px rgba(0,232,122,.4);}
 .ca.anim-loss{background:var(--red);}
 @keyframes flow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
 
-/* Card entrance */
-.card{animation:cardIn .3s cubic-bezier(.4,0,.2,1) both;}
-@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+/* LIVE CHARTS SECTION */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px;position:relative;overflow:hidden;}
+.chart-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.chart-card.gc::before{background:linear-gradient(90deg,var(--green),var(--blue));}
+.chart-card.pc::before{background:linear-gradient(90deg,var(--purple),var(--pink));}
+.chart-card.ac::before{background:linear-gradient(90deg,var(--amber),var(--red));}
+.chart-card.bc::before{background:linear-gradient(90deg,var(--blue),var(--purple));}
+.chart-label{font-family:'Space Mono',monospace;font-size:7.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:4px;}
+.chart-val{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;line-height:1;margin-bottom:8px;}
+.chart-val.g{color:var(--green)}.chart-val.r{color:var(--red)}.chart-val.a{color:var(--amber)}.chart-val.b{color:var(--blue)}.chart-val.p{color:var(--purple)}
+.sparkline{width:100%;height:40px;}
+.mini-bar-wrap{width:100%;height:40px;display:flex;align-items:flex-end;gap:2px;}
+.mini-bar{flex:1;border-radius:2px 2px 0 0;min-height:3px;transition:height .4s ease;}
 
-/* Staggered card entrance */
-.card:nth-child(1){animation-delay:.04s}
-.card:nth-child(2){animation-delay:.08s}
-.card:nth-child(3){animation-delay:.12s}
-.card:nth-child(4){animation-delay:.16s}
-.card:nth-child(5){animation-delay:.20s}
-.card:nth-child(6){animation-delay:.24s}
+/* DONUT CHART */
+.donut-wrap{display:flex;align-items:center;gap:12px;margin-top:4px;}
+.donut-svg{flex-shrink:0;}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:5px;}
+.donut-item{display:flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:8.5px;}
+.donut-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.donut-lbl{color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.donut-pct{color:var(--text);font-weight:700;}
 
-/* Odds button tap ripple */
-.obtn{position:relative;overflow:hidden;}
-.obtn::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;border-radius:inherit;transform:scale(0);transition:transform .3s,opacity .3s;}
-.obtn:active::after{transform:scale(2);opacity:.12;transition:none;}
+/* PULSE INDICATOR */
+.pulse-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);animation:pd 1.5s infinite;vertical-align:middle;margin-right:5px;}
 
-/* Slip count badge bounce */
-.slip-ct.bump{animation:bump .35s cubic-bezier(.4,0,.2,1);}
-@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.5)}70%{transform:scale(.9)}100%{transform:scale(1)}}
+/* WIN BADGE SPARKLE */
+@keyframes winshine{0%,100%{box-shadow:0 0 0 rgba(0,232,122,0)}50%{box-shadow:0 0 8px rgba(0,232,122,.4)}}
 
-/* Place bet button shimmer */
-.pbtn{background:linear-gradient(90deg,var(--green) 0%,#00ffa0 50%,var(--green) 100%);background-size:200% 100%;animation:shimmer 2.5s linear infinite;}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.pbtn:disabled{animation:none;background:var(--bg4);}
+/* LEADERBOARD RANK GLOW */
+.rk1{text-shadow:0 0 10px rgba(255,201,50,.5);animation:goldglow 2s ease-in-out infinite;}
+@keyframes goldglow{0%,100%{text-shadow:0 0 6px rgba(255,201,50,.35)}50%{text-shadow:0 0 16px rgba(255,201,50,.8)}}
 
-/* Live badge pulse glow */
-.b-live{box-shadow:0 0 8px rgba(255,61,107,.5);animation:liveglow 1.2s ease-in-out infinite;}
-@keyframes liveglow{0%,100%{box-shadow:0 0 4px rgba(255,61,107,.3)}50%{box-shadow:0 0 14px rgba(255,61,107,.7)}}
-
-/* Payout value count-up feel */
-.pval{transition:color .2s;}
-
-/* Win badge sparkle */
-.b-win{animation:winshine 2s ease-in-out infinite;}
-@keyframes winshine{0%,100%{box-shadow:0 0 0 rgba(0,232,122,0)}50%{box-shadow:0 0 10px rgba(0,232,122,.4)}}
-
-/* Leaderboard rank #1 glow */
-.rk1{text-shadow:0 0 12px rgba(255,201,50,.6);animation:goldglow 2s ease-in-out infinite;}
-@keyframes goldglow{0%,100%{text-shadow:0 0 8px rgba(255,201,50,.4)}50%{text-shadow:0 0 20px rgba(255,201,50,.9)}}
-
-/* Stat card shimmer on load */
-.sc::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent);animation:scanline 3s ease-in-out infinite;}
+/* STAT CARD SHIMMER */
+.sc::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.025),transparent);animation:scanline 3s ease-in-out infinite;}
 @keyframes scanline{0%{left:-60%}100%{left:160%}}
 
-/* Refresh button spin */
-#refresh-btn{transition:color .2s,border-color .2s;}
-
-/* Toast slide in */
+/* TOAST SPRING */
 .toast{transition:all .3s cubic-bezier(.34,1.56,.64,1);}
 .toast.show{transform:translateX(-50%) translateY(0) scale(1);}
 
-/* Modal slide up with spring */
+/* MODAL SPRING */
 .modal{animation:springUp .3s cubic-bezier(.34,1.4,.64,1);}
 @keyframes springUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-/* Admin bar pulse */
-.ab-dot{animation:pd 1s infinite;}
-
-/* Prob bar fill animation on render */
+/* PROB BAR FILL */
 .pfill{animation:barGrow .7s cubic-bezier(.4,0,.2,1) both;}
 @keyframes barGrow{from{width:0!important}to{}}
 
-/* Settlement amount count feel */
+/* SETTLE AMOUNT */
 .settle-dollar{animation:fadeInUp .4s ease-out both;}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
+/* BUMP BADGE */
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(.9)}100%{transform:scale(1)}}
+.slip-ct.bump{animation:bump .35s ease;}
 
 /* FUN FACT TICKER */
-.funfact{position:fixed;bottom:calc(62px + var(--safe-b));left:18px;right:18px;transform:translateY(10px);background:rgba(15,15,18,.96);border:1px solid var(--border3);border-radius:16px;padding:11px 16px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text2);z-index:95;opacity:0;transition:opacity .4s ease,transform .4s cubic-bezier(.34,1.4,.64,1);pointer-events:none;white-space:normal;word-wrap:break-word;letter-spacing:.3px;line-height:1.6;text-align:center;backdrop-filter:blur(10px);}
+.funfact{position:fixed;bottom:calc(58px + var(--safe-b));left:14px;right:14px;transform:translateY(10px);background:rgba(13,13,17,.97);border:1px solid var(--border3);border-radius:14px;padding:9px 14px;font-family:'Space Mono',monospace;font-size:9.5px;color:var(--text2);z-index:95;opacity:0;transition:opacity .4s ease,transform .4s cubic-bezier(.34,1.4,.64,1);pointer-events:none;white-space:normal;word-wrap:break-word;letter-spacing:.3px;line-height:1.6;text-align:center;backdrop-filter:blur(10px);}
 .funfact.show{opacity:1;transform:translateY(0);}
+.funfact-label{font-family:'Space Mono',monospace;font-size:7.5px;color:var(--pink);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:2px;}
 
-.funfact-label{font-family:'Space Mono',monospace;font-size:8px;color:var(--pink);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:3px;}
+/* ACTIVITY FEED */
+.activity-feed{margin-bottom:16px;}
+.activity-item{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--border);animation:fu .3s ease-out both;}
+.activity-item:last-child{border-bottom:none;}
+.activity-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.activity-text{flex:1;font-size:11px;color:var(--text);line-height:1.4;}
+.activity-text span{color:var(--text2);}
+.activity-time{font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);}
 
-::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar{width:2px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 </style>
@@ -431,7 +437,7 @@ select.fi{cursor:pointer;}
 
 <div class="hdr">
   <div class="logo-w">
-    <div class="logo">Angelina<span>Watch</span></div>
+    <div class="logo">Angelina<span style="opacity:.45;">Watch</span></div>
     <div class="tagline">What will she do next?</div>
   </div>
   <div class="hdr-r">
@@ -443,12 +449,13 @@ select.fi{cursor:pointer;}
 </div>
 
 <div class="admin-bar" id="abar">
-  <div class="admin-bar-lbl"><div class="ab-dot"></div>Admin Active</div>
+  <div class="admin-bar-lbl"><div class="ab-dot"></div><span id="admin-bar-label">Admin Active</span></div>
   <button class="ab-exit" onclick="exitAdmin()">Exit</button>
 </div>
 
 <div class="app-body" id="app-body">
 
+  <!-- MARKET PAGE -->
   <div class="page" id="page-market">
     <div class="ph"><div class="eyebrow">// Prediction Market</div><div class="ptitle">Events</div></div>
     <div class="htp-card">
@@ -459,306 +466,60 @@ select.fi{cursor:pointer;}
       <div class="htp-body" id="htp-body">
         <div class="htp-step">
           <div class="htp-num">1</div>
-          <div class="htp-text"><div class="htp-title">Pick an event</div><div class="htp-sub">Tap YES or NO — or OVER/UNDER on number bets — to add it to your slip. You can pick multiple events.</div></div>
+          <div class="htp-text"><div class="htp-title">Pick an event</div><div class="htp-sub">Tap YES or NO — or OVER/UNDER on number bets — to add it to your slip.</div></div>
         </div>
         <div class="htp-step">
           <div class="htp-num">2</div>
-          <div class="htp-text"><div class="htp-title">Review your slip</div><div class="htp-sub">Tap SLIP at the top right. Choose Singles (each bet is separate) or Parlay (combine all into one big bet). Enter how many coins you want to wager — 1 coin = $1.</div></div>
+          <div class="htp-text"><div class="htp-title">Review your slip</div><div class="htp-sub">Tap SLIP at the top right. Choose Singles (separate bets) or Parlay (combined). Enter coins to wager — 1 coin = $1.</div></div>
         </div>
         <div class="htp-step">
           <div class="htp-num">3</div>
-          <div class="htp-text"><div class="htp-title">Place your bet</div><div class="htp-sub">Tap Place Bet, enter your name, and confirm. Your bet is locked — it cannot be changed after this point.</div></div>
+          <div class="htp-text"><div class="htp-title">Place your bet</div><div class="htp-sub">Tap Place Bet, enter your name, confirm. Bet is locked after this point.</div></div>
         </div>
         <div class="htp-step">
           <div class="htp-num">4</div>
-          <div class="htp-text"><div class="htp-title">Wait for results</div><div class="htp-sub">The admin resolves each event after it happens. Your bets are automatically marked win or loss. Check the Stats tab for your standing.</div></div>
+          <div class="htp-text"><div class="htp-title">Settle up in cash</div><div class="htp-sub">Check the Stats tab. It shows exactly who owes what in dollars.</div></div>
         </div>
-        <div class="htp-step">
-          <div class="htp-num">5</div>
-          <div class="htp-text"><div class="htp-title">Settle up in cash</div><div class="htp-sub">The Stats tab shows exactly who owes what in dollars. Winners collect from losers at the end of the night.</div></div>
-        </div>
-        <div class="htp-footer">
-          Odds show your multiplier if you win. A 2.00x bet on 50 coins pays out 100 coins ($100).<br>
-          Parlay: all picks must win or the whole bet is lost — but the payout is much bigger.
-        </div>
+        <div class="htp-footer">Odds = your multiplier if you win. 2.00x on 50 coins = 100 coin payout. Parlay stacks multipliers but all legs must win.</div>
       </div>
     </div>
     <div id="event-list"></div>
   </div>
 
+  <!-- SLIP PAGE -->
   <div class="page" id="page-slip">
     <div class="ph"><div class="eyebrow">// Your Selections</div><div class="ptitle">Bet Slip</div></div>
     <div class="card"><div id="slip-items"></div><div id="bet-ctrl"></div></div>
   </div>
 
+  <!-- STATS PAGE -->
   <div class="page" id="page-stats">
     <div class="ph"><div class="eyebrow">// Results & Rankings</div><div class="ptitle">Dashboard</div></div>
-    <div class="sgrid" id="stats-grid"></div>
+    <!-- Live charts -->
+    <div id="live-charts"></div>
     <div id="settlement-section"></div>
-    <div class="hint" style="margin:-4px 0 12px;text-align:center;">Net = total winnings minus total losses across all your bets.</div>
+    <div class="hint" style="margin:-2px 0 10px;text-align:center;">Net = total winnings minus total losses across all your bets.</div>
     <div class="slabel">// Leaderboard</div>
-    <div class="card" id="leaderboard" style="margin-bottom:20px;"></div>
+    <div class="card" id="leaderboard" style="margin-bottom:18px;"></div>
     <div class="slabel">// Bet History</div>
-    <div class="hint" style="margin:-4px 0 10px;">All bets placed. Wager / payout shown as coins ($). Pending = waiting on event resolution.</div>
+    <div class="hint" style="margin:-2px 0 9px;">All bets placed. Wager / payout shown as coins ($). Pending = waiting on event resolution.</div>
     <div class="card" id="bet-history"></div>
   </div>
 
+  <!-- ADMIN PAGE -->
   <div class="page" id="page-admin">
     <div id="alock-v">
       <div class="alock">
-        <div class="alock-ico"></div>
+        <div class="alock-ico">🔐</div>
         <div class="alock-title">Admin Panel</div>
         <div class="alock-sub">Enter passcode to continue</div>
         <input class="alock-in" type="password" id="apin" placeholder="••••" onkeydown="if(event.key==='Enter')checkPass()">
         <button class="alock-btn" onclick="checkPass()">Unlock</button>
+        <div class="alock-divider">— or —</div>
+        <button class="alock-super-btn" onclick="checkSuperPass()">Super Admin (admin+)</button>
       </div>
     </div>
-    <div id="aunlock-v" style="display:none;">
-      <!-- GUIDE TOGGLE -->
-      <!-- ODDS CALCULATOR -->
-      <div class="calc-card">
-        <div class="calc-header">
-          <div>
-            <div class="calc-title">Odds Calculator</div>
-            <div class="calc-sub">Set probability · get suggested odds</div>
-          </div>
-        </div>
-        <div class="calc-body">
-          <div class="prob-slider-wrap">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <span class="calc-lbl">How likely is YES / OVER?</span>
-              <span style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--text);" id="calc-prob-display">50%</span>
-            </div>
-            <input class="prob-slider" type="range" id="calc-prob" min="5" max="95" value="50" step="5" oninput="calcOdds()">
-            <div class="calc-meter-labels"><span>Unlikely</span><span>Even</span><span>Likely</span></div>
-          </div>
-          <div class="calc-row">
-            <div class="calc-field">
-              <div class="calc-lbl">House Edge %</div>
-              <input class="calc-in" type="number" id="calc-vig" value="10" min="0" max="30" step="1" oninput="calcOdds()">
-            </div>
-            <div class="calc-field">
-              <div class="calc-lbl">Round to</div>
-              <select class="calc-in" id="calc-round" onchange="calcOdds()" style="font-size:12px;">
-                <option value="0.05">0.05</option>
-                <option value="0.1" selected>0.1</option>
-                <option value="0.25">0.25</option>
-              </select>
-            </div>
-          </div>
-          <div class="calc-result" id="calc-result">
-            <div class="calc-result-row"><span class="calc-result-lbl">YES / OVER Odds</span><span class="calc-result-val" id="cr-yes" style="color:var(--green);">—</span></div>
-            <div class="calc-result-row"><span class="calc-result-lbl">NO / UNDER Odds</span><span class="calc-result-val" id="cr-no" style="color:var(--red);">—</span></div>
-            <div class="calc-result-row"><span class="calc-result-lbl">Implied YES prob</span><span class="calc-result-val" id="cr-yp" style="color:var(--muted);">—</span></div>
-            <div class="calc-result-row"><span class="calc-result-lbl">Implied NO prob</span><span class="calc-result-val" id="cr-np" style="color:var(--muted);">—</span></div>
-            <div style="margin-top:10px;">
-              <div class="calc-meter"><div class="calc-meter-fill" id="cr-bar" style="background:linear-gradient(90deg,var(--green),var(--blue));width:50%;"></div></div>
-              <div class="calc-meter-labels"><span id="cr-bar-yes">YES 50%</span><span id="cr-bar-no">NO 50%</span></div>
-            </div>
-          </div>
-          <div class="calc-verdict good" id="calc-verdict">Set a probability above to get suggested odds.</div>
-          <div class="calc-apply-row">
-            <button class="btn btn-g" onclick="applyCalcOdds()">Copy to New Event</button>
-            <button class="btn btn-gh" onclick="calcOdds()">Recalculate</button>
-          </div>
-        </div>
-      </div>
-
-      <button class="guide-toggle" onclick="toggleGuide()">
-        Admin Guide &amp; Instructions
-        <span class="guide-toggle-arrow" id="guide-arrow">&#9660;</span>
-      </button>
-      <div class="guide-body" id="guide-body">
-
-        <!-- SECTION: Overview -->
-        <div class="gs">
-          <div class="gs-title">How This App Works</div>
-          <div class="gs-block">
-            <div class="gs-head">The Concept</div>
-            <div class="gs-text">AngelinaWatch is a prediction market for your friend group. You create events — things Angelina might or might not do — and players bet coins on the outcome. <strong>1 coin = $1.</strong> At the end, winners collect from losers in cash using the Settlement screen on the Stats tab.</div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Roles</div>
-            <div class="gs-text">
-              <strong>You (Admin)</strong> — create events, set odds, mark events live, resolve outcomes, manage bets.<br><br>
-              <strong>Players</strong> — open the same link on their phone, pick YES/NO or OVER/UNDER, enter a wager, and place their bet. No account needed — they just type their name.
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION: Events -->
-        <div class="gs">
-          <div class="gs-title">Creating & Managing Events</div>
-          <div class="gs-block">
-            <div class="gs-head">Bet Types</div>
-            <div class="gs-text">
-              <span class="gs-tag g">YES / NO</span> Player bets whether something will happen or not.<br>
-              <span class="gs-tag p">OVER / UNDER</span> Player bets whether a number will be higher or lower than a line you set. You also set a label (e.g. "3.5 drinks" or "10 minutes").
-            </div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Event Status</div>
-            <div class="gs-text">
-              <span class="gs-tag g">Open</span> Bets are being accepted.<br>
-              <span class="gs-tag r">Live</span> The event is happening right now — still accepts bets, pulses red so everyone knows.<br>
-              <span class="gs-tag a">Closed</span> No more bets — event hasn't been resolved yet.<br>
-              <span class="gs-tag g">Resolved</span> Outcome has been set — bets are marked win or loss automatically.
-            </div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Setting Odds</div>
-            <div class="gs-text">Odds represent the multiplier a player gets if they win. Higher odds = bigger payout = less likely outcome in your judgment.</div>
-            <div class="gs-formula">
-              YES odds: 2.00 means a $10 bet returns $20 (profit of $10)<br>
-              NO odds: 1.50 means a $10 bet returns $15 (profit of $5)
-            </div>
-            <div class="gs-warn">Odds must be greater than 1.01. An odds of 1.00 would mean no profit at all. Typical values: 1.5 to 5.0 depending on how likely you think the outcome is.</div>
-          </div>
-        </div>
-
-        <!-- SECTION: How Users Bet -->
-        <div class="gs">
-          <div class="gs-title">How Players Place Bets</div>
-          <div class="gs-block">
-            <div class="gs-head">Step-by-step for players</div>
-            <div class="gs-text">
-              1. Open the link on their phone.<br>
-              2. On the <strong>Market</strong> tab, tap YES or NO (or OVER/UNDER) on any event — this adds it to their slip.<br>
-              3. Tap <strong>Slip</strong> to review selections.<br>
-              4. Choose <strong>Singles</strong> (each event bet separately) or <strong>Parlay</strong> (all legs combined into one bigger bet).<br>
-              5. Enter a wager amount in coins — each coin = $1.<br>
-              6. Tap <strong>Place Bet</strong>, enter their name, confirm.<br>
-              7. Done — their bet is saved and visible on the Stats tab.
-            </div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Singles vs Parlay</div>
-            <div class="gs-text">
-              <strong>Singles</strong> — each event is a separate bet with its own wager. If one loses, the others are unaffected.<br><br>
-              <strong>Parlay</strong> — all selected events are tied into one bet. The multipliers stack (multiply together). Higher potential payout but all legs must win or the whole bet is lost.
-            </div>
-            <div class="gs-example">
-              Parlay example:<br>
-              Event A: YES at 2.00x<br>
-              Event B: OVER at 1.80x<br>
-              Combined multiplier: 2.00 x 1.80 = 3.60x<br>
-              Wager: 50 coins — Payout if both win: 180 coins ($180)
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION: Calculations -->
-        <div class="gs">
-          <div class="gs-title">Bet Calculations</div>
-          <div class="gs-block">
-            <div class="gs-head">Single Bet Payout</div>
-            <div class="gs-formula">
-              Payout = Wager x Odds<br>
-              Profit = Payout - Wager<br><br>
-              Example: 100 coins x 2.50 odds = 250 coins payout<br>
-              Profit = 250 - 100 = 150 coins ($150)
-            </div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Parlay Payout</div>
-            <div class="gs-formula">
-              Combined Multiplier = Odds1 x Odds2 x Odds3...<br>
-              Payout = Wager x Combined Multiplier<br><br>
-              Example: 2.00 x 1.70 x 3.00 = 10.20x combined<br>
-              50 coins x 10.20 = 510 coins payout ($510)
-            </div>
-            <div class="gs-warn">All legs of a parlay must win. One loss = entire parlay is lost, regardless of the other outcomes.</div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Net Position (Leaderboard)</div>
-            <div class="gs-formula">
-              Net = Sum of all (Payout - Wager) for wins<br>
-                  - Sum of all Wagers for losses<br><br>
-              Positive net = player is up money<br>
-              Negative net = player owes money
-            </div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Probability Bar on Each Event</div>
-            <div class="gs-text">The colored bar on each event shows where the actual money has gone, not the implied probability from odds. It is calculated from total coins wagered on YES vs NO.</div>
-            <div class="gs-formula">
-              YES% = YES volume / (YES volume + NO volume) x 100<br><br>
-              Example: 300 coins on YES, 100 coins on NO<br>
-              YES% = 300 / 400 = 75%
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION: Resolving -->
-        <div class="gs">
-          <div class="gs-title">Resolving Events</div>
-          <div class="gs-block">
-            <div class="gs-head">How to Resolve</div>
-            <div class="gs-text">
-              From the Market tab (while admin mode is on), tap <strong>Resolve</strong> on any open or live event. Pick the winning outcome. All pending bets on that event are automatically marked win or loss.<br><br>
-              For parlays, the system checks if all legs are resolved. If all legs won, the parlay is marked win. If any leg lost, it is marked loss.
-            </div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Manual Bet Override</div>
-            <div class="gs-text">In the <strong>All Bets</strong> section below, you can manually mark any pending bet as a win or loss. Use this if you need to override the automatic resolution for any reason.</div>
-          </div>
-        </div>
-
-        <!-- SECTION: Settlement -->
-        <div class="gs">
-          <div class="gs-title">Cash Settlement</div>
-          <div class="gs-block">
-            <div class="gs-head">How to Settle Up</div>
-            <div class="gs-text">
-              Go to the <strong>Stats</strong> tab. The Cash Settlement section at the top shows exactly who owes money and who collects, in dollars (1 coin = $1).<br><br>
-              Players with a positive net collect from the group. Players with a negative net owe the group. Use the <strong>Mark Paid</strong> button to track who has settled up in cash.
-            </div>
-            <div class="gs-warn">If any events are still pending, the settlement totals will show a warning. Resolve all events first for final numbers.</div>
-          </div>
-        </div>
-
-        <!-- SECTION: Admin Tools -->
-        <div class="gs">
-          <div class="gs-title">Admin Tools</div>
-          <div class="gs-block">
-            <div class="gs-head">Reset All Bets</div>
-            <div class="gs-text">Deletes all bets from the database and resets coin volumes on all events to zero. Events are kept. Use this to start a fresh round without losing your event list.</div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Factory Reset</div>
-            <div class="gs-text">Deletes everything — all events, all bets, all players. The app returns to a blank slate. This cannot be undone.</div>
-          </div>
-          <div class="gs-block">
-            <div class="gs-head">Passcode</div>
-            <div class="gs-text">The default passcode is <strong>admin</strong>. To change it, edit the line <code style="font-family:'Space Mono',monospace;font-size:11px;background:var(--bg4);padding:2px 6px;border-radius:4px;">const PASS = 'admin'</code> in the HTML file and re-upload to GitHub.</div>
-          </div>
-        </div>
-
-      </div><!-- end guide-body -->
-
-      <div class="asec">
-        <div class="asec-title">Events <button class="btn btn-g btn-sm" onclick="openAddEv()">+ Add</button></div>
-        <div class="card" id="admin-evs"></div>
-      </div>
-      <div class="asec">
-        <div class="asec-title">All Bets</div>
-        <div class="card" id="admin-bets"></div>
-      </div>
-      <div class="asec">
-        <div class="asec-title">Players</div>
-        <div class="card" id="admin-players"></div>
-      </div>
-      <div class="asec">
-        <div class="dzone">
-          <div class="dtitle"> Danger Zone</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <button class="btn btn-d btn-full" onclick="resetBets()">Reset All Bets</button>
-            <button class="btn btn-d btn-full" onclick="resetAll()">Factory Reset Everything</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="aunlock-v" style="display:none;"></div>
   </div>
 
 </div>
@@ -767,7 +528,7 @@ select.fi{cursor:pointer;}
   <button class="ni active" id="nav-market" onclick="go('market')"><span class="ni-icon">MKT</span>Market</button>
   <button class="ni" id="nav-slip" onclick="go('slip')"><span class="ni-icon">SLIP</span>Slip</button>
   <button class="ni" id="nav-stats" onclick="go('stats')"><span class="ni-icon">$$$</span>Stats</button>
-  <button class="ni" id="nav-admin" onclick="go('admin')"><span class="ni-icon">️</span>Admin</button>
+  <button class="ni" id="nav-admin" onclick="go('admin')"><span class="ni-icon">⚙</span>Admin</button>
 </nav>
 
 <div class="sbar hidden" id="sbar">
@@ -807,6 +568,11 @@ select.fi{cursor:pointer;}
         <option value="closed">Closed — No More Bets</option>
       </select>
     </div>
+    <!-- Suggestion chips -->
+    <div class="fg">
+      <label class="fl">💡 Quick Suggestions</label>
+      <div class="chips" id="suggestion-chips"></div>
+    </div>
     <div class="mactions">
       <button class="btn btn-gh" onclick="closeModal('ev-modal')">Cancel</button>
       <button class="btn btn-pri" onclick="saveEv()">Save Event</button>
@@ -821,7 +587,7 @@ select.fi{cursor:pointer;}
     <div class="mtitle">Who's Betting?</div>
     <div class="fg">
       <label class="fl">Pick or type your name</label>
-      <div class="hint" style="margin-bottom:10px;">Your name links all your bets together on the leaderboard. Use the same name every time.</div>
+      <div class="hint" style="margin-bottom:9px;">Your name links all your bets together on the leaderboard. Use the same name every time.</div>
       <div class="chips" id="bchips"></div>
       <div class="ordiv">— or enter a new name —</div>
       <input class="fi" type="text" id="bettor-in" placeholder="Your name…">
@@ -838,23 +604,48 @@ select.fi{cursor:pointer;}
   <div class="modal">
     <div class="mhandle"></div>
     <div class="mtitle">Resolve Event</div>
-    <div style="font-size:14px;color:var(--text2);margin-bottom:12px;line-height:1.5;" id="res-desc"></div>
-    <div class="hint" style="margin-bottom:20px;">Pick the winning outcome. All pending bets on this event will automatically be marked win or loss. This cannot be undone.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <button class="btn btn-g" style="padding:18px;font-size:13px;" onclick="resolveEv('yes')"> YES Wins</button>
-      <button class="btn btn-d" style="padding:18px;font-size:13px;" onclick="resolveEv('no')"> NO Wins</button>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.5;" id="res-desc"></div>
+    <div class="hint" style="margin-bottom:18px;">Pick the winning outcome. All pending bets will be automatically marked win or loss. Cannot be undone.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+      <button class="btn btn-g" id="res-yes-btn" style="padding:16px;font-size:12px;" onclick="resolveEv('yes')">✓ YES Wins</button>
+      <button class="btn btn-d" id="res-no-btn" style="padding:16px;font-size:12px;" onclick="resolveEv('no')">✗ NO Wins</button>
     </div>
-    <button class="btn btn-gh" style="width:100%;margin-top:12px;padding:13px;" onclick="closeModal('res-modal')">Cancel</button>
+    <button class="btn btn-gh" style="width:100%;margin-top:10px;padding:12px;" onclick="closeModal('res-modal')">Cancel</button>
+  </div>
+</div>
+
+<!-- MODAL: Super Admin Edit Bet -->
+<div class="overlay" id="edit-bet-modal">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <div class="mtitle">Edit Bet</div>
+    <div id="edit-bet-form"></div>
+    <div class="mactions">
+      <button class="btn btn-gh" onclick="closeModal('edit-bet-modal')">Cancel</button>
+      <button class="btn btn-pri" onclick="saveEditBet()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Super Admin Edit Event -->
+<div class="overlay" id="edit-ev-full-modal">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <div class="mtitle">Full Edit — Event</div>
+    <div id="edit-ev-full-form"></div>
+    <div class="mactions">
+      <button class="btn btn-gh" onclick="closeModal('edit-ev-full-modal')">Cancel</button>
+      <button class="btn btn-p" onclick="saveFullEditEv()">Save All Changes</button>
+    </div>
   </div>
 </div>
 
 <script>
 // ═══════════════════════════════════
-// SUPABASE — pure fetch, no CDN
+// SUPABASE
 // ═══════════════════════════════════
 const SB_URL = 'https://thglheiydudpbacecmhe.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZ2xoZWl5ZHVkcGJhY2VjbWhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMTQ2ODIsImV4cCI6MjA5Mjg5MDY4Mn0.BDCOfI0iZEGh3z21-T8DlmRJ9Rl2dzlnh-lzUVdOwzk';
-
 const HDR = () => ({'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'});
 
 async function dbGet(table, q='') {
@@ -887,18 +678,24 @@ async function dbDel(table, filter) {
 // ═══════════════════════════════════
 // STATE
 // ═══════════════════════════════════
-let S = (() => {try{return JSON.parse(localStorage.getItem('aw2')||'null')||{events:[],bets:[],bettors:[]}}catch(e){return{events:[],bets:[],bettors:[]}}})();
-let slip = [], betType = 'single', adminOn = false, editEvId = null, resEvId = null, lastSync = null;
+let S = (() => {try{return JSON.parse(localStorage.getItem('aw3')||'null')||{events:[],bets:[],bettors:[]}}catch(e){return{events:[],bets:[],bettors:[]}}})();
+let slip = [], betType = 'single', adminOn = false, superAdminOn = false;
+let editEvId = null, resEvId = null, lastSync = null;
+let editBetId = null, fullEditEvId = null;
 const PASS = 'admin';
+const SUPER_PASS = 'admin51';
 const CLR = ['#ff5fa0','#00e87a','#3d9eff','#ffc932','#b06cff','#ff3d6b','#00d4ff'];
 
-function save() { try{localStorage.setItem('aw2',JSON.stringify(S))}catch(e){} }
+// Chart state for sparklines
+let betHistory = []; // rolling last 10 bet timestamps
+let volumeHistory = []; // rolling volume data
+
+function save() { try{localStorage.setItem('aw3',JSON.stringify(S))}catch(e){} }
 function uid() { return 'x'+Math.random().toString(36).slice(2,10)+Date.now().toString(36); }
 
 function fmtTime(iso) {
   if (!iso) return '—';
-  const d = new Date(iso);
-  const now = new Date();
+  const d = new Date(iso), now = new Date();
   const diff = Math.floor((now - d) / 1000);
   const days = Math.floor(diff / 86400);
   const date = d.toLocaleDateString([], {month:'short', day:'numeric'});
@@ -910,8 +707,7 @@ function fmtTime(iso) {
 
 function fmtTimeShort(iso) {
   if (!iso) return '—';
-  const d = new Date(iso);
-  const now = new Date();
+  const d = new Date(iso), now = new Date();
   const diff = Math.floor((now - d) / 1000);
   if (diff < 60) return diff + 's ago';
   if (diff < 3600) return Math.floor(diff/60) + 'm ago';
@@ -927,13 +723,11 @@ function setStatus(state, msg) {
   const dot=document.getElementById('sdot'), txt=document.getElementById('stxt'),
         time=document.getElementById('stime'), bar=document.getElementById('sbar');
   dot.className='sdot '+(state==='on'?'on':state==='sync'?'sync':'off');
-  txt.textContent=msg;
-  bar.classList.remove('hidden');
+  txt.textContent=msg; bar.classList.remove('hidden');
   clearTimeout(hideTimer);
   if (state==='on') {
-    lastSync=new Date();
-    time.textContent='Just now';
-    hideTimer=setTimeout(()=>bar.classList.add('hidden'), 4000);
+    lastSync=new Date(); time.textContent='Just now';
+    hideTimer=setTimeout(()=>bar.classList.add('hidden'), 3500);
   } else {
     time.textContent=lastSync?lastSync.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'—';
   }
@@ -948,7 +742,7 @@ setInterval(()=>{
 // SYNC
 // ═══════════════════════════════════
 async function sync() {
-  setStatus('sync', 'Syncing…');
+  setStatus('sync','Syncing…');
   try {
     const [evs, bts] = await Promise.all([
       dbGet('events','select=*&order=created_at.desc'),
@@ -957,7 +751,7 @@ async function sync() {
     S.events=evs; S.bets=bts; save();
     renderMarket();
     if (document.getElementById('page-stats').classList.contains('active')) renderStats();
-    if (adminOn && document.getElementById('page-admin').classList.contains('active')) renderAdmin();
+    if ((adminOn||superAdminOn) && document.getElementById('page-admin').classList.contains('active')) renderAdmin();
     setStatus('on','Live · Supabase');
     return true;
   } catch(e) {
@@ -998,30 +792,19 @@ function go(p) {
 // IMBALANCE INDICATOR
 // ═══════════════════════════════════
 function imbalanceBar(ev) {
-  const yes = ev.yesVol || 0;
-  const no = ev.noVol || 0;
-  const tot = yes + no;
+  const yes=ev.yesVol||0, no=ev.noVol||0, tot=yes+no;
   if (tot < 10) return '';
-  const isOU = ev.betType === 'overunder';
-  const yesPct = Math.round((yes / tot) * 100);
-  const noPct = 100 - yesPct;
-  const dominant = yesPct >= noPct ? yesPct : noPct;
-  const dominantSide = yesPct >= noPct ? (isOU ? 'OVER' : 'YES') : (isOU ? 'UNDER' : 'NO');
-  const weakSide = yesPct >= noPct ? (isOU ? 'UNDER' : 'NO') : (isOU ? 'OVER' : 'YES');
-  const weakOdds = yesPct >= noPct ? ev.noOdds : ev.yesOdds;
-
+  const isOU=ev.betType==='overunder';
+  const yesPct=Math.round((yes/tot)*100), noPct=100-yesPct;
+  const dominant=yesPct>=noPct?yesPct:noPct;
+  const dominantSide=yesPct>=noPct?(isOU?'OVER':'YES'):(isOU?'UNDER':'NO');
+  const weakSide=yesPct>=noPct?(isOU?'UNDER':'NO'):(isOU?'OVER':'YES');
+  const weakOdds=yesPct>=noPct?ev.noOdds:ev.yesOdds;
   let cls, msg;
-  if (dominant >= 80) {
-    cls = 'danger';
-    msg = dominantSide + ' has ' + dominant + '% of the money. ' + weakSide + ' is very under-bet — consider raising ' + dominantSide + ' odds to attract more action on ' + weakSide + '.';
-  } else if (dominant >= 65) {
-    cls = 'warn';
-    msg = dominantSide + ' has ' + dominant + '% of the money. Slight imbalance — watch this one. ' + weakSide + ' at ' + weakOdds.toFixed(2) + 'x may be attracting low interest.';
-  } else {
-    cls = 'ok';
-    msg = 'Action is balanced (' + yesPct + '/' + noPct + '). Odds are working well.';
-  }
-  return '<div class="imb-bar"><div class="imb-dot ' + cls + '"></div><div class="imb-txt ' + cls + '">' + msg + '</div></div>';
+  if (dominant>=80){cls='danger';msg=dominantSide+' has '+dominant+'% of the money. '+weakSide+' is very under-bet.';}
+  else if (dominant>=65){cls='warn';msg=dominantSide+' has '+dominant+'% of the money. '+weakSide+' at '+weakOdds.toFixed(2)+'x may need attention.';}
+  else{cls='ok';msg='Action is balanced ('+yesPct+'/'+noPct+'). Odds are working.';}
+  return '<div class="imb-bar"><div class="imb-dot '+cls+'"></div><div class="imb-txt '+cls+'">'+msg+'</div></div>';
 }
 
 // ═══════════════════════════════════
@@ -1030,10 +813,10 @@ function imbalanceBar(ev) {
 function renderMarket() {
   const el=document.getElementById('event-list');
   if (!S.events.length) {
-    el.innerHTML=`<div class="empty"><div class="eico"></div>No events yet.<br>Admin can add some.</div>`;
+    el.innerHTML=`<div class="empty"><div class="eico">📋</div>No events yet.<br>Admin can add some.</div>`;
     return;
   }
-  el.innerHTML=S.events.map(ev=>{
+  el.innerHTML=S.events.map((ev,idx)=>{
     const tot=(ev.yesVol||0)+(ev.noVol||0);
     const yp=tot>0?Math.round((ev.yesVol/tot)*100):50;
     const inSlip=slip.find(s=>s.eventId===ev.id);
@@ -1044,41 +827,42 @@ function renderMarket() {
     else if (ev.status==='resolved-no') accClass='anim-loss';
     else if (ev.status==='closed') accClass='anim-closed';
     const isOU=ev.betType==='overunder';
-    let badge='', badgeHint='';
-    if (ev.status==='open') { badge='<span class="badge b-open">Open</span>'; badgeHint='Accepting bets now'; }
-    else if (ev.status==='live') { badge='<span class="badge b-live">Live</span>'; badgeHint='Happening right now &mdash; still accepting bets'; }
-    else if (ev.status==='resolved-yes') { badge='<span class="badge b-win">'+(isOU?'OVER':'YES')+' Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
-    else if (ev.status==='resolved-no') { badge='<span class="badge b-loss">'+(isOU?'UNDER':'NO')+' Won</span>'; badgeHint='Event resolved &mdash; bets have been paid out'; }
-    else { badge='<span class="badge b-closed">Closed</span>'; badgeHint='No more bets &mdash; waiting on result'; }
-    const abtns=adminOn?`<div style="display:flex;gap:6px;flex-wrap:wrap;">
+    let badge='';
+    if (ev.status==='open') badge='<span class="badge b-open">Open</span>';
+    else if (ev.status==='live') badge='<span class="badge b-live">● Live</span>';
+    else if (ev.status==='resolved-yes') badge='<span class="badge b-win">'+(isOU?'OVER':'YES')+' Won</span>';
+    else if (ev.status==='resolved-no') badge='<span class="badge b-loss">'+(isOU?'UNDER':'NO')+' Won</span>';
+    else badge='<span class="badge b-closed">Closed</span>';
+    const abtns=(adminOn||superAdminOn)?`<div style="display:flex;gap:5px;flex-wrap:wrap;">
       <button class="btn btn-sm btn-gh" onclick="openEditEv('${ev.id}')">Edit</button>
       ${isOpen?`<button class="btn btn-sm" style="border-color:var(--amber);color:var(--amber)" onclick="openRes('${ev.id}')">Resolve</button>`:''}
       <button class="btn btn-sm btn-d" onclick="delEv('${ev.id}')">Del</button>
     </div>`:'';
-    return `<div class="card" style="animation-delay:${S.events.indexOf(ev)*0.06}s">
+    const betCt=S.bets.filter(b=>b.eventId===ev.id||(b.legs&&b.legs.some(l=>l.eventId===ev.id))).length;
+    return `<div class="card" style="animation-delay:${idx*0.05}s">
       <div class="ca ${accClass}"></div>
       <div class="ei">
         <div class="badges">${badge}</div>
-        <div class="hint">${badgeHint}</div>
         <div class="ename">${ev.name}</div>
         <div class="pbar-w">
           <div class="ptrack"><div class="pfill" style="width:${yp}%"></div></div>
-          <div class="plabels"><span>${yp}% YES</span><span>${100-yp}% NO</span></div>
+          <div class="plabels"><span>${yp}% ${isOU?'OVER':'YES'}</span><span>${100-yp}% ${isOU?'UNDER':'NO'}</span></div>
         </div>
         <div class="ogrid">
           <button class="obtn yes${inSlip&&inSlip.side==='YES'?' sel':''}" onclick="toggleSlip('${ev.id}','YES')" ${!isOpen?'disabled':''}>
-            <span class="ol">${ev.betType==='overunder'?'OVER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'YES'}</span>${(ev.yesOdds||2).toFixed(2)}×
+            <span class="ol">${isOU?'OVER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'YES'}</span>${(ev.yesOdds||2).toFixed(2)}×
           </button>
           <button class="obtn no${inSlip&&inSlip.side==='NO'?' sel':''}" onclick="toggleSlip('${ev.id}','NO')" ${!isOpen?'disabled':''}>
-            <span class="ol">${ev.betType==='overunder'?'UNDER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'NO'}</span>${(ev.noOdds||1.7).toFixed(2)}×
+            <span class="ol">${isOU?'UNDER'+(ev.line!=null?' '+ev.line:'')+(ev.lineLabel?' '+ev.lineLabel:''):'NO'}</span>${(ev.noOdds||1.7).toFixed(2)}×
           </button>
         </div>
       </div>
       <div class="efoot">
-        <span class="vol-lbl">Pool: ${tot} coins · ${S.bets.filter(b=>b.eventId===ev.id||(b.legs&&b.legs.some(l=>l.eventId===ev.id))).length} bets</span><span class="vol-lbl" style="margin-left:auto;">${fmtTimeShort(ev.created_at)}</span>
+        <span class="vol-lbl">Pool: ${tot} coins · ${betCt} bets</span>
+        <span class="vol-lbl" style="margin-left:auto;">${fmtTimeShort(ev.created_at)}</span>
         ${abtns}
       </div>
-      ${adminOn && tot >= 10 ? imbalanceBar(ev) : ''}
+      ${(adminOn||superAdminOn) && tot >= 10 ? imbalanceBar(ev) : ''}
     </div>`;
   }).join('');
 }
@@ -1101,11 +885,7 @@ function updateBadge() {
   const el=document.getElementById('sct');
   el.textContent=slip.length;
   el.style.display=slip.length?'flex':'none';
-  if (slip.length) {
-    el.classList.remove('bump');
-    void el.offsetWidth; // force reflow
-    el.classList.add('bump');
-  }
+  if (slip.length) {el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
 }
 
 // ═══════════════════════════════════
@@ -1114,7 +894,7 @@ function updateBadge() {
 function renderSlip() {
   const items=document.getElementById('slip-items'), ctrl=document.getElementById('bet-ctrl');
   if (!slip.length) {
-    items.innerHTML=`<div class="empty"><div class="eico"></div>No selections yet.<br>Pick events from the market.</div>`;
+    items.innerHTML=`<div class="empty"><div class="eico">🎯</div>No selections yet.<br>Pick events from the market.</div>`;
     ctrl.innerHTML=''; return;
   }
   items.innerHTML=slip.map((s,i)=>`
@@ -1134,11 +914,11 @@ function renderCtrl() {
   let inp='';
   if (betType==='parlay') {
     const m=slip.reduce((a,s)=>a*s.odds,1);
-    inp=`<div class="pinfo">Parlay · ${slip.length} legs · <strong>${m.toFixed(2)}×</strong> combined multiplier<br><span style="font-size:10px;opacity:.7;">All ${slip.length} legs must win. One loss = entire bet lost.</span></div>
+    inp=`<div class="pinfo">Parlay · ${slip.length} legs · <strong>${m.toFixed(2)}×</strong> combined<br><span style="font-size:9px;opacity:.7;">All ${slip.length} legs must win.</span></div>
     <div class="ig"><label class="ilbl">Wager</label><div class="irow"><input class="cci" type="number" id="pw" value="10" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div></div>`;
   } else {
     inp=slip.map((s,i)=>`<div class="ig">
-      <label class="ilbl">${s.side} — ${s.name.substring(0,30)}${s.name.length>30?'…':''}</label>
+      <label class="ilbl">${s.side} — ${s.name.substring(0,28)}${s.name.length>28?'…':''}</label>
       <div class="irow"><input class="cci" type="number" id="sw${i}" value="10" min="1" step="10" oninput="calcPay()"><span class="csuf">coins</span></div>
     </div>`).join('');
   }
@@ -1147,14 +927,13 @@ function renderCtrl() {
       <button class="tbtn${betType==='single'?' active':''}" onclick="setType('single')">Singles</button>
       <button class="tbtn${betType==='parlay'?' active':''}" onclick="setType('parlay')">Parlay</button>
     </div>
-    <div class="hint" style="margin-bottom:14px;">${betType==='single'?'<b>Singles:</b> each event is a separate bet &mdash; one loss does not affect the others.':'<b>Parlay:</b> all picks are combined into one bet. Every leg must win or the entire bet is lost &mdash; but the payout is much larger.'}</div>
+    <div class="hint" style="margin-bottom:12px;">${betType==='single'?'<b>Singles:</b> each event bet separately — one loss doesn\'t affect others.':'<b>Parlay:</b> all picks combined. Every leg must win or the entire bet is lost.'}</div>
     ${inp}
-    <div class="hint" style="margin-bottom:4px;">Enter your wager in coins. <b>1 coin = $1.</b> You settle in cash at the end.</div>
+    <div class="hint" style="margin-bottom:3px;">Wager in coins. <b>1 coin = $1.</b> Settle in cash at the end.</div>
     <div class="prow"><span class="plbl">Est. Payout</span><span class="pval" id="pval">—</span></div>
-    <div class="hint center" style="margin-bottom:12px;">This is what you collect if you win &mdash; in coins and dollars.</div>
     <button class="pbtn" onclick="openBetModal()">Place Bet →</button>
-    <div class="hint center" style="margin-top:8px;">This locks your bet. It cannot be changed after you confirm.</div>
-    <button class="btn btn-gh" style="width:100%;margin-top:10px;" onclick="clearSlip()">Clear Slip</button>
+    <div class="hint center" style="margin-top:7px;margin-bottom:10px;">Locks your bet — cannot change after confirming.</div>
+    <button class="btn btn-gh" style="width:100%;" onclick="clearSlip()">Clear Slip</button>
   </div>`;
   calcPay();
 }
@@ -1225,8 +1004,8 @@ function openRes(id) {
   const isOU=ev.betType==='overunder';
   const line=ev.line?(` · Line: ${ev.line}${ev.lineLabel?' '+ev.lineLabel:''}`):'';
   document.getElementById('res-desc').textContent=ev.name+line;
-  document.getElementById('res-yes-btn').textContent=isOU?'OVER Wins':'YES Wins';
-  document.getElementById('res-no-btn').textContent=isOU?'UNDER Wins':'NO Wins';
+  document.getElementById('res-yes-btn').textContent=isOU?'✓ OVER Wins':'✓ YES Wins';
+  document.getElementById('res-no-btn').textContent=isOU?'✗ UNDER Wins':'✗ NO Wins';
   openModal('res-modal');
 }
 
@@ -1257,6 +1036,120 @@ async function resolveEv(result) {
 }
 
 // ═══════════════════════════════════
+// LIVE CHARTS
+// ═══════════════════════════════════
+function renderLiveCharts() {
+  const el = document.getElementById('live-charts');
+  if (!el) return;
+
+  const tot = S.bets.length;
+  const wag = S.bets.reduce((a,b)=>a+(b.wager||0),0);
+  const wins = S.bets.filter(b=>b.status==='win').length;
+  const losses = S.bets.filter(b=>b.status==='loss').length;
+  const pending = S.bets.filter(b=>b.status==='pending').length;
+  const winRate = tot > 0 ? Math.round((wins/(wins+losses||1))*100) : 0;
+
+  // Player net data for donut chart
+  const players = {};
+  S.bets.forEach(b=>{
+    if (!players[b.bettor]) players[b.bettor]={name:b.bettor,wag:0,net:0};
+    players[b.bettor].wag += b.wager||0;
+    if (b.status==='win') players[b.bettor].net += b.payout-b.wager;
+    else if (b.status==='loss') players[b.bettor].net -= b.wager;
+  });
+  const playerList = Object.values(players).sort((a,b)=>b.wag-a.wag);
+  const totalWag = playerList.reduce((a,p)=>a+p.wag,0);
+
+  // Event action bars
+  const evBars = S.events.slice(0,5).map(ev=>{
+    const tv = (ev.yesVol||0)+(ev.noVol||0);
+    return {name:ev.name.substring(0,16), vol:tv, yp:tv>0?Math.round((ev.yesVol/tv)*100):50};
+  });
+  const maxVol = Math.max(...evBars.map(e=>e.vol),1);
+
+  // Build sparkline points (last 10 bets by time)
+  const sorted = [...S.bets].sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+  const last10 = sorted.slice(-10);
+  let running = 0;
+  const sparkPts = last10.map(b=>{ running+=b.wager||0; return running; });
+  const maxSpark = Math.max(...sparkPts, 1);
+  const sparkPath = sparkPts.length > 1
+    ? sparkPts.map((v,i)=>`${i===0?'M':'L'}${Math.round(i*(100/(sparkPts.length-1)))} ${Math.round((1-v/maxSpark)*36)}`).join(' ')
+    : 'M0 18 L100 18';
+
+  // Donut SVG for player volume
+  let donutHtml = '';
+  if (playerList.length > 0 && totalWag > 0) {
+    let startAngle = -90;
+    let slices = '';
+    const donutData = playerList.slice(0,5);
+    const r = 30, cx = 38, cy = 38, stroke = 14;
+    const circumference = 2 * Math.PI * r;
+    donutData.forEach((p,i) => {
+      const pct = p.wag / totalWag;
+      const dasharray = pct * circumference;
+      const dashoffset = circumference - dasharray;
+      const offset = circumference * (1 - donutData.slice(0,i).reduce((a,x)=>a+x.wag/totalWag,0));
+      slices += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${CLR[i%CLR.length]}" stroke-width="${stroke}" stroke-dasharray="${dasharray.toFixed(1)} ${(circumference-dasharray).toFixed(1)}" stroke-dashoffset="${(circumference - donutData.slice(0,i).reduce((a,x)=>a+x.wag/totalWag,0)*circumference).toFixed(1)}" transform="rotate(-90 ${cx} ${cy})" style="transition:all .5s ease;" />`;
+    });
+    const legendItems = donutData.map((p,i)=>`<div class="donut-item"><div class="donut-dot" style="background:${CLR[i%CLR.length]}"></div><div class="donut-lbl">${p.name}</div><div class="donut-pct">${Math.round(p.wag/totalWag*100)}%</div></div>`).join('');
+    donutHtml = `<div class="chart-card bc" style="grid-column:span 2;">
+      <div class="chart-label"><span class="pulse-dot"></span>Volume by Player</div>
+      <div class="donut-wrap">
+        <svg class="donut-svg" width="76" height="76" viewBox="0 0 76 76">${slices}<text x="${cx}" y="${cy+5}" text-anchor="middle" fill="var(--text)" font-family="'Bebas Neue',sans-serif" font-size="14">${totalWag}c</text></svg>
+        <div class="donut-legend">${legendItems}</div>
+      </div>
+    </div>`;
+  }
+
+  // Mini event action bars
+  let evBarsHtml = '';
+  if (evBars.length > 0) {
+    const bars = evBars.map((e,i)=>`
+      <div style="margin-bottom:7px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+          <span style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text2);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.name}</span>
+          <span style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);">${e.vol}c</span>
+        </div>
+        <div style="height:5px;background:var(--bg5);border-radius:3px;overflow:hidden;display:flex;">
+          <div style="height:100%;width:${e.yp}%;background:var(--green);border-radius:3px 0 0 3px;transition:width .5s ease;"></div>
+          <div style="height:100%;flex:1;background:var(--red);border-radius:0 3px 3px 0;"></div>
+        </div>
+      </div>`).join('');
+    evBarsHtml = `<div class="chart-card ac" style="grid-column:span 2;">
+      <div class="chart-label"><span class="pulse-dot"></span>Event Action (YES% vs NO%)</div>
+      ${bars}
+    </div>`;
+  }
+
+  el.innerHTML = `
+    <div style="font-family:'Space Mono',monospace;font-size:8.5px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><span class="pulse-dot"></span>Live Dashboard</div>
+    <div class="charts-grid">
+      <div class="chart-card gc">
+        <div class="chart-label">Total Wagered</div>
+        <div class="chart-val g">${wag}</div>
+        <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
+          <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:var(--green);stop-opacity:.3"/><stop offset="100%" style="stop-color:var(--blue);stop-opacity:.3"/></linearGradient></defs>
+          <path d="${sparkPath} L100 36 L0 36 Z" fill="url(#sg)" />
+          <path d="${sparkPath}" fill="none" stroke="var(--green)" stroke-width="1.5" />
+        </svg>
+      </div>
+      <div class="chart-card pc">
+        <div class="chart-label">Win Rate</div>
+        <div class="chart-val p">${winRate}%</div>
+        <div style="margin-top:4px;">
+          <div style="height:5px;background:var(--bg5);border-radius:3px;overflow:hidden;">
+            <div style="height:100%;width:${winRate}%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:3px;transition:width .6s ease;"></div>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:7.5px;color:var(--text2);margin-top:5px;">${wins}W · ${losses}L · ${pending} pending</div>
+        </div>
+      </div>
+      ${donutHtml}
+      ${evBarsHtml}
+    </div>`;
+}
+
+// ═══════════════════════════════════
 // STATS
 // ═══════════════════════════════════
 function renderSettlement() {
@@ -1274,33 +1167,23 @@ function renderSettlement() {
   const collectors = list.filter(p=>p.net>0).sort((a,b)=>b.net-a.net);
   const payers = list.filter(p=>p.net<0).sort((a,b)=>a.net-b.net);
   const even = list.filter(p=>p.net===0);
-
   let rows = '';
   collectors.forEach((p,i) => {
     const settled = (S.settled||{})[p.name];
     rows += `<div class="settle-row">
       <div class="settle-av" style="background:${CLR[i%CLR.length]}22;color:${CLR[i%CLR.length]}">${p.name[0].toUpperCase()}</div>
-      <div class="settle-info">
-        <div class="settle-name">${p.name}</div>
-        <div class="settle-line" style="color:var(--green)">Collects</div>
-      </div>
-      <div class="settle-amount">
-        <div class="settle-dollar" style="color:var(--green)">+${p.net} coins<br><span style=\"font-size:16px\">= +$${p.net}</span></div>
-        <div class="settle-action" style="color:var(--green)">Gets paid</div>
-      </div>
+      <div class="settle-info"><div class="settle-name">${p.name}</div><div class="settle-line" style="color:var(--green)">Collects</div></div>
+      <div class="settle-amount"><div class="settle-dollar" style="color:var(--green)">+$${p.net}</div><div class="settle-action" style="color:var(--green)">Gets paid</div></div>
     </div>`;
   });
   payers.forEach((p,i) => {
     const settled = (S.settled||{})[p.name];
     rows += `<div class="settle-row">
       <div class="settle-av" style="background:${CLR[(i+3)%CLR.length]}22;color:${CLR[(i+3)%CLR.length]}">${p.name[0].toUpperCase()}</div>
-      <div class="settle-info">
-        <div class="settle-name">${p.name}</div>
-        <div class="settle-line" style="color:var(--red)">Owes</div>
-      </div>
-      <div class="settle-amount" style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-        <div class="settle-dollar" style="color:var(--red)">-${Math.abs(p.net)} coins<br><span style=\"font-size:16px\">= -$${Math.abs(p.net)}</span></div>
-        <button class="settle-btn${settled?' paid':''}" onclick="toggleSettled('${p.name}')">${settled?' Paid':'Mark Paid'}</button>
+      <div class="settle-info"><div class="settle-name">${p.name}</div><div class="settle-line" style="color:var(--red)">Owes</div></div>
+      <div class="settle-amount" style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+        <div class="settle-dollar" style="color:var(--red)">-$${Math.abs(p.net)}</div>
+        <button class="settle-btn${settled?' paid':''}" onclick="toggleSettled('${p.name}')">${settled?'✓ Paid':'Mark Paid'}</button>
       </div>
     </div>`;
   });
@@ -1311,15 +1194,12 @@ function renderSettlement() {
       <div class="settle-amount"><div class="settle-dollar" style="color:var(--muted)">$0</div></div>
     </div>`;
   });
-
   sec.innerHTML = `
-    ${hasPending?`<div class="pending-note"> Some bets are still pending — final totals may change once events are resolved.</div>`:''}
+    ${hasPending?`<div class="pending-note">⚠ Some bets still pending — final totals may change.</div>`:''}
     <div class="settle-card">
-      <div class="settle-header">
-        <div><div class="settle-title"> Cash Settlement</div><div class="settle-sub">1 coin = $1 · Settle up in cash</div></div>
-      </div>
+      <div class="settle-header"><div><div class="settle-title">💰 Cash Settlement</div><div class="settle-sub">1 coin = $1 · Settle up in cash</div></div></div>
       ${rows}
-      <div class="settle-note">1 coin = $1. These totals are final once all events are resolved.<br>Tap Mark Paid to track who has settled up in cash.<br>Winners collect from losers &mdash; the net always balances to zero.</div>
+      <div class="settle-note">1 coin = $1 · Winners collect from losers · Net always balances to zero</div>
     </div>`;
 }
 
@@ -1330,13 +1210,7 @@ function toggleSettled(name) {
 }
 
 function renderStats() {
-  const tot=S.bets.length, wag=S.bets.reduce((a,b)=>a+(b.wager||0),0),
-        wins=S.bets.filter(b=>b.status==='win').length, losses=S.bets.filter(b=>b.status==='loss').length;
-  document.getElementById('stats-grid').innerHTML=`
-    <div class="sc b"><div class="slbl">Total Bets</div><div class="sv b">${tot}</div></div>
-    <div class="sc a"><div class="slbl">CC Wagered</div><div class="sv a">${wag}</div></div>
-    <div class="sc g"><div class="slbl">Wins</div><div class="sv g">${wins}</div></div>
-    <div class="sc r"><div class="slbl">Losses</div><div class="sv r">${losses}</div></div>`;
+  renderLiveCharts();
   renderSettlement();
   const players={};
   S.bets.forEach(b=>{
@@ -1354,38 +1228,43 @@ function renderStats() {
       <div class="lav" style="background:${CLR[i%CLR.length]}22;color:${CLR[i%CLR.length]}">${p.name[0].toUpperCase()}</div>
       <div style="flex:1;min-width:0;">
         <div class="lname">${p.name}</div>
-        <div class="ldet" style="margin-top:2px;">Last bet: ${fmtTimeShort(p.lastBet)}</div>
+        <div class="ldet" style="margin-top:1px;text-align:left;">Last bet: ${fmtTimeShort(p.lastBet)}</div>
       </div>
       <div style="text-align:right;">
         <div class="lnet" style="color:${p.net>=0?'var(--green)':'var(--red)'}">${p.net>=0?'+':''}${p.net} coins</div>
         <div class="ldet">${p.w}W · ${p.l}L · ${p.p} pend</div>
-        ${adminOn?`<button class="btn btn-sm btn-d" style="margin-top:6px;" onclick="statDelPlayer('${p.name}')">Remove</button>`:''}
+        ${superAdminOn?`<button class="btn btn-sm btn-d" style="margin-top:5px;" onclick="statDelPlayer('${p.name}')">Remove</button>`:''}
       </div>
     </div>`).join(''):
-    `<div class="empty" style="padding:24px;">No bets yet</div>`;
+    `<div class="empty" style="padding:22px;">No bets yet</div>`;
+
   document.getElementById('bet-history').innerHTML=S.bets.length?
     [...S.bets].reverse().map(b=>{
       const n=b.type==='parlay'?`Parlay (${b.legs.length} legs)`:b.name;
       const side=b.type==='parlay'?b.legs.map(l=>l.side[0]).join('+'):b.side;
       const sc=b.status==='win'?'b-win':b.status==='loss'?'b-loss':b.type==='parlay'?'b-parlay':'b-pend';
-      const adminBetCtrl=adminOn?`<div style="display:flex;gap:4px;margin-top:6px;justify-content:flex-end;">
+      const superCtrl=superAdminOn?`<div style="display:flex;gap:4px;margin-top:5px;justify-content:flex-end;flex-wrap:wrap;">
+        ${b.status==='pending'?`<button class="btn btn-sm btn-g" onclick="statSetBet('${b.id}','win')">Win</button><button class="btn btn-sm btn-d" onclick="statSetBet('${b.id}','loss')">Loss</button>`:''}
+        <button class="btn btn-sm btn-p" onclick="openEditBet('${b.id}')">Edit</button>
+        <button class="btn btn-sm btn-d" onclick="statDelBet('${b.id}')">Del</button>
+      </div>`:(adminOn?`<div style="display:flex;gap:4px;margin-top:5px;justify-content:flex-end;">
         ${b.status==='pending'?`<button class="btn btn-sm btn-g" onclick="statSetBet('${b.id}','win')">Win</button><button class="btn btn-sm btn-d" onclick="statSetBet('${b.id}','loss')">Loss</button>`:''}
         <button class="btn btn-sm btn-gh" onclick="statDelBet('${b.id}')">Del</button>
-      </div>`:'';
+      </div>`:'');
       return `<div class="brow">
         <div>
           <div class="bname">${b.bettor} · <span style="color:${b.status==='win'?'var(--green)':b.status==='loss'?'var(--red)':'var(--amber)'}">${side}</span></div>
-          <div class="bmeta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${n}</div>
-          <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);margin-top:3px;">${fmtTime(b.created_at)}</div>
+          <div class="bmeta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">${n}</div>
+          <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text2);margin-top:2px;">${fmtTime(b.created_at)}</div>
         </div>
         <div style="text-align:right;">
           <div class="bamt">${b.wager}/${b.payout} coins</div>
-          <div style="margin-top:4px;"><span class="badge ${sc}">${b.status}</span></div>
-          ${adminBetCtrl}
+          <div style="margin-top:3px;"><span class="badge ${sc}">${b.status}</span></div>
+          ${superCtrl}
         </div>
       </div>`;
     }).join(''):
-    `<div class="empty" style="padding:24px;">No bets placed yet</div>`;
+    `<div class="empty" style="padding:22px;">No bets placed yet</div>`;
 }
 
 // ═══════════════════════════════════
@@ -1418,10 +1297,119 @@ function statDelPlayer(name) {
 }
 
 // ═══════════════════════════════════
-// ADMIN
+// SUPER ADMIN — EDIT BET
+// ═══════════════════════════════════
+function openEditBet(id) {
+  const b=S.bets.find(x=>x.id===id); if (!b) return;
+  editBetId=id;
+  document.getElementById('edit-bet-form').innerHTML=`
+    <div class="fg"><label class="fl">Bettor Name</label><input class="fi" type="text" id="eb-bettor" value="${b.bettor}"></div>
+    <div class="fg"><label class="fl">Wager (coins)</label><input class="fi" type="number" id="eb-wager" value="${b.wager}" min="1"></div>
+    <div class="fg"><label class="fl">Payout (coins)</label><input class="fi" type="number" id="eb-payout" value="${b.payout}" min="1"></div>
+    <div class="fg"><label class="fl">Status</label>
+      <select class="fi" id="eb-status">
+        <option value="pending"${b.status==='pending'?' selected':''}>Pending</option>
+        <option value="win"${b.status==='win'?' selected':''}>Win</option>
+        <option value="loss"${b.status==='loss'?' selected':''}>Loss</option>
+      </select>
+    </div>
+    ${b.type==='single'?`<div class="fg"><label class="fl">Side</label><select class="fi" id="eb-side"><option value="YES"${b.side==='YES'?' selected':''}>YES / OVER</option><option value="NO"${b.side==='NO'?' selected':''}>NO / UNDER</option></select></div>`:''}
+    <div class="super-section"><div class="super-title">Danger</div>
+      <button class="btn btn-d btn-full" onclick="superDeleteBet('${id}')">Delete This Bet</button>
+    </div>`;
+  openModal('edit-bet-modal');
+}
+
+async function saveEditBet() {
+  const b=S.bets.find(x=>x.id===editBetId); if (!b) return;
+  b.bettor=document.getElementById('eb-bettor').value.trim()||b.bettor;
+  b.wager=parseFloat(document.getElementById('eb-wager').value)||b.wager;
+  b.payout=parseFloat(document.getElementById('eb-payout').value)||b.payout;
+  b.status=document.getElementById('eb-status').value;
+  if (b.type==='single'&&document.getElementById('eb-side')) b.side=document.getElementById('eb-side').value;
+  try{await dbPatch('bets','id=eq.'+editBetId,{bettor:b.bettor,wager:b.wager,payout:b.payout,status:b.status,side:b.side});}catch(e){console.error(e);}
+  closeModal('edit-bet-modal'); save(); renderStats(); renderAdmin();
+  showToast('Bet updated','t-g');
+}
+
+async function superDeleteBet(id) {
+  if (!confirm('Permanently delete this bet?')) return;
+  S.bets=S.bets.filter(b=>b.id!==id);
+  try{await dbDel('bets','id=eq.'+id);}catch(e){console.error(e);}
+  closeModal('edit-bet-modal'); save(); renderStats(); renderAdmin();
+  showToast('Bet deleted','t-a');
+}
+
+// ═══════════════════════════════════
+// SUPER ADMIN — FULL EDIT EVENT
+// ═══════════════════════════════════
+function openFullEditEv(id) {
+  const ev=S.events.find(e=>e.id===id); if (!ev) return;
+  fullEditEvId=id;
+  document.getElementById('edit-ev-full-form').innerHTML=`
+    <div class="fg"><label class="fl">Description</label><textarea class="fi" id="fee-desc" rows="3" style="resize:none;">${ev.name}</textarea></div>
+    <div class="frow">
+      <div class="fg"><label class="fl">YES Odds</label><input class="fi" type="number" id="fee-yes" step="0.1" value="${ev.yesOdds}"></div>
+      <div class="fg"><label class="fl">NO Odds</label><input class="fi" type="number" id="fee-no" step="0.1" value="${ev.noOdds}"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">YES Volume (coins)</label><input class="fi" type="number" id="fee-yesvol" value="${ev.yesVol||0}" min="0"></div>
+      <div class="fg"><label class="fl">NO Volume (coins)</label><input class="fi" type="number" id="fee-novol" value="${ev.noVol||0}" min="0"></div>
+    </div>
+    <div class="fg"><label class="fl">Status</label>
+      <select class="fi" id="fee-status">
+        <option value="open"${ev.status==='open'?' selected':''}>Open</option>
+        <option value="live"${ev.status==='live'?' selected':''}>Live</option>
+        <option value="closed"${ev.status==='closed'?' selected':''}>Closed</option>
+        <option value="resolved-yes"${ev.status==='resolved-yes'?' selected':''}>Resolved — YES Won</option>
+        <option value="resolved-no"${ev.status==='resolved-no'?' selected':''}>Resolved — NO Won</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Bet Type</label>
+      <select class="fi" id="fee-type">
+        <option value="yesno"${(ev.betType||'yesno')==='yesno'?' selected':''}>YES / NO</option>
+        <option value="overunder"${ev.betType==='overunder'?' selected':''}>OVER / UNDER</option>
+      </select>
+    </div>
+    <div class="super-section"><div class="super-title">Danger</div>
+      <button class="btn btn-d btn-full" onclick="superDeleteEv('${id}')">Delete This Event + All Bets</button>
+    </div>`;
+  openModal('edit-ev-full-modal');
+}
+
+async function saveFullEditEv() {
+  const ev=S.events.find(e=>e.id===fullEditEvId); if (!ev) return;
+  ev.name=document.getElementById('fee-desc').value.trim()||ev.name;
+  ev.yesOdds=parseFloat(document.getElementById('fee-yes').value)||ev.yesOdds;
+  ev.noOdds=parseFloat(document.getElementById('fee-no').value)||ev.noOdds;
+  ev.yesVol=parseFloat(document.getElementById('fee-yesvol').value)||0;
+  ev.noVol=parseFloat(document.getElementById('fee-novol').value)||0;
+  ev.status=document.getElementById('fee-status').value;
+  ev.betType=document.getElementById('fee-type').value;
+  try{await dbUpsert('events',ev);}catch(e){console.error(e);}
+  closeModal('edit-ev-full-modal'); save(); renderAdmin(); renderMarket();
+  showToast('Event fully updated','t-g');
+}
+
+async function superDeleteEv(id) {
+  if (!confirm('Delete this event AND all associated bets? This cannot be undone.')) return;
+  const betIds=S.bets.filter(b=>b.eventId===id||(b.legs&&b.legs.some(l=>l.eventId===id))).map(b=>b.id);
+  S.events=S.events.filter(e=>e.id!==id);
+  S.bets=S.bets.filter(b=>!betIds.includes(b.id));
+  try{
+    await dbDel('events','id=eq.'+id);
+    for (const bid of betIds) await dbDel('bets','id=eq.'+bid);
+  }catch(e){console.error(e);}
+  closeModal('edit-ev-full-modal'); save(); renderAdmin(); renderMarket();
+  showToast('Event and bets deleted','t-r');
+}
+
+// ═══════════════════════════════════
+// ADMIN VIEW
 // ═══════════════════════════════════
 function renderAdminView() {
-  if (!adminOn) {
+  const isAny = adminOn || superAdminOn;
+  if (!isAny) {
     document.getElementById('alock-v').style.display='block';
     document.getElementById('aunlock-v').style.display='none';
   } else {
@@ -1433,9 +1421,13 @@ function renderAdminView() {
 }
 
 function checkPass() {
-  if (document.getElementById('apin').value===PASS) {
-    adminOn=true;
-    document.getElementById('abar').classList.add('on');
+  const val = document.getElementById('apin').value;
+  if (val === SUPER_PASS) { unlockSuper(); return; }
+  if (val === PASS) {
+    adminOn=true; superAdminOn=false;
+    const bar=document.getElementById('abar');
+    bar.classList.add('on'); bar.classList.remove('super');
+    document.getElementById('admin-bar-label').textContent='Admin Active';
     renderAdminView(); renderMarket();
     showToast('Admin unlocked','t-g');
   } else {
@@ -1444,49 +1436,193 @@ function checkPass() {
   }
 }
 
+function checkSuperPass() {
+  const val = document.getElementById('apin').value;
+  if (val === SUPER_PASS) { unlockSuper(); }
+  else { showToast('Wrong super admin passcode','t-r'); document.getElementById('apin').value=''; }
+}
+
+function unlockSuper() {
+  adminOn=true; superAdminOn=true;
+  const bar=document.getElementById('abar');
+  bar.classList.add('on','super');
+  document.getElementById('admin-bar-label').textContent='⚡ Admin+ Active';
+  renderAdminView(); renderMarket();
+  showToast('Super Admin unlocked','t-a');
+}
+
 function exitAdmin() {
-  adminOn=false;
-  document.getElementById('abar').classList.remove('on');
+  adminOn=false; superAdminOn=false;
+  const bar=document.getElementById('abar');
+  bar.classList.remove('on','super');
   document.getElementById('apin').value='';
   renderMarket(); go('market');
 }
 
 function renderAdmin() {
-  if (!adminOn) return;
+  if (!adminOn && !superAdminOn) return;
+  const container = document.getElementById('aunlock-v');
+
+  const superBadge = superAdminOn ? '<span class="badge b-parlay" style="font-size:8px;margin-left:8px;">ADMIN+</span>' : '';
+
+  container.innerHTML = `
+    <!-- ODDS CALCULATOR -->
+    <div class="calc-card">
+      <div class="calc-header">
+        <div><div class="calc-title">Odds Calculator</div><div class="calc-sub">Set probability · get suggested odds</div></div>
+      </div>
+      <div class="calc-body">
+        <div class="prob-slider-wrap">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
+            <span class="calc-lbl">How likely is YES / OVER?</span>
+            <span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--text);" id="calc-prob-display">50%</span>
+          </div>
+          <input class="prob-slider" type="range" id="calc-prob" min="5" max="95" value="50" step="5" oninput="calcOdds()">
+          <div class="calc-meter-labels" style="margin-top:4px;"><span>Unlikely</span><span>Even</span><span>Likely</span></div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field">
+            <div class="calc-lbl">House Edge %</div>
+            <input class="calc-in" type="number" id="calc-vig" value="10" min="0" max="30" step="1" oninput="calcOdds()">
+          </div>
+          <div class="calc-field">
+            <div class="calc-lbl">Round to</div>
+            <select class="calc-in" id="calc-round" onchange="calcOdds()" style="font-size:11px;">
+              <option value="0.05">0.05</option>
+              <option value="0.1" selected>0.1</option>
+              <option value="0.25">0.25</option>
+            </select>
+          </div>
+        </div>
+        <div class="calc-result" id="calc-result">
+          <div class="calc-result-row"><span class="calc-result-lbl">YES / OVER Odds</span><span class="calc-result-val" id="cr-yes" style="color:var(--green);">—</span></div>
+          <div class="calc-result-row"><span class="calc-result-lbl">NO / UNDER Odds</span><span class="calc-result-val" id="cr-no" style="color:var(--red);">—</span></div>
+          <div class="calc-result-row"><span class="calc-result-lbl">Implied YES prob</span><span class="calc-result-val" id="cr-yp" style="color:var(--muted);">—</span></div>
+          <div class="calc-result-row"><span class="calc-result-lbl">Implied NO prob</span><span class="calc-result-val" id="cr-np" style="color:var(--muted);">—</span></div>
+          <div style="margin-top:9px;">
+            <div class="calc-meter"><div class="calc-meter-fill" id="cr-bar" style="background:linear-gradient(90deg,var(--green),var(--blue));width:50%;"></div></div>
+            <div class="calc-meter-labels"><span id="cr-bar-yes">YES 50%</span><span id="cr-bar-no">NO 50%</span></div>
+          </div>
+        </div>
+        <div class="calc-verdict good" id="calc-verdict">Set a probability above to get suggested odds.</div>
+        <div class="calc-apply-row">
+          <button class="btn btn-g" onclick="applyCalcOdds()">Copy to New Event</button>
+          <button class="btn btn-gh" onclick="calcOdds()">Recalculate</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="guide-toggle" onclick="toggleGuide()">
+      Admin Guide &amp; Instructions
+      <span class="guide-toggle-arrow" id="guide-arrow">&#9660;</span>
+    </button>
+    <div class="guide-body" id="guide-body">
+      <div class="gs">
+        <div class="gs-title">How This App Works</div>
+        <div class="gs-block"><div class="gs-head">The Concept</div><div class="gs-text">AngelinaWatch is a prediction market for your friend group. Create events, players bet coins, admin resolves outcomes. <strong>1 coin = $1.</strong></div></div>
+        <div class="gs-block"><div class="gs-head">Passcodes</div><div class="gs-text"><strong>admin</strong> — standard admin (create/edit/resolve events, mark bets).<br><strong>admin51</strong> — super admin (full edit everything including volumes and bet history, delete anything).</div></div>
+      </div>
+      <div class="gs">
+        <div class="gs-title">Bet Types</div>
+        <div class="gs-block"><div class="gs-text"><span class="gs-tag g">YES / NO</span> Will it happen or not?<br><span class="gs-tag p">OVER / UNDER</span> Will a number exceed the line you set?</div></div>
+      </div>
+      <div class="gs">
+        <div class="gs-title">Calculations</div>
+        <div class="gs-block"><div class="gs-formula">Payout = Wager × Odds<br>Profit = Payout − Wager<br>Parlay: Odds1 × Odds2 × … × OddsN</div></div>
+      </div>
+    </div>
+
+    <div class="asec">
+      <div class="asec-title">Events ${superBadge}<button class="btn btn-g btn-sm" onclick="openAddEv()" style="margin-left:auto;">+ Add</button></div>
+      <div class="card" id="admin-evs"></div>
+    </div>
+
+    ${superAdminOn ? `<div class="asec">
+      <div class="asec-title">Bet History <span class="badge b-parlay" style="font-size:8px;">SUPER EDIT</span></div>
+      <div class="card" id="admin-bets-super"></div>
+    </div>` : ''}
+
+    <div class="asec">
+      <div class="asec-title">All Bets</div>
+      <div class="card" id="admin-bets"></div>
+    </div>
+
+    <div class="asec">
+      <div class="asec-title">Players</div>
+      <div class="card" id="admin-players"></div>
+    </div>
+
+    ${superAdminOn ? `<div class="super-section">
+      <div class="super-title">Super Admin — Full Data Control</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button class="btn btn-d btn-full" onclick="resetBets()">Reset All Bets (Keep Events)</button>
+        <button class="btn btn-d btn-full" onclick="resetAll()">Factory Reset Everything</button>
+        <button class="btn btn-p btn-full" onclick="exportData()">Export All Data (JSON)</button>
+      </div>
+    </div>` : `<div class="asec"><div class="dzone"><div class="dtitle">⚠ Danger Zone</div><div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="btn btn-d btn-full" onclick="resetBets()">Reset All Bets</button>
+      <button class="btn btn-d btn-full" onclick="resetAll()">Factory Reset Everything</button>
+    </div></div></div>`}
+  `;
+
+  // Populate events list
   document.getElementById('admin-evs').innerHTML=S.events.length?
     S.events.map(ev=>`<div class="ar">
-      <div class="ari"><div class="arn">${ev.name}</div><div class="arm">YES ${ev.yesOdds}× · NO ${ev.noOdds}× · ${ev.status}</div></div>
+      <div class="ari">
+        <div class="arn">${ev.name}</div>
+        <div class="arm">YES ${ev.yesOdds}× · NO ${ev.noOdds}× · ${ev.status} · Pool: ${(ev.yesVol||0)+(ev.noVol||0)}c</div>
+      </div>
       <div class="aacts">
         <button class="btn btn-sm btn-gh" onclick="openEditEv('${ev.id}')">Edit</button>
+        ${superAdminOn?`<button class="btn btn-sm btn-p" onclick="openFullEditEv('${ev.id}')">Full</button>`:''}
         <button class="btn btn-sm btn-d" onclick="delEv('${ev.id}')">Del</button>
       </div>
     </div>`).join(''):
-    `<div class="empty" style="padding:20px;">No events</div>`;
+    `<div class="empty" style="padding:18px;">No events</div>`;
 
-  document.getElementById('admin-bets').innerHTML=S.bets.length?
-    [...S.bets].reverse().map(b=>{
-      const sc=b.status==='win'?'b-win':b.status==='loss'?'b-loss':b.type==='parlay'?'b-parlay':'b-pend';
-      return `<div class="ar">
-        <div class="ari"><div class="arn">${b.bettor} — ${b.type==='parlay'?'Parlay':b.side} — ${b.wager} coins</div>
-        <div class="arm" style="white-space:normal;">${b.type==='parlay'?b.legs.map(l=>l.name.substring(0,22)+'…').join(' + '):b.name.substring(0,50)}</div><div class="arm" style="color:var(--dim);margin-top:2px;">${fmtTime(b.created_at)}</div></div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">
-          <span class="badge ${sc}">${b.status}</span>
-          ${b.status==='pending'?`<div style="display:flex;gap:4px;">
-            <button class="btn btn-sm btn-g" onclick="setBetStat('${b.id}','win')">Win</button>
-            <button class="btn btn-sm btn-d" onclick="setBetStat('${b.id}','loss')">Loss</button>
-          </div>`:''}
-        </div>
-      </div>`;
-    }).join(''):
-    `<div class="empty" style="padding:20px;">No bets</div>`;
+  // Populate bets
+  const betRows=[...S.bets].reverse().map(b=>{
+    const sc=b.status==='win'?'b-win':b.status==='loss'?'b-loss':b.type==='parlay'?'b-parlay':'b-pend';
+    return `<div class="ar">
+      <div class="ari">
+        <div class="arn">${b.bettor} — ${b.type==='parlay'?'Parlay':b.side} — ${b.wager}c</div>
+        <div class="arm" style="white-space:normal;">${b.type==='parlay'?b.legs.map(l=>l.name.substring(0,20)+'…').join(' + '):b.name.substring(0,45)}</div>
+        <div class="arm" style="margin-top:2px;">${fmtTime(b.created_at)}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
+        <span class="badge ${sc}">${b.status}</span>
+        ${b.status==='pending'?`<div style="display:flex;gap:4px;">
+          <button class="btn btn-sm btn-g" onclick="setBetStat('${b.id}','win')">Win</button>
+          <button class="btn btn-sm btn-d" onclick="setBetStat('${b.id}','loss')">Loss</button>
+        </div>`:''}
+        ${superAdminOn?`<button class="btn btn-sm btn-p" onclick="openEditBet('${b.id}')">Edit</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  if (superAdminOn && document.getElementById('admin-bets-super')) {
+    document.getElementById('admin-bets-super').innerHTML=S.bets.length?betRows:`<div class="empty" style="padding:18px;">No bets</div>`;
+  }
+  document.getElementById('admin-bets').innerHTML=S.bets.length?betRows:`<div class="empty" style="padding:18px;">No bets</div>`;
 
   document.getElementById('admin-players').innerHTML=S.bettors.length?
     S.bettors.map((n,i)=>`<div class="ar">
-      <div style="width:34px;height:34px;border-radius:50%;background:${CLR[i%CLR.length]}22;color:${CLR[i%CLR.length]};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">${n[0].toUpperCase()}</div>
+      <div style="width:32px;height:32px;border-radius:50%;background:${CLR[i%CLR.length]}22;color:${CLR[i%CLR.length]};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">${n[0].toUpperCase()}</div>
       <div class="ari"><div class="arn">${n}</div></div>
       <button class="btn btn-sm btn-d" onclick="rmPlayer('${n}')">Remove</button>
     </div>`).join(''):
-    `<div class="empty" style="padding:20px;">No players yet</div>`;
+    `<div class="empty" style="padding:18px;">No players yet</div>`;
+
+  setTimeout(calcOdds, 50);
+}
+
+function exportData() {
+  const data = JSON.stringify({events:S.events, bets:S.bets, bettors:S.bettors, exported:new Date().toISOString()}, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='angelina-data-'+Date.now()+'.json';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Data exported','t-g');
 }
 
 async function setBetStat(id, status) {
@@ -1504,10 +1640,7 @@ function rmPlayer(n) {
 
 async function resetBets() {
   if (!confirm('Delete ALL bets and reset volumes? Cannot be undone.')) return;
-  try{
-    await dbDel('bets','');
-    for (const ev of S.events){ev.yesVol=0;ev.noVol=0;await dbUpsert('events',ev);}
-  }catch(e){console.error(e);}
+  try{await dbDel('bets','');for (const ev of S.events){ev.yesVol=0;ev.noVol=0;await dbUpsert('events',ev);}}catch(e){console.error(e);}
   S.bets=[]; S.events.forEach(ev=>{ev.yesVol=0;ev.noVol=0;});
   save(); renderAdmin(); showToast('Bets cleared','t-a');
 }
@@ -1522,6 +1655,27 @@ async function resetAll() {
 // ═══════════════════════════════════
 // EVENT CRUD
 // ═══════════════════════════════════
+const SUGGESTIONS = [
+  "Angelina starts a dance circle with strangers",
+  "Angelina orders food she then gives away",
+  "Angelina befriends the bouncer by name",
+  "Angelina fixes someone else's drama",
+  "Angelina stays past 2am at Taco Bell",
+  "Angelina convinces someone to do karaoke",
+  "Angelina loses her phone and finds it within 10 mins",
+  "Angelina gets a free drink without asking",
+  "Angelina argues with someone and wins publicly",
+  "Angelina starts a group chat with strangers",
+  "Angelina quotes a Clarkson professor mid-argument",
+  "Angelina knows someone at the next table",
+  "Angelina roasts someone who deserved it",
+  "Angelina orders the most expensive thing by accident",
+  "Angelina's villain arc activates before midnight",
+  "Angelina gets the last mozzarella stick",
+  "Angelina rallies the group from a dead party",
+  "Angelina has her phone at below 5% all night",
+];
+
 function openAddEv() {
   editEvId=null;
   document.getElementById('ev-modal-title').textContent='New Event';
@@ -1533,7 +1687,15 @@ function openAddEv() {
   document.getElementById('ev-line').value='';
   document.getElementById('ev-line-label').value='';
   toggleEvType();
+  // Populate suggestions
+  const sugg=SUGGESTIONS.sort(()=>Math.random()-.5).slice(0,5);
+  document.getElementById('suggestion-chips').innerHTML=sugg.map(s=>`<button class="chip" onclick="useSuggestion('${s.replace(/'/g,"\\'")}')">${s}</button>`).join('');
   openModal('ev-modal');
+}
+
+function useSuggestion(s) {
+  document.getElementById('ev-desc').value=s;
+  document.querySelectorAll('#suggestion-chips .chip').forEach(c=>c.classList.toggle('sel',c.textContent===s));
 }
 
 function openEditEv(id) {
@@ -1547,6 +1709,7 @@ function openEditEv(id) {
   document.getElementById('ev-type').value=ev.betType||'yesno';
   document.getElementById('ev-line').value=ev.line||'';
   document.getElementById('ev-line-label').value=ev.lineLabel||'';
+  document.getElementById('suggestion-chips').innerHTML='';
   toggleEvType();
   openModal('ev-modal');
 }
@@ -1595,32 +1758,19 @@ function toggleHtp() {
 }
 
 function calcOdds() {
-  const prob = parseInt(document.getElementById('calc-prob').value) / 100;
+  const probEl=document.getElementById('calc-prob'); if(!probEl) return;
+  const prob = parseInt(probEl.value) / 100;
   const vig = (parseInt(document.getElementById('calc-vig').value) || 10) / 100;
   const roundTo = parseFloat(document.getElementById('calc-round').value);
-
   document.getElementById('calc-prob-display').textContent = Math.round(prob * 100) + '%';
-
-  // Fair odds from probability
-  const fairYes = 1 / prob;
-  const fairNo = 1 / (1 - prob);
-
-  // Apply vig (reduce each by vig factor)
+  const fairYes = 1 / prob, fairNo = 1 / (1 - prob);
   const vigFactor = 1 - vig * 0.5;
-  const rawYes = fairYes * vigFactor;
-  const rawNo = fairNo * vigFactor;
-
-  // Round to nearest step
+  const rawYes = fairYes * vigFactor, rawNo = fairNo * vigFactor;
   const snap = (v) => Math.max(1.05, Math.round(v / roundTo) * roundTo);
-  const yesOdds = snap(rawYes);
-  const noOdds = snap(rawNo);
-
-  // Implied probs from final odds
-  const impYes = (1 / yesOdds * 100).toFixed(1);
-  const impNo = (1 / noOdds * 100).toFixed(1);
+  const yesOdds = snap(rawYes), noOdds = snap(rawNo);
+  const impYes = (1 / yesOdds * 100).toFixed(1), impNo = (1 / noOdds * 100).toFixed(1);
   const overround = ((1/yesOdds + 1/noOdds - 1) * 100).toFixed(1);
   const yesBarPct = Math.round(prob * 100);
-
   document.getElementById('cr-yes').textContent = yesOdds.toFixed(2) + 'x';
   document.getElementById('cr-no').textContent = noOdds.toFixed(2) + 'x';
   document.getElementById('cr-yp').textContent = impYes + '%';
@@ -1628,27 +1778,14 @@ function calcOdds() {
   document.getElementById('cr-bar').style.width = yesBarPct + '%';
   document.getElementById('cr-bar-yes').textContent = 'YES ' + yesBarPct + '%';
   document.getElementById('cr-bar-no').textContent = 'NO ' + (100 - yesBarPct) + '%';
-
-  // Verdict
   const vEl = document.getElementById('calc-verdict');
   const vigPct = parseFloat(overround);
   let verdict, cls;
-  if (vigPct < 3) {
-    verdict = 'Very low house edge (' + overround + '%). Fair for players but you absorb all risk of imbalanced action.';
-    cls = 'warn';
-  } else if (vigPct <= 15) {
-    verdict = 'Good balance. House edge ' + overround + '%. YES ' + yesOdds.toFixed(2) + 'x · NO ' + noOdds.toFixed(2) + 'x is fair for a friend group.';
-    cls = 'good';
-  } else {
-    verdict = 'High house edge (' + overround + '%). Odds heavily favor the house — players get lower payouts than the true probability suggests.';
-    cls = 'bad';
-  }
-  vEl.textContent = verdict;
-  vEl.className = 'calc-verdict ' + cls;
-
-  // Store for apply
-  window._calcYes = yesOdds;
-  window._calcNo = noOdds;
+  if (vigPct < 3){verdict='Very low house edge ('+overround+'%). Fair for players but you absorb all risk.';cls='warn';}
+  else if (vigPct <= 15){verdict='Good balance. House edge '+overround+'%. YES '+yesOdds.toFixed(2)+'x · NO '+noOdds.toFixed(2)+'x is fair.';cls='good';}
+  else{verdict='High house edge ('+overround+'%). Players get lower payouts than true probability suggests.';cls='bad';}
+  vEl.textContent=verdict; vEl.className='calc-verdict '+cls;
+  window._calcYes=yesOdds; window._calcNo=noOdds;
 }
 
 function applyCalcOdds() {
@@ -1658,22 +1795,21 @@ function applyCalcOdds() {
     document.getElementById('ev-yes').value = (window._calcYes||2).toFixed(2);
     document.getElementById('ev-no').value = (window._calcNo||1.7).toFixed(2);
   }, 100);
-  showToast('Odds applied to new event form', 't-g');
+  showToast('Odds applied to new event form','t-g');
 }
 
 function toggleGuide() {
-  const body = document.getElementById('guide-body');
-  const arrow = document.getElementById('guide-arrow');
-  body.classList.toggle('open');
-  arrow.classList.toggle('open');
+  const body=document.getElementById('guide-body'), arrow=document.getElementById('guide-arrow');
+  if(body){body.classList.toggle('open');}
+  if(arrow){arrow.classList.toggle('open');}
 }
 
 function toggleEvType() {
-  const t = document.getElementById('ev-type').value;
-  const isOU = t === 'overunder';
-  document.getElementById('ou-line-wrap').style.display = isOU ? 'block' : 'none';
-  document.getElementById('yes-lbl').textContent = isOU ? 'OVER Odds' : 'YES Odds';
-  document.getElementById('no-lbl').textContent = isOU ? 'UNDER Odds' : 'NO Odds';
+  const t=document.getElementById('ev-type').value;
+  const isOU=t==='overunder';
+  document.getElementById('ou-line-wrap').style.display=isOU?'block':'none';
+  document.getElementById('yes-lbl').textContent=isOU?'OVER Odds':'YES Odds';
+  document.getElementById('no-lbl').textContent=isOU?'UNDER Odds':'NO Odds';
 }
 
 function openModal(id){document.getElementById(id).classList.add('open');}
@@ -1719,40 +1855,29 @@ const FACTS = [
   "Angelina has talked her way out of or into exactly the situations you would expect.",
   "Angelina's phone battery is always at 4%. She is never unreachable.",
   "There is a Clarkson dining hall worker who saves Angelina's favorite item. They have never discussed this.",
-  "Angelina once ordered the most expensive thing on the menu by accident and did not flinch."
+  "Angelina once ordered the most expensive thing on the menu by accident and did not flinch.",
+  "Angelina has never been the first one to leave. She has also never been sober enough to lock up.",
+  "Clarkson's unofficial motto when Angelina is involved: 'It'll be fine. It's Angelina.'",
+  "Angelina has gotten three people to download apps they still use today. None remember agreeing to this.",
 ];
 
 let factIdx = Math.floor(Math.random() * FACTS.length);
 let factTimer = null;
 
 function showFact() {
-  const el = document.getElementById('funfact');
-  const txt = document.getElementById('funfact-text');
-  factIdx = (factIdx + 1) % FACTS.length;
-  txt.textContent = FACTS[factIdx];
-  el.classList.add('show');
+  const el=document.getElementById('funfact'), txt=document.getElementById('funfact-text');
+  factIdx=(factIdx+1)%FACTS.length;
+  txt.textContent=FACTS[factIdx]; el.classList.add('show');
   clearTimeout(factTimer);
-  // Show for 2.5–3.5s then hide
-  const dur = 2500 + Math.random() * 1000;
-  factTimer = setTimeout(() => {
-    el.classList.remove('show');
-  }, dur);
+  factTimer=setTimeout(()=>el.classList.remove('show'), 2800+Math.random()*1000);
 }
 
-// Show a fact every 18-28 seconds, but not immediately
 function scheduleFact() {
-  const delay = 8000 + Math.random() * 6000;
-  setTimeout(() => {
-    showFact();
-    scheduleFact();
-  }, delay);
+  const delay=10000+Math.random()*8000;
+  setTimeout(()=>{showFact();scheduleFact();},delay);
 }
 
-// First one after 5 seconds
-setTimeout(() => {
-  showFact();
-  scheduleFact();
-}, 5000);
+setTimeout(()=>{showFact();scheduleFact();},5000);
 
 // ═══════════════════════════════════
 // BOOT
