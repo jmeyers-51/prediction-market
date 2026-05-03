@@ -103,11 +103,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;hei
 .obtn{padding:14px 8px;border-radius:9px;border:1px solid;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;text-align:center;transition:all .25s cubic-bezier(.4,0,.2,1);line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .obtn:active{transform:scale(.95);}
 /* bright persistent colors, no dimming */
-.obtn.yes{border-color:rgba(0,232,122,.65);color:var(--green);}
-.obtn.yes:hover{border-color:rgba(0,232,122,.9);}
+.obtn.yes{border-color:rgba(0,232,122,.4);color:var(--green);}
+.obtn.yes:hover{border-color:rgba(0,232,122,.7);}
 .obtn.yes.sel{border-color:var(--green);box-shadow:0 0 0 1px var(--green);}
-.obtn.no{border-color:rgba(255,61,107,.65);color:var(--red);}
-.obtn.no:hover{border-color:rgba(255,61,107,.9);}
+.obtn.no{border-color:rgba(255,61,107,.4);color:var(--red);}
+.obtn.no:hover{border-color:rgba(255,61,107,.7);}
 .obtn.no.sel{border-color:var(--red);box-shadow:0 0 0 1px var(--red);}
 .obtn:disabled{opacity:.22;cursor:not-allowed;transform:none;}
 /* the sliding fill layer — set via inline background-position */
@@ -520,15 +520,21 @@ select.fi{cursor:pointer;}
   <!-- STATS PAGE -->
   <div class="page" id="page-stats">
     <div class="ph"><div class="eyebrow">// Results & Rankings</div><div class="ptitle">Dashboard</div></div>
-    <!-- Live charts -->
+    <!-- Live charts strip -->
     <div id="live-charts"></div>
-    <div id="settlement-section"></div>
-    <div class="hint" style="margin:-2px 0 10px;text-align:center;">Net = total winnings minus total losses across all your bets.</div>
-    <div class="slabel">// Leaderboard</div>
-    <div class="card" id="leaderboard" style="margin-bottom:18px;"></div>
+    <!-- Bet history first -->
     <div class="slabel">// Bet History</div>
-    <div class="hint" style="margin:-2px 0 9px;">All bets placed. Wager / payout shown as coins ($). Pending = waiting on event resolution.</div>
-    <div class="card" id="bet-history"></div>
+    <div class="hint" style="margin:-2px 0 9px;">Most recent at top. Wager / payout in coins ($1 each).</div>
+    <div class="card" id="bet-history" style="margin-bottom:18px;"></div>
+    <!-- Cash settlement -->
+    <div id="settlement-section"></div>
+    <!-- Leaderboard -->
+    <div class="slabel" style="margin-top:4px;">// Leaderboard</div>
+    <div class="hint" style="margin:-2px 0 9px;">Net = total winnings minus total losses.</div>
+    <div class="card" id="leaderboard" style="margin-bottom:18px;"></div>
+    <!-- Fun stats -->
+    <div class="slabel">// Insights</div>
+    <div id="fun-stats" style="margin-bottom:18px;"></div>
   </div>
 
   <!-- ADMIN PAGE -->
@@ -778,7 +784,7 @@ const FICO_REJECTIONS = [
   {
     score: 423,
     msg: "Application Under Review (It's Not Looking Good)",
-    sub: "Our system flagged this wager as 'astronomically unhinged.' A human reviewer confirmed: yes, that's too much.",
+    sub: "Our system flagged this wager as 'astronomically unhinged.' A human reviewer confirmed: yes, that's too much. They also said 'who does this person think they are, Ladison?'",
   },
   {
     score: 371,
@@ -989,22 +995,21 @@ function oddsToFillPct(odds) {
 function makeBtnHtml(evId, side, odds, label, isOpen, isSelected) {
   const fillPct = oddsToFillPct(odds);
   const isYes = side === 'YES';
-  // fill color: semi-transparent green or red
-  const fillColor = isYes
-    ? 'rgba(0,232,122,0.28)'
-    : 'rgba(255,61,107,0.28)';
-  const fillColorSel = isYes
-    ? 'rgba(0,232,122,0.45)'
-    : 'rgba(255,61,107,0.45)';
-  const fc = isSelected ? fillColorSel : fillColor;
+  // Always vivid colors — no dimming based on odds
+  const textColor   = isYes ? 'var(--green)' : 'var(--red)';
+  const borderColor = isYes ? 'rgba(0,232,122,.45)' : 'rgba(255,61,107,.45)';
+  const borderSel   = isYes ? 'rgba(0,232,122,.9)'  : 'rgba(255,61,107,.9)';
+  const fillColor   = isYes ? 'rgba(0,232,122,0.11)' : 'rgba(255,61,107,0.11)';
+  const fillColorSel= isYes ? 'rgba(0,232,122,0.20)' : 'rgba(255,61,107,0.20)';
 
-  // background: solid fill on left up to fillPct%, transparent rest
-  const bg = `linear-gradient(90deg, ${fc} ${fillPct}%, transparent ${fillPct}%)`;
+  const fc  = isSelected ? fillColorSel : fillColor;
+  const bdr = isSelected ? borderSel    : borderColor;
+  const bg  = `linear-gradient(90deg, ${fc} ${fillPct}%, transparent ${fillPct}%)`;
 
   return `<button class="obtn ${isYes?'yes':'no'}${isSelected?' sel':''}"
     onclick="toggleSlip('${evId}','${side}')"
     ${!isOpen?'disabled':''}
-    style="background:${bg};">
+    style="background:${bg};border-color:${bdr};color:${textColor};">
     <span class="ol">${label}</span>
     <span class="odds-val">${odds.toFixed(2)}×</span>
   </button>`;
@@ -1286,13 +1291,6 @@ function renderLiveCharts() {
   const playerList = Object.values(players).sort((a,b)=>b.wag-a.wag);
   const totalWag = playerList.reduce((a,p)=>a+p.wag,0);
 
-  // Event action bars
-  const evBars = S.events.slice(0,5).map(ev=>{
-    const tv = (ev.yesVol||0)+(ev.noVol||0);
-    return {name:ev.name.substring(0,16), vol:tv, yp:tv>0?Math.round((ev.yesVol/tv)*100):50};
-  });
-  const maxVol = Math.max(...evBars.map(e=>e.vol),1);
-
   // Build sparkline points (last 10 bets by time)
   const sorted = [...S.bets].sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
   const last10 = sorted.slice(-10);
@@ -1328,25 +1326,6 @@ function renderLiveCharts() {
     </div>`;
   }
 
-  // Mini event action bars
-  let evBarsHtml = '';
-  if (evBars.length > 0) {
-    const bars = evBars.map((e,i)=>`
-      <div style="margin-bottom:7px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-          <span style="font-family:'Space Mono',monospace;font-size:8px;color:var(--text2);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.name}</span>
-          <span style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);">${e.vol}c</span>
-        </div>
-        <div style="height:5px;background:var(--bg5);border-radius:3px;overflow:hidden;display:flex;">
-          <div style="height:100%;width:${e.yp}%;background:var(--green);border-radius:3px 0 0 3px;transition:width .5s ease;"></div>
-          <div style="height:100%;flex:1;background:var(--red);border-radius:0 3px 3px 0;"></div>
-        </div>
-      </div>`).join('');
-    evBarsHtml = `<div class="chart-card ac" style="grid-column:span 2;">
-      <div class="chart-label"><span class="pulse-dot"></span>Event Action (YES% vs NO%)</div>
-      ${bars}
-    </div>`;
-  }
 
   el.innerHTML = `
     <div style="font-family:'Space Mono',monospace;font-size:8.5px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><span class="pulse-dot"></span>Live Dashboard</div>
@@ -1371,7 +1350,6 @@ function renderLiveCharts() {
         </div>
       </div>
       ${donutHtml}
-      ${evBarsHtml}
     </div>`;
 }
 
@@ -1435,9 +1413,122 @@ function toggleSettled(name) {
   save(); renderSettlement();
 }
 
+// ═══════════════════════════════════
+// FUN STATS
+// ═══════════════════════════════════
+function renderFunStats() {
+  const el = document.getElementById('fun-stats'); if (!el) return;
+  if (!S.bets.length) { el.innerHTML=''; return; }
+
+  // ── Stat 1: Biggest Gambler (highest total wagered) ──────────────────
+  const wagByPlayer = {};
+  S.bets.forEach(b => {
+    wagByPlayer[b.bettor] = (wagByPlayer[b.bettor]||0) + (b.wager||0);
+  });
+  const biggestGambler = Object.entries(wagByPlayer).sort((a,b)=>b[1]-a[1])[0];
+
+  // ── Stat 2: Hottest Streak (longest current win or loss run) ──────────
+  // Group bets per player sorted by time, find longest current streak
+  const byPlayer = {};
+  S.bets.forEach(b => {
+    if (b.status==='pending') return;
+    if (!byPlayer[b.bettor]) byPlayer[b.bettor]=[];
+    byPlayer[b.bettor].push(b);
+  });
+  let hotStreak = null; // {name, count, type:'win'|'loss'}
+  Object.entries(byPlayer).forEach(([name, bets]) => {
+    const sorted = bets.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    let streak = 1, type = sorted[0].status;
+    for (let i=1; i<sorted.length; i++) {
+      if (sorted[i].status === type) streak++;
+      else break;
+    }
+    if (!hotStreak || streak > hotStreak.count) hotStreak = {name, count:streak, type};
+  });
+
+  // ── Stat 3: Biggest single win ────────────────────────────────────────
+  const wins = S.bets.filter(b=>b.status==='win');
+  const bigWin = wins.sort((a,b)=>(b.payout-b.wager)-(a.payout-a.wager))[0];
+
+  // ── Stat 4: Most reckless (highest avg wager) ─────────────────────────
+  const avgWag = {};
+  const wagCt = {};
+  S.bets.forEach(b => {
+    avgWag[b.bettor] = (avgWag[b.bettor]||0) + (b.wager||0);
+    wagCt[b.bettor] = (wagCt[b.bettor]||0) + 1;
+  });
+  const reckless = Object.entries(avgWag)
+    .map(([name,tot])=>({name, avg: Math.round(tot/wagCt[name])}))
+    .sort((a,b)=>b.avg-a.avg)[0];
+
+  const statCard = (icon, label, title, sub, color) => `
+    <div class="card" style="margin-bottom:9px;overflow:hidden;">
+      <div style="height:2px;background:${color};"></div>
+      <div style="padding:13px var(--pad);display:flex;align-items:center;gap:13px;">
+        <div style="width:38px;height:38px;border-radius:9px;background:${color}18;border:1px solid ${color}35;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;font-family:'Space Mono',monospace;font-weight:700;color:${color};">${icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Space Mono',monospace;font-size:7.5px;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px;">${label}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);line-height:1.3;">${title}</div>
+          <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);margin-top:2px;line-height:1.5;">${sub}</div>
+        </div>
+      </div>
+    </div>`;
+
+  let html = '';
+
+  if (biggestGambler) {
+    html += statCard(
+      '#1',
+      'Highest Volume',
+      biggestGambler[0] + ' · ' + biggestGambler[1] + ' coins wagered total',
+      'Responsible gambling is a myth, apparently. This person is the market.',
+      'var(--amber)'
+    );
+  }
+
+  if (hotStreak) {
+    const streakColor = hotStreak.type==='win' ? 'var(--green)' : 'var(--red)';
+    const streakIcon  = hotStreak.type==='win' ? '+' : '-';
+    const streakDesc  = hotStreak.type==='win'
+      ? `${hotStreak.count}-bet win streak · running hot right now`
+      : `${hotStreak.count}-bet loss streak · statistically due for a win. Or not.`;
+    html += statCard(
+      streakIcon,
+      hotStreak.type==='win' ? 'Hottest Streak' : 'Coldest Streak',
+      hotStreak.name,
+      streakDesc,
+      streakColor
+    );
+  }
+
+  if (bigWin) {
+    const profit = bigWin.payout - bigWin.wager;
+    html += statCard(
+      '$',
+      'Biggest Single Win',
+      bigWin.bettor + ' · +' + profit + ' coins ($' + profit + ')',
+      bigWin.name.substring(0,50) + (bigWin.name.length>50?'…':'') + ' · ' + bigWin.odds + 'x',
+      'var(--blue)'
+    );
+  }
+
+  if (reckless && wagCt[reckless.name] >= 2) {
+    html += statCard(
+      '!',
+      'Most Reckless Bettor',
+      reckless.name + ' · ' + reckless.avg + ' coins avg per bet',
+      'Average wager would make a financial advisor physically ill. Respect.',
+      'var(--purple)'
+    );
+  }
+
+  el.innerHTML = html || '';
+}
+
 function renderStats() {
   renderLiveCharts();
   renderSettlement();
+  renderFunStats();
   const players={};
   S.bets.forEach(b=>{
     if (!players[b.bettor]) players[b.bettor]={name:b.bettor,w:0,l:0,p:0,net:0,lastBet:null};
@@ -1888,7 +1979,6 @@ function renderAdmin() {
       </div>
       <div class="aacts">
         <button class="btn btn-sm btn-gh" onclick="openEditEv('${ev.id}')">Edit</button>
-        <button class="btn btn-sm" style="border-color:rgba(61,158,255,.45);color:var(--blue);" onclick="dupeEv('${ev.id}')">Dupe</button>
         ${superAdminOn?`<button class="btn btn-sm btn-p" onclick="openFullEditEv('${ev.id}')">Full</button>`:''}
         <button class="btn btn-sm btn-d" onclick="delEv('${ev.id}')">Del</button>
       </div>
@@ -1912,6 +2002,7 @@ function renderAdmin() {
         </div>`:''}
         ${superAdminOn?`<div style="display:flex;gap:4px;">
           <button class="btn btn-sm btn-p" onclick="openEditBet('${b.id}')">Edit</button>
+          <button class="btn btn-sm" style="border-color:rgba(0,232,122,.35);color:var(--green);" onclick="openDupeBet('${b.id}')">Dupe</button>
         </div>`:''}
       </div>
     </div>`;
@@ -1967,28 +2058,6 @@ async function resetAll() {
   try{await dbDel('bets','');await dbDel('events','');}catch(e){console.error(e);}
   S={events:[],bets:[],bettors:[]}; save(); renderAdmin(); renderMarket();
   showToast('Factory reset done','t-r');
-}
-
-// ═══════════════════════════════════
-// DUPLICATE EVENT
-// ═══════════════════════════════════
-async function dupeEv(id) {
-  const ev = S.events.find(e=>e.id===id); if (!ev) return;
-  const newEv = {
-    ...ev,
-    id: uid(),
-    name: ev.name + ' (copy)',
-    status: 'open',
-    yesVol: 0,
-    noVol: 0,
-    created_at: new Date().toISOString(),
-  };
-  S.events.push(newEv);
-  try { await dbInsert('events', newEv); } catch(e) { console.error(e); showToast('Save failed','t-r'); return; }
-  save(); renderAdmin(); renderMarket();
-  showToast('Event duplicated — edit the copy!','t-g');
-  // Open edit modal on the new event so they can tweak it right away
-  setTimeout(()=>openEditEv(newEv.id), 200);
 }
 
 // ═══════════════════════════════════
